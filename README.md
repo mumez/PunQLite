@@ -14,14 +14,19 @@ Directories:
 For MCZ packages, visit [SmalltalkHub PunQLite site](http://smalltalkhub.com/#!/~MasashiUmezawa/PunQLite).
 
 ## Installation ##
-1. Compile UnQLite
+- Compile UnQLite
+
 It would be very easy, but I've also put pre-build binaries for some platforms, so please just download them if you have no time to compile.
+
 For example, MinGW:
+
 ```Shell
 gcc -m32 -c unqlite.c
 gcc -m32 -shared -o unqlite.dll unqlite.o -Wl,--add-stdcall-alias
 ```
-2. Load PunQLite
+
+- Load PunQLite
+
 ```Smalltalk
 Gofer new
       url: 'http://smalltalkhub.com/mc/MasashiUmezawa/PunQLite/main';
@@ -29,9 +34,8 @@ Gofer new
       load.
 (Smalltalk at: #ConfigurationOfPunQLite) load
 ```
+
 The final target will be Pharo 3.0. But Pharo 2.0 would also work.
-
-
 
 ## Performance ##
 ```Smalltalk
