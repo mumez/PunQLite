@@ -1,0 +1,14 @@
+{
+	"category" : "PunQLite-DB",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		"cursor" ],
+	"name" : "PqCursorError",
+	"pools" : [
+		 ],
+	"super" : "PqError",
+	"type" : "normal" }

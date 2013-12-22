@@ -1,0 +1,16 @@
+{
+	"category" : "PunQLite-Jx9",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		"database",
+		"compiled",
+		"executed" ],
+	"name" : "PqJx9Executer",
+	"pools" : [
+		 ],
+	"super" : "PqObject",
+	"type" : "normal" }

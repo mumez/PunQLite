@@ -1,0 +1,3 @@
+jx9
+VM_OUTPUT_LENGTH
+	^5

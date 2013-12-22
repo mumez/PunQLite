@@ -1,0 +1,14 @@
+{
+	"category" : "PunQLite-Core",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "<historical>",
+	"instvars" : [
+		 ],
+	"name" : "UnQLiteConstants",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }

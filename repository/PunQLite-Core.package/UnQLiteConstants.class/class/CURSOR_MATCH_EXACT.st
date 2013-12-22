@@ -1,0 +1,3 @@
+cursor
+CURSOR_MATCH_EXACT
+	^1

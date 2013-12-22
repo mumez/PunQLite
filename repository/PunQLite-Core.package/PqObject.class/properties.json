@@ -1,0 +1,18 @@
+{
+	"category" : "PunQLite-Core",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "<historical>",
+	"instvars" : [
+		"ffi",
+		"handle",
+		"handleIsValid",
+		"fetchBufferSize",
+		"settings" ],
+	"name" : "PqObject",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }

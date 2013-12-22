@@ -1,0 +1,14 @@
+{
+	"category" : "PunQLite-Jx9",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		"name" ],
+	"name" : "PqJx9Value",
+	"pools" : [
+		 ],
+	"super" : "PqObject",
+	"type" : "normal" }

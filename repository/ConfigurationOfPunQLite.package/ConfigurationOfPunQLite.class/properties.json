@@ -1,0 +1,14 @@
+{
+	"category" : "ConfigurationOfPunQLite",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		"LastVersionLoad" ],
+	"commentStamp" : "",
+	"instvars" : [
+		"project" ],
+	"name" : "ConfigurationOfPunQLite",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }

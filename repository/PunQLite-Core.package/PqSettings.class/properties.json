@@ -1,0 +1,14 @@
+{
+	"category" : "PunQLite-Core",
+	"classinstvars" : [
+		"default" ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		"settingsDict" ],
+	"name" : "PqSettings",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }

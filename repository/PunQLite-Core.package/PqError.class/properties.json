@@ -1,0 +1,15 @@
+{
+	"category" : "PunQLite-Core",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		"kind",
+		"code" ],
+	"name" : "PqError",
+	"pools" : [
+		 ],
+	"super" : "Error",
+	"type" : "normal" }

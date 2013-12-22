@@ -1,0 +1,3 @@
+jx9
+VM_CONFIG_ARGV_ENTRY
+	^12

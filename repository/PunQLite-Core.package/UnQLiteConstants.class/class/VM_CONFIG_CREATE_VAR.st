@@ -1,0 +1,3 @@
+jx9
+VM_CONFIG_CREATE_VAR
+	^6

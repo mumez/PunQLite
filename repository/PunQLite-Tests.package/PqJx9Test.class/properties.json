@@ -1,0 +1,14 @@
+{
+	"category" : "PunQLite-Tests",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		 ],
+	"name" : "PqJx9Test",
+	"pools" : [
+		 ],
+	"super" : "TestCase",
+	"type" : "normal" }

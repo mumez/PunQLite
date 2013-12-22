@@ -1,0 +1,14 @@
+{
+	"category" : "PunQLite-Jx9",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		"source" ],
+	"name" : "PqJx9Error",
+	"pools" : [
+		 ],
+	"super" : "PqError",
+	"type" : "normal" }

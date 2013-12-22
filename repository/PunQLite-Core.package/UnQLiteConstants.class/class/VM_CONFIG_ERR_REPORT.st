@@ -1,0 +1,3 @@
+jx9
+VM_CONFIG_ERR_REPORT
+	^3

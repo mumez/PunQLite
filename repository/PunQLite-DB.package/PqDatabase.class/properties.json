@@ -1,0 +1,14 @@
+{
+	"category" : "PunQLite-DB",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "<historical>",
+	"instvars" : [
+		 ],
+	"name" : "PqDatabase",
+	"pools" : [
+		 ],
+	"super" : "PqObject",
+	"type" : "normal" }
