@@ -15,7 +15,13 @@ For MCZ packages, visit [SmalltalkHub PunQLite site](http://smalltalkhub.com/#!/
 
 ## Installation ##
 1. Compile UnQLite
-It would be very easy, but I also put pre-build binaries for some platforms, so please just download them if you have no time to compile.
+It would be very easy, but I've also put pre-build binaries for some platforms, so please just download them if you have no time to compile.
+
+For example, MinGW:
+```Shell
+gcc -m32 -c unqlite.c
+gcc -m32 -shared -o unqlite.dll unqlite.o -Wl,--add-stdcall-alias
+```
 
 2. Load PunQLite
 ```Smalltalk
