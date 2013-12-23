@@ -7,7 +7,7 @@ UnQLite is a fast, lightweight, portable, embedded KVS with a simple scripting e
 Directories:
 
 - binary
- + pre-build shared libraries (unqlite.dll, bundle, so, etc)
+ + pre-built shared libraries (unqlite.dll, bundle, so, etc)
 - repository
  + [Cypress](https://github.com/CampSmalltalk/Cypress) style Smalltalk source tree
 
@@ -16,14 +16,22 @@ For MCZ packages, visit [SmalltalkHub PunQLite site](http://smalltalkhub.com/#!/
 ## Installation ##
 - Compile UnQLite
 
-It would be very easy, but I've also put pre-build binaries for some platforms, so please just download them if you have no time to compile.
-
-For example, MinGW:
+It would be very easy. UnQLite consists of only two files.
 
 ```Shell
 gcc -m32 -c unqlite.c
+
+#linux
+gcc -m32 -shared -o unqlite.dll unqlite.o
+
+#win (MinGW)
 gcc -m32 -shared -o unqlite.dll unqlite.o -Wl,--add-stdcall-alias
+
+#mac
+gcc -m32 -dynamiclib -o unqlite.dylib unqlite.o
 ```
+
+However, I've also put pre-built binaries for some platforms, so please just download them if you have no time to compile.
 
 - Load PunQLite
 
@@ -35,7 +43,7 @@ Gofer new
 (Smalltalk at: #ConfigurationOfPunQLite) load
 ```
 
-The final target will be Pharo 3.0. But Pharo 2.0 would also work.
+The final target will be Pharo 3.0. But Pharo 2.0 also work.
 
 ## Performance ##
 ```Smalltalk
@@ -51,9 +59,9 @@ prev := '0'.
 db close.
 ]. "===> 877 msecs"
 ```
-I felt it is quite fast. Please try by yourself.
+I felt it is quite fast. Please try the code by yourself.
 
-## Usage ##
+## Usages ##
 ```Smalltalk
 "Like a Dictionary"
 db := PqDatabase openOnMemory.
