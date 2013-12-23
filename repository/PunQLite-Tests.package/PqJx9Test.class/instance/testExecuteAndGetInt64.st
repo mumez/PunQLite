@@ -11,7 +11,6 @@ testExecuteAndGetInt64
 	'.
 	
 	db jx9Do: [:executer | | compiled executed result |
-		executer := db jx9.
 		compiled := executer compile: src.
 		self assert: compiled.
 	
@@ -24,7 +23,6 @@ testExecuteAndGetInt64
 		result := executer extract: 'var'.
 		self assert: (result asInt64 = 2147483648).
 	].
-
 	db close.
 	
 	

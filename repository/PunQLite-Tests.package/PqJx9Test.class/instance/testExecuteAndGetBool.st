@@ -26,7 +26,6 @@ testExecuteAndGetBool
 		result := executer @ 'ret'.
 		self assert: (result asBool).
 	].
-
 	db close.
 	
 	
