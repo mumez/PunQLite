@@ -22,7 +22,7 @@ It would be very easy. UnQLite consists of only two files.
 gcc -m32 -c unqlite.c
 
 #linux
-gcc -m32 -shared -o unqlite.dll unqlite.o
+gcc -m32 -shared -o unqlite.so unqlite.o
 
 #win (MinGW)
 gcc -m32 -shared -o unqlite.dll unqlite.o -Wl,--add-stdcall-alias
@@ -31,7 +31,7 @@ gcc -m32 -shared -o unqlite.dll unqlite.o -Wl,--add-stdcall-alias
 gcc -m32 -dynamiclib -o unqlite.dylib unqlite.o
 ```
 
-However, I've also put pre-built binaries for some platforms, so please just download them if you have no time to compile.
+However, I've also put pre-built binaries for common platforms, so please just download them if you have no time to compile.
 
 - Load PunQLite
 
