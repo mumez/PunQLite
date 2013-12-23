@@ -3,7 +3,7 @@ testTransactions
 	"self debug: #testTransactions"
 	| dbName db ok fetched |
 	dbName := 'pq-testTransactions.db'.
-	db := PqDatabase open: dbName.
+	db := PqDatabase open: (FileSystem workingDirectory / dbName) pathString.
 	self assert: db isOpen.
 	
 	db beginTransaction.

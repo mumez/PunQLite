@@ -3,7 +3,7 @@ testTransactionsDisableAutoCommit
 	"self debug: #testTransactionsDisableAutoCommit"
 	| dbName db ok fetched |
 	dbName := 'pq-testTransDisableAutoCommit.db'.
-	db := PqDatabase open: dbName.
+	db := PqDatabase open: (FileSystem workingDirectory / dbName) pathString.
 	self assert: db isOpen.
 	self assert: db disableAutoCommit.
 	
@@ -17,7 +17,7 @@ testTransactionsDisableAutoCommit
 	self assert: ok.
 	db close.
 	
-	db := PqDatabase open: dbName.
+	db := PqDatabase open: (FileSystem workingDirectory / dbName) pathString.
 	fetched := db fetchStringAt: 'Smalltalk'.
 	self assert: (fetched = '???').
 	
@@ -27,7 +27,7 @@ testTransactionsDisableAutoCommit
 	db commitTransaction.
 	db close.
 	
-	db := PqDatabase open: dbName.
+	db := PqDatabase open: (FileSystem workingDirectory / dbName) pathString.
 	fetched := db fetchStringAt: 'Smalltalk'.
 	self assert: (fetched = 'COOL').
 	

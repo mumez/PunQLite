@@ -17,7 +17,7 @@ testImportFromFile
 	imported := db importAt: 'fileData' fromFile: 'not exist file'.	
 	self deny: imported.
 	
-	imported := db importAt: 'fileData' fromFile: fileName.
+	imported := db importAt: 'fileData' fromFile: (FileSystem workingDirectory / fileName) pathString.
 	self assert: imported.
 	
 	db at: 'fileData' ifPresent: [:data |
