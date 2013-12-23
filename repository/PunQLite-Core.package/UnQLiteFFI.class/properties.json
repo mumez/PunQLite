@@ -6,7 +6,7 @@
 		"IntHolderType",
 		"StringHolderType",
 		"TypeMap" ],
-	"commentStamp" : "<historical>",
+	"commentStamp" : "",
 	"instvars" : [
 		 ],
 	"name" : "UnQLiteFFI",
