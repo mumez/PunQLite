@@ -11,7 +11,7 @@ Directories:
 - repository
  + [Cypress](https://github.com/CampSmalltalk/Cypress) style Smalltalk source tree
 
-For MCZ packages, visit [SmalltalkHub PunQLite site](http://smalltalkhub.com/#!/~MasashiUmezawa/PunQLite).
+For MCZ packages, visit <a href="http://smalltalkhub.com/#!/~MasashiUmezawa/PunQLite">SmalltalkHub PunQLite site</a>.
 
 ## Installation ##
 - Compile UnQLite
