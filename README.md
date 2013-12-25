@@ -50,11 +50,11 @@ The final target will be Pharo 3.0. But PunQLite nicely runs on Pharo 2.0, too.
 "Simple store/load round-trip"
 Time millisecondsToRun:[
 db := PqDatabase open: 'bench.db'.
-prev := '0'.
+val := '0'.
 1 to: 100000 do: [:idx | | key | 
 	key := idx asString.
-	db at: key put: prev.
-	prev := (db at: key) asString.
+	db at: key put: val.
+	val := (db at: key) asString.
 ].
 db close.
 ]. "===> 877 msecs"
