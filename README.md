@@ -2,7 +2,7 @@ PunQLite
 ========
 
 [UnQLite](http://unqlite.org "UnQLite") binding for [Pharo Smalltalk](http://www.pharo-project.org/ "Pharo").
-UnQLite is a fast, lightweight, portable, embedded KVS with a simple scripting engine (Jx9). By using PunQLite, you can store/load lots of data as if just using normal Dictionary.
+UnQLite is a fast, lightweight, portable, embedded KVS with a simple scripting engine (Jx9). By using PunQLite, you can store/load lots of data as if just using a normal Dictionary.
 
 Directories:
 
@@ -125,5 +125,6 @@ executer evaluate: src.
 (executer extract: 'var') asInt inspect.
 (executer extract: 'str') asString inspect. 
 (executer extract: 'tm') asInt inspect.
+executer release.
 db close.
 ```
