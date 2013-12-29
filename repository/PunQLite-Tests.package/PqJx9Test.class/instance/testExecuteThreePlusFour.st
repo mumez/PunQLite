@@ -8,7 +8,6 @@ testExecuteThreePlusFour
 	src := '$var1 = 3+4;'.
 	
 	db jx9Do: [:executer | | compiled executed result |
-		
 		compiled := executer compile: src.
 		self assert: compiled.
 	

@@ -1,3 +1,5 @@
 actions
 next
-	^ffi nextEntryOn: self handle
+	| ret |
+	ret := ffi nextEntryOn: self handle.
+	(self isOk: ret) ifFalse: [(PqCursorError code: ret cursor: self) signal]

@@ -1,3 +1,5 @@
 actions
 previous
-	^ffi previousEntryOn: self handle
+	| ret |
+	ret := ffi previousEntryOn: self handle.
+	(self isOk: ret) ifFalse: [(PqCursorError code: ret cursor: self) signal]

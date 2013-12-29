@@ -1,0 +1,14 @@
+{
+	"category" : "PunQLite-DB",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		"key" ],
+	"name" : "PqUpdateError",
+	"pools" : [
+		 ],
+	"super" : "PqError",
+	"type" : "normal" }

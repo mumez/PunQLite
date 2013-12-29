@@ -1,3 +1,5 @@
 actions
 reset
-	^ffi resetCursor: self handle
+	| ret |
+	ret := ffi resetCursor: self handle.
+	(self isOk: ret) ifFalse: [(PqCursorError code: ret cursor: self) signal]

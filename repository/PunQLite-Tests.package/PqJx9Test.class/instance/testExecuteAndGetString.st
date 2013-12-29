@@ -11,7 +11,6 @@ testExecuteAndGetString
 	'.
 	
 	db jx9Do: [:executer | | compiled executed result |
-		executer := db jx9.
 		compiled := executer compile: src.
 		self assert: compiled.
 	
