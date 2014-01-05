@@ -11,7 +11,7 @@ Example:
 [[[ 
 db := PqDatabase openOnMemory.
 db at: ''Smalltalk'' put: ''COOL''.
-db at: ''Pharo' put: 'HOT''.
+db at: ''Pharo'' put: ''HOT''.
 db at: ''Smalltalk'' ifPresent: [:data |
     data asString inspect
 ].
