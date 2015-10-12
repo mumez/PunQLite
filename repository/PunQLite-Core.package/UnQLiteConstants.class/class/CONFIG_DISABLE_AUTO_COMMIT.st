@@ -1,3 +1,0 @@
-constants-config
-CONFIG_DISABLE_AUTO_COMMIT
-	^5

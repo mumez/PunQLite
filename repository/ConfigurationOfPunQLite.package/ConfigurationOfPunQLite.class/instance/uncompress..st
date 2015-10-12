@@ -1,4 +1,4 @@
-doits
+private - utilities
 uncompress: fileRef
 	| dst zipArchive |
 	dst := FileSystem workingDirectory / 'pharo-vm'.

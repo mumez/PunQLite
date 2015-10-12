@@ -1,3 +1,3 @@
 testing
 isOkOrDone: returnCode
-	^ (self isOk: returnCode) or: [ returnCode =  UnQLiteConstants DONE]
+	^ (self isOk: returnCode) or: [ returnCode = DONE]

@@ -1,3 +1,0 @@
-jx9
-VM_CONFIG_ENV_ATTR
-	^9

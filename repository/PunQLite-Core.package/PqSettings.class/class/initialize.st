@@ -1,4 +1,4 @@
 class initialization
 initialize
 	"self initialize"
-	default := nil
+	self reset

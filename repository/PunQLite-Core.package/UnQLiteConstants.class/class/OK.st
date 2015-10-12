@@ -1,3 +1,0 @@
-constants
-OK
-	^0

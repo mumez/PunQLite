@@ -1,3 +1,3 @@
 testing
 isCompileError
-	^self code = UnQLiteConstants COMPILE_ERR
+	^self code = COMPILE_ERR

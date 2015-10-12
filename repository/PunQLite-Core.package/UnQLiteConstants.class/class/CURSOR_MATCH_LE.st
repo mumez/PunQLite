@@ -1,3 +1,0 @@
-cursor
-CURSOR_MATCH_LE
-	^2

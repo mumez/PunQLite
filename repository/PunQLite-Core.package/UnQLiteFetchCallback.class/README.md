@@ -1,0 +1,1 @@
+A native boost callback to fetch data from UnQLite database

@@ -1,11 +1,13 @@
 versions
 version112: spec
-	<version: '1.1.2' imports: #('1.1-baseline' )>
+	<version: '1.1.2' imports: #('1.1.2-baseline' )>
 
 	spec for: #'pharo' do: [
 		spec blessing: #'development'.
 		spec 
-			package: 'PunQLite-Core' with: 'PunQLite-Core-MasashiUmezawa.11';
-			package: 'PunQLite-DB' with: 'PunQLite-DB-MasashiUmezawa.9';
-			package: 'PunQLite-Jx9' with: 'PunQLite-Jx9-MasashiUmezawa.5';
-			package: 'PunQLite-Tests' with: 'PunQLite-Tests-MasashiUmezawa.8'. ].
+			package: 'PunQLite-Core' with: 'PunQLite-Core-TorstenBergmann.14';
+			package: 'PunQLite-DB' with: 'PunQLite-DB-TorstenBergmann.11';
+			package: 'PunQLite-Jx9' with: 'PunQLite-Jx9-TorstenBergmann.6';
+			package: 'PunQLite-Help' with: 'PunQLite-Help-TorstenBergmann.1';
+			package: 'PunQLite-Tools' with: 'PunQLite-Tools-TorstenBergmann.6';			
+			package: 'PunQLite-Tests' with: 'PunQLite-Tests-TorstenBergmann.9'. ].

@@ -1,3 +1,0 @@
-jx9
-VM_CONFIG_SERVER_ATTR
-	^8

@@ -1,0 +1,1 @@
+A shared pool with UnQLite defined constants

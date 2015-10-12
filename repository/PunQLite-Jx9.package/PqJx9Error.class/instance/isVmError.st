@@ -1,3 +1,3 @@
 testing
 isVmError
-	^self code = UnQLiteConstants VM_ERR
+	^self code = VM_ERR

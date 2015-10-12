@@ -1,16 +1,16 @@
 {
-	"category" : "PunQLite-Core",
+	"category" : "PunQLite-Core-FFI",
 	"classinstvars" : [
 		 ],
 	"classvars" : [
 		"IntHolderType",
 		"StringHolderType",
 		"TypeMap" ],
-	"commentStamp" : "",
+	"commentStamp" : "TorstenBergmann 1/27/2015 09:04",
 	"instvars" : [
 		 ],
 	"name" : "UnQLiteFFI",
 	"pools" : [
-		 ],
+		"UnQLiteConstants" ],
 	"super" : "Object",
 	"type" : "normal" }

@@ -1,15 +1,15 @@
 {
-	"category" : "PunQLite-Core",
+	"category" : "PunQLite-Core-Exceptions",
 	"classinstvars" : [
 		 ],
 	"classvars" : [
 		 ],
-	"commentStamp" : "",
+	"commentStamp" : "TorstenBergmann 1/27/2015 08:53",
 	"instvars" : [
 		"kind",
 		"code" ],
 	"name" : "PqError",
 	"pools" : [
-		 ],
+		"UnQLiteConstants" ],
 	"super" : "Error",
 	"type" : "normal" }

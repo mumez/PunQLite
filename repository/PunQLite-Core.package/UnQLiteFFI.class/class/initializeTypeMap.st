@@ -1,6 +1,8 @@
 class initialization
 initializeTypeMap
 	"self initializeTypeMap"
+	<script>
+	
 	TypeMap := Dictionary newFromPairs: #(
 		db_ptr NBExternalObject
 		cursor_ptr  NBExternalObject

@@ -1,3 +1,3 @@
 testing
 isNotFound
-	^self code = UnQLiteConstants NOTFOUND
+	^self code = NOTFOUND 

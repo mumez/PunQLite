@@ -1,3 +1,3 @@
 opening
 openOnMemory
-	^self open: ':mem:' mode: UnQLiteConstants OPEN_IN_MEMORY.
+	^self open: ':mem:' mode: OPEN_IN_MEMORY.

@@ -1,0 +1,14 @@
+{
+	"category" : "PunQLite-Help",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "TorstenBergmann 1/27/2015 14:59",
+	"instvars" : [
+		 ],
+	"name" : "PqHelp",
+	"pools" : [
+		 ],
+	"super" : "CustomHelp",
+	"type" : "normal" }

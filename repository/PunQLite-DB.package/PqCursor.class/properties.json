@@ -1,10 +1,10 @@
 {
-	"category" : "PunQLite-DB",
+	"category" : "PunQLite-DB-Utilities",
 	"classinstvars" : [
 		 ],
 	"classvars" : [
 		 ],
-	"commentStamp" : "",
+	"commentStamp" : "TorstenBergmann 1/27/2015 08:57",
 	"instvars" : [
 		"database" ],
 	"name" : "PqCursor",

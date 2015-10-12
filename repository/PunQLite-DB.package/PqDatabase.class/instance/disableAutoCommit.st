@@ -1,5 +1,5 @@
 configuration
 disableAutoCommit
 	| ret |
-	ret := ffi config: self handle command:  UnQLiteConstants CONFIG_DISABLE_AUTO_COMMIT.
+	ret := ffi config: self handle command: CONFIG_DISABLE_AUTO_COMMIT.
 	^self isOk: ret

@@ -1,10 +1,10 @@
 {
-	"category" : "PunQLite-Jx9",
+	"category" : "PunQLite-Jx9-Exceptions",
 	"classinstvars" : [
 		 ],
 	"classvars" : [
 		 ],
-	"commentStamp" : "",
+	"commentStamp" : "TorstenBergmann 1/27/2015 08:59",
 	"instvars" : [
 		"source" ],
 	"name" : "PqJx9Error",

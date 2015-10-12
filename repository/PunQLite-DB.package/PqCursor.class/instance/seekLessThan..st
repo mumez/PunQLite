@@ -1,3 +1,3 @@
 seeking
 seekLessThan: key
-	^ self seek: key by: UnQLiteConstants CURSOR_MATCH_LE.
+	^ self seek: key by: CURSOR_MATCH_LE.
