@@ -1,0 +1,14 @@
+{
+	"category" : "PunQLite-Core-FFI",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		 ],
+	"name" : "UnQLiteLibrary",
+	"pools" : [
+		 ],
+	"super" : "FFILibrary",
+	"type" : "normal" }
