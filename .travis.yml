@@ -17,5 +17,5 @@ script:
 env: 
   global: 
     - baseline="PunQLite"
-    - package_dir="repository"
+    - packages_dir="repository"
     - pharo_version="50"
