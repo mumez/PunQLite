@@ -1,3 +1,3 @@
 accessing platform
 unixModuleName
-	^ 'unqlite.so'
+	^ 'unqlite.so' asFileReference fullName

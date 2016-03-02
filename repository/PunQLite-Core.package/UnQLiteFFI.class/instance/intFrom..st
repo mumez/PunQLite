@@ -1,4 +1,3 @@
-jx9
+jx9 - init/release
 intFrom: pValue
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin>
-	^ self nbCall: #( int unqlite_value_to_int( value_ptr pValue) ) module: #unqlite
+	^ self ffiCall: #( int unqlite_value_to_int( value_ptr pValue ) )

@@ -1,3 +1,3 @@
 accessing platform
 macModuleName
-	^ 'unqlite.dylib'
+	^ 'unqlite.dylib' asFileReference fullName

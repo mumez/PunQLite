@@ -1,0 +1,14 @@
+{
+	"category" : "PunQLite-Core-FFI",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		 ],
+	"name" : "UnQLiteIntValueHolder",
+	"pools" : [
+		 ],
+	"super" : "FFIExternalValueHolder",
+	"type" : "normal" }

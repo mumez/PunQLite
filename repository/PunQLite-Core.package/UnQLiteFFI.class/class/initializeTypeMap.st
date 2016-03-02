@@ -4,17 +4,16 @@ initializeTypeMap
 	<script>
 	
 	TypeMap := Dictionary newFromPairs: #(
-		db_ptr NBExternalObject
-		cursor_ptr  NBExternalObject
-		vm_ptr    NBExternalObject
-		value_ptr    NBExternalAddress
+		db_ptr 			FFIExternalObject
+		cursor_ptr 		FFIExternalObject
+		vm_ptr    		FFIExternalObject
+		value_ptr 		FFIExternalObject
 		
-		char_ptr           NBExternalString
-		buf_out			ByteArray
+		char_ptr 			FFIExternalString
+		buf_out 			ByteArray
 
-		int64_t           NBInt64
-	).
-	
-	TypeMap at: #bufSize_holder put: IntHolderType.
-	TypeMap at: #buf_holder put: StringHolderType
+		int64_t 			FFIInt64
+		bufSize_holder 	UnQLiteIntValueHolder
+		buf_holder 		UnQLiteStringValueHolder
+	)
 	

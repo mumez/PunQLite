@@ -1,4 +1,4 @@
 accessing
 fnSpec
 
-	^ #(int ( NBExternalAddress fetchData, uint dataLen, NBExternalAddress userData))
+	^ #(int ( FFIExternalAddress fetchData, uint dataLen, FFIExternalAddress userData))
