@@ -6,7 +6,8 @@
 		 ],
 	"commentStamp" : "TorstenBergmann 1/27/2015 09:01",
 	"instvars" : [
-		"name" ],
+		"name",
+		"executer" ],
 	"name" : "PqJx9Value",
 	"pools" : [
 		 ],
