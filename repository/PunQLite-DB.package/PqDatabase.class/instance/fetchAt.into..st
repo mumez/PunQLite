@@ -6,7 +6,7 @@ fetchAt: key into: aBlock
 		ret := OK.
 		[| data |
 			data := ByteArray new: dataSize.
-			NativeBoost memCopy: dataAddr to: data size: dataSize.
+			LibC memCopy: dataAddr to: data size: dataSize.
 			aBlock cull: data cull: userData
 		] on: Error do: [:ex | ret := ABORT]. 
 		ret

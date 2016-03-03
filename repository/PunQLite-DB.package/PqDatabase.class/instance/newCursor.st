@@ -1,3 +1,3 @@
 actions-cursor
 newCursor
-	^PqCursor on:  self
+	^PqCursor on: self
