@@ -16,4 +16,3 @@ initializeTypeMap
 		bufSize_holder 	UnQLiteIntValueHolder
 		buf_holder 		UnQLiteStringValueHolder
 	)
-	

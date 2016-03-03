@@ -1,4 +1,5 @@
 initialize-release
 initialize
 	handleIsValid := false.
-	ffi := UnQLiteFFI new
+	ffi := UnQLiteFFI new.
+	self autoRelease.

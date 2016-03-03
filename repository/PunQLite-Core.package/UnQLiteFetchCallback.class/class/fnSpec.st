@@ -1,4 +1,3 @@
 accessing
 fnSpec
-
-	^ #(int ( FFIExternalAddress fetchData, uint dataLen, FFIExternalAddress userData))
+	^ #(int ( void *fetchData, uint dataLen, void *userData ))
