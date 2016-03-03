@@ -3,5 +3,7 @@ freeResources
 	(handle isNil or: [ handle isNull ]) 
 		ifTrue: [ ^ self ].
 	
-	handle free.
-	handle beNull
+	[self release]
+ 	ensure: [
+		handle free.
+		handle beNull ]
