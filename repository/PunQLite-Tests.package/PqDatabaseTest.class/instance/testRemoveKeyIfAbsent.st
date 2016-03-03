@@ -1,22 +1,16 @@
 testing
 testRemoveKeyIfAbsent
 	"self debug: #testRemoveKeyIfAbsent"
-	| db fetched altValue |
-	db := PqDatabase openOnMemory.
-	self assert: db isOpen.
+	| fetched altValue |
+
+	self database at: 'Smalltalk' put: 'COOL'.
 	
-	db at: 'Smalltalk' put: 'COOL'.
+	fetched := self database at: 'Smalltalk'.
+	self assert: fetched asString equals: 'COOL'.
 	
-	fetched := db at: 'Smalltalk'.
-	self assert: (fetched asString = 'COOL').
+	self database removeKey: 'Smalltalk'.
+	self deny: (self database includesKey: 'Smalltalk').
 	
-	db removeKey: 'Smalltalk'.
-	self deny: (db includesKey: 'Smalltalk').
-	
-	altValue := db removeKey: 'Smalltalk' ifAbsent: ['Pharo'].
-	self assert: (altValue asString = 'Pharo').
-	self deny: (db includesKey: 'Smalltalk').
-	
-	db close.
-	self assert: db isOpen not
-	
+	altValue := self database removeKey: 'Smalltalk' ifAbsent: ['Pharo'].
+	self assert: altValue asString equals: 'Pharo'.
+	self deny: (self database includesKey: 'Smalltalk')

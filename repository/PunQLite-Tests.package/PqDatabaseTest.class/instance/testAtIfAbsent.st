@@ -1,23 +1,17 @@
 testing
 testAtIfAbsent
 	"self debug: #testAtIfAbsent"
-	| db  fetched |
-	db := PqDatabase openOnMemory.
-	self assert: db isOpen.
+	| fetched |
+
+	self database at: 'Smalltalk' put: 'COOL'.
 	
-	db at: 'Smalltalk' put: 'COOL'.
-	
-	fetched := db at: 'Smalltalk' ifAbsent: [:data |
-		fetched := 'Not Found'.
-	].
-	self assert: (fetched asString = 'COOL').
+	fetched := self database 
+		at: 'Smalltalk' 
+		ifAbsent: [:data | fetched := 'Not Found' ].
+	self assert: fetched asString equals: 'COOL'.
 	
 	fetched := nil.
-	db at: 'Pharo' ifAbsent: [
-		fetched := 'Not Found'.
-	].
-	self assert: (fetched = 'Not Found').
-	
-	db close.
-	self assert: db isOpen not.
-	
+	self database 
+		at: 'Pharo' 
+		ifAbsent: [ fetched := 'Not Found' ].
+	self assert: fetched equals: 'Not Found'

@@ -1,30 +1,28 @@
 testing
 testStoreDelete
 	"self debug: #testStoreDelete"
-	| db ok fetched deleted |
-	db := PqDatabase openOnMemory.
-	self assert: db isOpen.
-	
-	ok := db storeAt: 'Smalltalk' value: 'COOL'.
+	| ok fetched deleted |
+
+	ok := self database storeAt: 'Smalltalk' value: 'COOL'.
 	self assert: ok.
 	
-	fetched := db fetchStringAt: 'Smalltalk'.
-	self assert: (fetched = 'COOL').
+	fetched := self database fetchStringAt: 'Smalltalk'.
+	self assert: fetched equals: 'COOL'.
 	
-	deleted := db deleteAt: 'Smalltalk'.
-	self assert: (deleted).
-	self should: [ db fetchStringAt: 'Smalltalk'] raise: PqFetchError.
+	deleted := self database deleteAt: 'Smalltalk'.
+	self assert: deleted.
+	self 
+		should: [ self database fetchStringAt: 'Smalltalk'] 
+		raise: PqFetchError.
 	
-	ok := db storeAt: 'Pharo' value: 'HOT' asByteArray.
+	ok := self database storeAt: 'Pharo' value: 'HOT' asByteArray.
 	self assert: ok.
 	
-	fetched := db fetchAt: 'Pharo'.
-	self assert: (fetched = 'HOT' asByteArray).
+	fetched := self database fetchAt: 'Pharo'.
+	self assert: fetched equals: 'HOT' asByteArray.
 	
-	deleted := db deleteAt: 'Pharo'.
-	self assert: (deleted).
-	self should: [ db fetchAt: 'Pharo'] raise: PqFetchError.
-	
-	db close.
-	self assert: db isOpen not.
-	
+	deleted := self database deleteAt: 'Pharo'.
+	self assert: deleted.
+	self 
+		should: [ self database fetchAt: 'Pharo'] 
+		raise: PqFetchError

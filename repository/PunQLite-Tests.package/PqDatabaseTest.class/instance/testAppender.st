@@ -1,20 +1,17 @@
 testing
 testAppender
 	"self debug: #testAppender"
-	| db appender ok fetched |
-	db := PqDatabase openOnMemory.
-	self assert: db isOpen.
+	| appender ok fetched |
+
+	self deny: (self database includesKey: 'Smalltalk').
 	
-	self deny: (db includesKey: 'Smalltalk').
+	appender := self database appenderAt: 'Smalltalk'.
 	
-	appender := db appenderAt: 'Smalltalk'.
-	
-	ok := appender nextPutAll: 'COOL'; nextPutAll: 'HOT'; nextPutAll: 'COOL'.
+	ok := appender 
+		nextPutAll: 'COOL'; 
+		nextPutAll: 'HOT'; 
+		nextPutAll: 'COOL'.
 	self assert: ok.
 	
-	fetched := db fetchStringAt: 'Smalltalk'.
-	self assert: (fetched = 'COOLHOTCOOL').
-	
-	db close.
-	self assert: db isOpen not.
-	
+	fetched := self database fetchStringAt: 'Smalltalk'.
+	self assert: fetched equals: 'COOLHOTCOOL'
