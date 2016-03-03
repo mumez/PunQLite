@@ -1,3 +1,3 @@
 accessing
 database
-	^ database
+	^ database ifNil: [ database := PqDatabase openOnMemory ]
