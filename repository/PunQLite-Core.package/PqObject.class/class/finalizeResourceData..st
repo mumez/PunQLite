@@ -1,3 +1,0 @@
-finalization
-finalizeResourceData: pqObject
-	pqObject freeResources

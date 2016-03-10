@@ -1,18 +1,16 @@
 {
 	"class" : {
-		"finalizeResourceData:" : "EstebanLorenzano 3/2/2016 23:18" },
+		 },
 	"instance" : {
-		"autoRelease" : "EstebanLorenzano 3/2/2016 23:04",
 		"fetchBufferSize" : "MasashiUmezawa 12/21/2013 13:39",
 		"fetchBufferSize:" : "MasashiUmezawa 12/7/2013 23:26",
 		"ffi" : "MasashiUmezawa 11/24/2013 22:43",
 		"freeResources" : "EstebanLorenzano 3/3/2016 17:34",
 		"handle" : "MasashiUmezawa 11/24/2013 22:43",
-		"initialize" : "EstebanLorenzano 3/2/2016 23:04",
+		"initialize" : "EstebanLorenzano 3/10/2016 16:32",
 		"isDone:" : "TorstenBergmann 1/28/2015 22:43",
 		"isOk:" : "TorstenBergmann 1/27/2015 13:48",
-		"prepareHandle" : "EstebanLorenzano 3/3/2016 17:42",
+		"prepareHandle" : "EstebanLorenzano 3/10/2016 17:10",
 		"release" : "EstebanLorenzano 3/2/2016 23:16",
-		"resourceData" : "EstebanLorenzano 3/10/2016 16:15",
 		"settings" : "MasashiUmezawa 12/21/2013 13:38",
 		"settings:" : "MasashiUmezawa 12/21/2013 13:38" } }
