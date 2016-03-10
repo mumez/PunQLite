@@ -13,6 +13,6 @@ initializeTypeMap
 		buf_out 			ByteArray
 
 		int64_t 			FFIInt64
-		bufSize_holder 	UnQLiteIntValueHolder
-		buf_holder 		UnQLiteStringValueHolder
+		bufSize_holder 	IntHolderType
+		buf_holder 		StringHolderType
 	)

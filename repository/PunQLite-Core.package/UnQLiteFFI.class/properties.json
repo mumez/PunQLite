@@ -3,6 +3,8 @@
 	"classinstvars" : [
 		 ],
 	"classvars" : [
+		"IntHolderType",
+		"StringHolderType",
 		"TypeMap" ],
 	"commentStamp" : "TorstenBergmann 1/27/2015 09:04",
 	"instvars" : [

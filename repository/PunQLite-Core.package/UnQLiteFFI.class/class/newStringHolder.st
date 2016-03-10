@@ -1,3 +1,3 @@
 factory
 newStringHolder
-	^ UnQLiteStringValueHolder new
+	^StringHolderType new

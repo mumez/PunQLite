@@ -1,4 +1,3 @@
 initialize-release
 prepareHandle
-	handle := FFIExternalObject new.
-	^handle
+	^ handle ifNil: [ handle := FFIExternalObject new ]

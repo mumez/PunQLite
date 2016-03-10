@@ -1,3 +1,3 @@
 factory
 newIntHolder
-	^UnQLiteIntValueHolder new
+	^IntHolderType new

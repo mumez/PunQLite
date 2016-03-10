@@ -1,3 +1,3 @@
 initialize-release
 resourceData
-	^ self
+	^ self handle

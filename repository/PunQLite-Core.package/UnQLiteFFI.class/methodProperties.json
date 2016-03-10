@@ -1,11 +1,11 @@
 {
 	"class" : {
 		"ffiBindingOf:" : "EstebanLorenzano 3/1/2016 17:54",
-		"initialize" : "EstebanLorenzano 3/2/2016 11:52",
-		"initializeTypeMap" : "EstebanLorenzano 3/2/2016 22:23",
-		"newIntHolder" : "EstebanLorenzano 3/2/2016 12:02",
+		"initialize" : "EstebanLorenzano 3/7/2016 14:39",
+		"initializeTypeMap" : "EstebanLorenzano 3/7/2016 14:39",
+		"newIntHolder" : "MasashiUmezawa 11/24/2013 23:40",
 		"newIntHolder:" : "MasashiUmezawa 11/25/2013 00:30",
-		"newStringHolder" : "EstebanLorenzano 3/2/2016 11:13" },
+		"newStringHolder" : "EstebanLorenzano 3/7/2016 14:41" },
 	"instance" : {
 		"append:key:sized:value:sized:" : "EstebanLorenzano 3/2/2016 15:18",
 		"beginTransactionOn:" : "EstebanLorenzano 3/2/2016 15:18",
