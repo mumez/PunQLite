@@ -2,7 +2,7 @@ accessig value
 currentStringValueSized: valueBufferSize
 	| intHolder ourStr ret |
 	intHolder := UnQLiteFFI newIntHolder: valueBufferSize.
-	ourStr := (ExternalAddress fromString: (String new: valueBufferSize)) autoRelease.
+	ourStr := ByteArray new: valueBufferSize.
 	ret := self currentValue: ourStr sized: intHolder.
 	(self isOk: ret) ifFalse: [(PqCursorError code: ret cursor: self) signal].
-	^ourStr readString.
+	^ourStr readString
