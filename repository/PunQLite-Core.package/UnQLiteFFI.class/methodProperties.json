@@ -1,11 +1,11 @@
 {
 	"class" : {
-		"ffiBindingOf:" : "EstebanLorenzano 3/1/2016 17:54",
+		"ffiBindingOf:" : "TorstenBergmann 3/1/2016 18:07",
 		"initialize" : "EstebanLorenzano 3/7/2016 14:39",
 		"initializeTypeMap" : "EstebanLorenzano 3/7/2016 14:39",
 		"newIntHolder" : "MasashiUmezawa 11/24/2013 23:40",
 		"newIntHolder:" : "MasashiUmezawa 11/25/2013 00:30",
-		"newStringHolder" : "EstebanLorenzano 3/7/2016 14:41" },
+		"newStringHolder" : "MasashiUmezawa 12/15/2013 20:33" },
 	"instance" : {
 		"append:key:sized:value:sized:" : "EstebanLorenzano 3/2/2016 15:18",
 		"beginTransactionOn:" : "EstebanLorenzano 3/2/2016 15:18",
@@ -71,6 +71,7 @@
 		"stringFrom:" : "EstebanLorenzano 3/2/2016 17:31",
 		"structure:atKey:putValue:" : "EstebanLorenzano 3/2/2016 16:43",
 		"structure:atPosition:putValue:" : "EstebanLorenzano 3/2/2016 16:43",
+		"structureCount:" : "PierceNg 3/15/2016 23:42",
 		"value:sized:on:" : "EstebanLorenzano 3/2/2016 15:20",
 		"valueByCallback:on:" : "EstebanLorenzano 3/2/2016 15:16",
 		"valueByCallback:userData:on:" : "EstebanLorenzano 3/2/2016 15:16" } }

@@ -11,7 +11,7 @@ testInjectJsonKeyValueExecuteGet
 	}
 	db_create("users");
 	db_store("users", $inject); 
-	$extract = db_fetch("users"); 
+	$extract = db_fetch_all("users"); 
 	'.
 	
 	db jx9Do: [ :executer | 
@@ -33,7 +33,8 @@ testInjectJsonKeyValueExecuteGet
 		self assert: executed.
 		
 		result := executer extract: 'extract'.
-		self assert: result isJsonObject.
+		self assert: result isJsonArray.
+		self assert: (result elementCount = 1).
 		
 		released := executer release: result.
 		self assert: released ].
