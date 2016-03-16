@@ -5,4 +5,4 @@ currentValueSized: valueBufferSize
 	bytes := ByteArray new: valueBufferSize.
 	ret := self currentValue: bytes sized: intHolder.
 	(self isOk: ret) ifFalse: [(PqCursorError code: ret cursor: self) signal].
-	^bytes copyFrom: 1 to: intHolder value.
+	^bytes copyFrom: 1 to: intHolder value

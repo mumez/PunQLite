@@ -1,33 +1,31 @@
 testing
 testCursorFetchByteArrayByCallback
 	"self debug: #testCursorFetchByteArrayByCallback"
-	| db ok cursor val |
-	db := PqDatabase openOnMemory.
-	self assert: db isOpen.
+	| ok cursor val |
+
+	1 to: 10 do: [ :index |
+		ok := self database 
+			storeAt: (ByteArray with: index) 
+			value: ('value-', index asString) asByteArray.
+		self assert: ok ].
 	
-	1 to: 10 do: [:idx |
-		ok := db storeAt: (ByteArray with: idx) value: ('value-', idx asString) asByteArray.
-		self assert: ok.
-	].
-	
-	cursor := db newCursor.
+	cursor := self database newCursor.
 	self assert: cursor isOpen.
 	
 	cursor first.
-	self assert:  (cursor currentKey = #[1]).
+	self assert: cursor currentKey equals: #[1].
 	cursor currentValueInto: [:data | val := data].
-	self assert:  (val = 'value-1' asByteArray).
+	self assert: val equals: 'value-1' asByteArray.
 	
 	cursor next.
-	self assert:  (cursor currentKey = #[2]).
+	self assert: cursor currentKey equals: #[2].
 	cursor currentValueInto: [:data | val := data].
-	self assert:  (val = 'value-2' asByteArray ).
+	self assert: val equals: 'value-2' asByteArray.
 	
 	cursor last.
-	self assert:  (cursor currentKey = #[10]).
+	self assert: cursor currentKey equals: #[10].
 	cursor currentValueInto: [:data | val := data].
-	self assert:  (val = 'value-10' asByteArray).
+	self assert: val equals: 'value-10' asByteArray.
 	
 	cursor close.
-	self assert: cursor isOpen not.
-	
+	self deny: cursor isOpen

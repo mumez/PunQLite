@@ -1,24 +1,17 @@
 testing
 testAtIfAbsentPut
 	"self debug: #testAtIfAbsentPut"
-	| db fetched |
-	db := PqDatabase openOnMemory.
-	self assert: db isOpen.
+	| fetched |
+
+	self database at: 'Smalltalk' put: 'COOL'.
 	
-	db at: 'Smalltalk' put: 'COOL'.
+	fetched := self database at: 'Smalltalk'.
+	self assert: fetched asString equals: 'COOL'.
 	
-	fetched := db at: 'Smalltalk'.
-	self assert: (fetched asString = 'COOL').
+	self database removeKey: 'Smalltalk'.
+	self deny: (self database includesKey: 'Smalltalk').
 	
-	db removeKey: 'Smalltalk'.
-	self deny: (db includesKey: 'Smalltalk').
-	
-	db at: 'Smalltalk' ifAbsentPut: ['cool' asUppercase].
-	
-	fetched := 	db at: 'Smalltalk' ifAbsent: ['cool??'].
+	self database at: 'Smalltalk' ifAbsentPut: [ 'cool' asUppercase ].
+	fetched := self database at: 'Smalltalk' ifAbsent: [ 'cool??' ].
 		
-	self assert: (fetched asString = 'COOL').
-	
-	db close.
-	self assert: db isOpen not.
-	
+	self assert: fetched asString equals: 'COOL'

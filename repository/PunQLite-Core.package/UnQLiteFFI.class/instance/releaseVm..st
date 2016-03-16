@@ -1,5 +1,3 @@
-jx9
+jx9 - init/release
 releaseVm: vmHandle
-	<primitive: #primitiveNativeCall module: #NativeBoostPlugin>
-	^ self nbCall: #( int unqlite_vm_release( vm_ptr vmHandle) ) module: #unqlite
-	
+	^ self ffiCall: #( int unqlite_vm_release( vm_ptr vmHandle) )

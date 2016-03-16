@@ -1,0 +1,14 @@
+{
+	"category" : "BaselineOfPunQLite",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		 ],
+	"name" : "BaselineOfPunQLite",
+	"pools" : [
+		 ],
+	"super" : "BaselineOf",
+	"type" : "normal" }

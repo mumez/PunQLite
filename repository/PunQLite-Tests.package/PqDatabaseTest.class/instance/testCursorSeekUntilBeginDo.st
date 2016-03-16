@@ -1,27 +1,24 @@
 testing
 testCursorSeekUntilBeginDo
 	"self debug: #testCursorSeekUntilBeginDo"
-	| db ok cursor entries |
-	db := PqDatabase openOnMemory.
-	self assert: db isOpen.
+	| ok cursor entries |
 	
-	1 to: 10 do: [:idx |
-		ok := db storeAt: idx asString value: 'value-', idx asString.
-		self assert: ok.
-	].
+	1 to: 10 do: [ :index |
+		ok := self database 
+			storeAt: index asString 
+			value: 'value-', index asString.
+		self assert: ok ].
 	
-	cursor := db newCursor.
+	cursor := self database newCursor.
 	self assert: cursor isOpen.
 	
 	entries := OrderedCollection new.
-	cursor seek: '5' untilBeginDo: [:cur |
-		entries add: (cur currentStringKey -> cur currentStringValue)	
-	].
+	cursor seek: '5' untilBeginDo: [ :theCursor |
+		entries add: (theCursor currentStringKey -> theCursor currentStringValue)	].
 
-	self assert: entries size = 5.
-	self assert: ((entries collect: #key) asArray = #('5' '4' '3' '2' '1')).
-	self assert: ((entries collect: #value) asArray = #('value-5' 'value-4' 'value-3' 'value-2' 'value-1')).
+	self assert: entries size equals: 5.
+	self assert: (entries collect: #key) asArray equals: #('5' '4' '3' '2' '1').
+	self assert: (entries collect: #value) asArray equals: #('value-5' 'value-4' 'value-3' 'value-2' 'value-1').
 	
 	cursor close.
-	self assert: cursor isOpen not.
-	
+	self deny: cursor isOpen

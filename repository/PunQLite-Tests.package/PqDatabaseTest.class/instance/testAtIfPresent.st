@@ -1,23 +1,17 @@
 testing
 testAtIfPresent
 	"self debug: #testAtIfPresent"
-	| db  fetched |
-	db := PqDatabase openOnMemory.
-	self assert: db isOpen.
+	| fetched |
+
+	self database at: 'Smalltalk' put: 'COOL'.
 	
-	db at: 'Smalltalk' put: 'COOL'.
-	
-	db at: 'Smalltalk' ifPresent: [:data |
-		fetched := data asString.
-	].
-	self assert: (fetched = 'COOL').
+	self database
+		at: 'Smalltalk' 
+		ifPresent: [:data | fetched := data asString ].
+	self assert: fetched equals: 'COOL'.
 	
 	fetched := nil.
-	db at: 'Pharo' ifPresent: [:data |
-		fetched := data asString.
-	].
-	self assert: (fetched isNil).
-	
-	db close.
-	self assert: db isOpen not.
-	
+	self database 
+		at: 'Pharo' 
+		ifPresent: [:data | fetched := data asString ].
+	self assert: fetched isNil
