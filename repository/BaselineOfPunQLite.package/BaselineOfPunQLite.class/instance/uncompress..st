@@ -8,6 +8,7 @@ uncompress: fileRef
 	[ zipArchive := ZipArchive new.
 	  zipArchive readFrom: fileRef fullName.
 	  UIManager default informUserDuring: [ :bar | 
-		zipArchive extractAllTo: dst informing: bar overwrite: true ] ]
+		[ zipArchive extractAllTo: dst informing: bar overwrite: true ]
+		on: FileExists do: [ :e | "Ignore, it's already there" ]]]
 	ensure: [ zipArchive ifNotNil: [zipArchive close]].
 	fileRef delete
