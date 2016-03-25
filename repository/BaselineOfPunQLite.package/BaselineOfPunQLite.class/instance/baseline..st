@@ -2,8 +2,8 @@ baseline
 baseline: spec
 	<baseline>
 
-	spec for: #'pharo' do: [
-		spec blessing: #'baseline'.
+	spec for: #common do: [
+		spec blessing: #baseline.
 		spec preLoadDoIt: #preLoad.
 
 		spec 
