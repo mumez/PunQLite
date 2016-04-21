@@ -19,4 +19,10 @@
 		"on:" : "MasashiUmezawa 12/21/2013 14:56",
 		"release" : "MasashiUmezawa 12/23/2013 20:38",
 		"release:" : "PierceNg 7/7/2015 23:10",
-		"reset" : "MasashiUmezawa 12/21/2013 15:07" } }
+		"reset" : "MasashiUmezawa 12/21/2013 15:07",
+		"scalarBoolean:" : "EstebanLorenzano 4/21/2016 13:15",
+		"scalarDouble:" : "EstebanLorenzano 4/21/2016 13:15",
+		"scalarInteger64:" : "EstebanLorenzano 4/21/2016 13:21",
+		"scalarInteger:" : "EstebanLorenzano 4/21/2016 13:21",
+		"scalarNull:" : "EstebanLorenzano 4/21/2016 13:48",
+		"scalarString:" : "EstebanLorenzano 4/21/2016 09:04" } }
