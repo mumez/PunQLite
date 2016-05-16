@@ -18,4 +18,6 @@ env:
   global: 
     - baseline="PunQLite"
     - packages_dir="repository"
+  matrix:
+    - pharo_version="60"
     - pharo_version="50"
