@@ -1,7 +1,7 @@
 private - utilities
 uncompress: fileRef
 	| dst zipArchive |
-	dst := FileSystem workingDirectory / 'pharo-vm'.
+	dst := FileSystem workingDirectory.
 	(fileRef fullName endsWith: '.zip')
 		ifFalse: [ self error: 'Cannot extract library from file: ' , fileRef printString ].
 	[ zipArchive := ZipArchive new.
