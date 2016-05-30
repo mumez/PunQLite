@@ -1,3 +1,6 @@
 accessig value
 currentValue: outValue sized: valueSize
-	^ffi value: outValue sized: valueSize on: self handle
+	^self ffi 
+		value: outValue 
+		sized: valueSize 
+		on: self handle

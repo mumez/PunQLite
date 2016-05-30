@@ -1,3 +1,3 @@
 utilities
 getRandomNumber
-	^ffi getRandomNumber: self handle
+	^self ffi getRandomNumber: self handle

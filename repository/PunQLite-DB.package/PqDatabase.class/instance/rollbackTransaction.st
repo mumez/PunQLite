@@ -1,5 +1,5 @@
 transactions
 rollbackTransaction
 	| ret |
-	ret := ffi rollbackTransactionOn: self handle.
+	ret := self ffi rollbackTransactionOn: self handle.
 	^self isOk: ret

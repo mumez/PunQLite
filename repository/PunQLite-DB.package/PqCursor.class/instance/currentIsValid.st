@@ -1,3 +1,3 @@
 testing
 currentIsValid
-	^(ffi isValidEntryOn: self handle) ~= 0
+	^(self ffi isValidEntryOn: self handle) ~= 0

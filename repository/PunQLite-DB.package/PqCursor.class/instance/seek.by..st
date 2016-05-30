@@ -1,7 +1,10 @@
 seeking
 seek: key by: seekOption
 	| ret |
-	ret := ffi seekKey: key sized: key size on: self handle by: seekOption.
+	ret := self ffi 
+		seekKey: key 
+		sized: key size 
+		on: self handle by: seekOption.
 	(self isOk: ret) ifTrue: [^true].
 	(ret = NOTFOUND or: [ret = EOF]) ifTrue: [^false].
 	

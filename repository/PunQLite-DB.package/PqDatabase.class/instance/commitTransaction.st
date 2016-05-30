@@ -1,5 +1,5 @@
 transactions
 commitTransaction
 	| ret |
-	ret := ffi commitTransactionOn: self handle.
+	ret := self ffi commitTransactionOn: self handle.
 	^self isOk: ret

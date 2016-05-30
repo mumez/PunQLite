@@ -1,0 +1,15 @@
+{
+	"category" : "PunQLite-DB-Base",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		"name",
+		"database" ],
+	"name" : "PqCollection",
+	"pools" : [
+		 ],
+	"super" : "PqObject",
+	"type" : "normal" }
