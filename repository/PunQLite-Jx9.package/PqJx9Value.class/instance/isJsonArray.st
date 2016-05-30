@@ -1,3 +1,3 @@
 testing
 isJsonArray
-	^ (ffi isJsonArray: self handle) = 1
+	^ (self ffi isJsonArray: self handle) = 1

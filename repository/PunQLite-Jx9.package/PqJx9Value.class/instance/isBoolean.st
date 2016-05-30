@@ -1,3 +1,3 @@
 testing
 isBoolean
-	^ (ffi isBool: self handle) = 1
+	^ (self ffi isBool: self handle) = 1

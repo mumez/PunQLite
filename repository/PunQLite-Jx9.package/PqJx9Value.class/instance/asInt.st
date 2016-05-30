@@ -1,3 +1,3 @@
 actions
 asInt
-	^ffi intFrom: self handle.
+	^self ffi intFrom: self handle.

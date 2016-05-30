@@ -1,3 +1,3 @@
 testing
 isNull
-	^ (ffi isNull: self handle) = 1
+	^ (self ffi isNull: self handle) = 1

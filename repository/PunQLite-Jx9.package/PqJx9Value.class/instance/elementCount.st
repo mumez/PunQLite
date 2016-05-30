@@ -1,3 +1,3 @@
 accessing
 elementCount
-	^ffi structureCount: self handle
+	^self ffi structureCount: self handle

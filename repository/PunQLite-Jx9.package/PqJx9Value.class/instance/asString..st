@@ -1,3 +1,3 @@
 actions
 asString: aString
-	^ffi setValue: self handle string: aString
+	^self ffi setValue: self handle string: aString

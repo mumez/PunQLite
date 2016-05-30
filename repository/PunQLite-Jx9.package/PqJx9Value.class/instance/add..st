@@ -1,3 +1,3 @@
 accessing
 add: aValue
-	^ ffi structure: self handle atPosition: ExternalAddress null putValue: aValue handle
+	^ self ffi structure: self handle atPosition: ExternalAddress null putValue: aValue handle

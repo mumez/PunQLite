@@ -1,5 +1,5 @@
 factory
-scalarNull: anUndefinedObject
+createDouble: aFloat
 	^ (self newScalar: nil)
-		clear;
+		asDouble: aFloat;
 		yourself

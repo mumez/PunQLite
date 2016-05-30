@@ -1,3 +1,3 @@
 actions
 asBool
-	^(ffi boolFrom: self handle) = 1.
+	^(self ffi boolFrom: self handle) = 1.

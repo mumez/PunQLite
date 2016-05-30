@@ -1,3 +1,3 @@
 testing
 isFloat
-	^ (ffi isFloat: self handle) = 1
+	^ (self ffi isFloat: self handle) = 1

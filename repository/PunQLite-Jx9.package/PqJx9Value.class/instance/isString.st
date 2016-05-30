@@ -1,3 +1,3 @@
 testing
 isString
-	^ (ffi isString: self handle) = 1
+	^ (self ffi isString: self handle) = 1

@@ -1,5 +1,5 @@
 factory
-scalarInteger64: anInteger
+createInteger64: anInteger
 	^ (self newScalar: nil)
 		asInt64: anInteger;
 		yourself

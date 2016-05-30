@@ -1,3 +1,3 @@
 actions
 release: aValueObject
-	^ self isOk: (ffi releaseValue: aValueObject handle vm: self handle)
+	^ self isOk: (self ffi releaseValue: aValueObject handle vm: self handle)

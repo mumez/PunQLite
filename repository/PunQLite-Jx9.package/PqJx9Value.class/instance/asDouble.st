@@ -1,3 +1,3 @@
 actions
 asDouble
-	^ffi doubleFrom: self handle.
+	^self ffi doubleFrom: self handle.

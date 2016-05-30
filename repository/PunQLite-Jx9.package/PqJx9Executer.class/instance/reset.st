@@ -1,5 +1,5 @@
 actions
 reset
 	| ret |
-	ret := ffi resetExecutionOn: self handle.
+	ret := self ffi resetExecutionOn: self handle.
 	^self isOk: ret

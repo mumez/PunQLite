@@ -1,3 +1,3 @@
 testing
 isScalar
-	^ (ffi isScalar: self handle) = 1
+	^ (self ffi isScalar: self handle) = 1

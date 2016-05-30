@@ -1,3 +1,3 @@
 actions
 asString
-	^ffi stringFrom: self handle.
+	^self ffi stringFrom: self handle.

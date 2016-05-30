@@ -1,3 +1,3 @@
 actions
 clear
-	^ffi clearValue: self handle.
+	^self ffi clearValue: self handle.

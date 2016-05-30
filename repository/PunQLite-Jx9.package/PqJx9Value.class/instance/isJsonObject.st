@@ -1,3 +1,3 @@
 testing
 isJsonObject
-	^ (ffi isJsonObject: self handle) = 1
+	^ (self ffi isJsonObject: self handle) = 1

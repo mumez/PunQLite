@@ -1,3 +1,3 @@
 testing
 isNumeric
-	^ (ffi isNumeric: self handle) = 1
+	^ (self ffi isNumeric: self handle) = 1

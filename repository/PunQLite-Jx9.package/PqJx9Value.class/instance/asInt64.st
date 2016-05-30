@@ -1,3 +1,3 @@
 actions
 asInt64
-	^ffi int64From: self handle.
+	^self ffi int64From: self handle.
