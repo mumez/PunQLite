@@ -1,3 +1,3 @@
 initialize-release
 prepareHandle
-	^ handle ifNil: [ handle := FFIExternalObject new ]
+	^ handle ifNil: [ handle := ExternalAddress new ]

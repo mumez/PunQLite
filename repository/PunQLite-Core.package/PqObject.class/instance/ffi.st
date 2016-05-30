@@ -1,3 +1,3 @@
 accessing
 ffi
-	^ ffi
+	^ UnQLiteFFI uniqueInstance 

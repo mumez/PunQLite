@@ -1,7 +1,7 @@
 {
 	"category" : "PunQLite-Core-FFI",
 	"classinstvars" : [
-		 ],
+		"uniqueInstance" ],
 	"classvars" : [
 		"IntHolderType",
 		"StringHolderType",

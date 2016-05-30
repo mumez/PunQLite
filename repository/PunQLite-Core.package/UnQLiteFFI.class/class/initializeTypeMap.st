@@ -4,15 +4,15 @@ initializeTypeMap
 	<script>
 	
 	TypeMap := Dictionary newFromPairs: #(
-		db_ptr 			FFIExternalObject
-		cursor_ptr 		FFIExternalObject
-		vm_ptr    		FFIExternalObject
-		value_ptr 		FFIExternalObject
+		db_ptr 			#'void *'
+		cursor_ptr 		#'void *'
+		vm_ptr    		#'void *'
+		value_ptr 		#'void *'
 		
-		char_ptr 			FFIExternalString
+		char_ptr 			String
 		buf_out 			ByteArray
 
-		int64_t 			FFIInt64
+		int64_t 			int64
 		bufSize_holder 	IntHolderType
 		buf_holder 		StringHolderType
 	)

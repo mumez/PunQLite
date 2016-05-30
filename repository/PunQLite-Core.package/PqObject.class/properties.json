@@ -6,7 +6,6 @@
 		 ],
 	"commentStamp" : "TorstenBergmann 1/27/2015 09:07",
 	"instvars" : [
-		"ffi",
 		"handle",
 		"handleIsValid",
 		"fetchBufferSize",

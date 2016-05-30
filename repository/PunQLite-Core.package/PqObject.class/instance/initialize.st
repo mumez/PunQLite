@@ -1,4 +1,4 @@
 initialize-release
 initialize
+	super initialize.
 	handleIsValid := false.
-	ffi := UnQLiteFFI new
