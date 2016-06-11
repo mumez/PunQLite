@@ -1,14 +1,13 @@
 {
-	"category" : "PunQLite-Tests-Database",
-	"classinstvars" : [
-		 ],
-	"classvars" : [
-		 ],
 	"commentStamp" : "",
-	"instvars" : [
-		"database" ],
-	"name" : "PqDatabaseTest",
-	"pools" : [
-		 ],
 	"super" : "TestCase",
-	"type" : "normal" }
+	"category" : "PunQLite-Tests-Database",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"database"
+	],
+	"name" : "PqDatabaseTest",
+	"type" : "normal"
+}

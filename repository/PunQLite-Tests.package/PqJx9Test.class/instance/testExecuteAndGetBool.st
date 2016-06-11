@@ -1,4 +1,4 @@
-testing
+tests
 testExecuteAndGetBool
 	"self debug: #testExecuteAndGetBool"
 	| db src |

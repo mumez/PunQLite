@@ -1,4 +1,4 @@
-testing
+tests
 testExecuteAndGetInt64
 	"self debug: #testExecuteAndGetInt64"
 	| db src |

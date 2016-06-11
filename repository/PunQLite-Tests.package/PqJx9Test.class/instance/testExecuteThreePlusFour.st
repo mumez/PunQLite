@@ -1,4 +1,4 @@
-testing
+tests
 testExecuteThreePlusFour
 	"self debug: #testExecuteThreePlusFour"
 	| db src |

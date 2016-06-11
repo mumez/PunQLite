@@ -1,4 +1,4 @@
-testing
+tests
 testInjectJsonKeyValueExecuteGet
 	"self debug: #testInjectStringExecuteGet"
 	| db src data result |
