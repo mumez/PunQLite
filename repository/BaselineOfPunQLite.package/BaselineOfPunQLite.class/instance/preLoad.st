@@ -2,6 +2,9 @@ doits
 preLoad
 	| url fileRef response |
 
+	self platformLibraryName asFileReference exists 
+		ifTrue: [ ^ self ].
+
 	url := self platformLibraryUrl asZnUrl.
 	fileRef := FileSystem disk workingDirectory / url pathSegments last.
 	(response := ZnEasy get: url) isSuccess

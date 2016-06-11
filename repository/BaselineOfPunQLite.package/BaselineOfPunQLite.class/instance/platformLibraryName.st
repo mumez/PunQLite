@@ -3,10 +3,10 @@ platformLibraryName
 	" Answer a name for the compiled version of the library "
 
 	Smalltalk os isWin32 
-		ifTrue: [ ^ 'lib-unqlite.dll.zip' ].
+		ifTrue: [ ^ 'unqlite.dll' ].
 	Smalltalk os isUnix 
-		ifTrue: [ ^ 'lib-unqlite.so.zip' ].
+		ifTrue: [ ^ 'unqlite.so' ].
 	Smalltalk os isMacOSX
-		ifTrue: [ ^ 'lib-unqlite.dylib.zip' ].
+		ifTrue: [ ^ 'unqlite.dylib' ].
 	
-	self error: 'Unsupported OS platform'.
+	self error: 'Unsupported OS platform'
