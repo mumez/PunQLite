@@ -1,4 +1,4 @@
-actions
+factory
 newScalar: aName
 	| rawValueHandle |
 	rawValueHandle := self ffi newScalar: self handle.

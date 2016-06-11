@@ -1,5 +1,5 @@
 factory
-createInteger: anInteger
+newScalarInteger: anInteger
 	^ (self newScalar: nil)
 		asInt: anInteger;
 		yourself

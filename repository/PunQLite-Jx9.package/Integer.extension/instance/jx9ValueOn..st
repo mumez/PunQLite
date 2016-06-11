@@ -1,3 +1,3 @@
 *PunQlite-Jx9
 jx9ValueOn: anExecutor
-	^ anExecutor createInteger64: self
+	^ anExecutor newScalarInteger64: self

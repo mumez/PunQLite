@@ -1,9 +1,12 @@
 {
-	"class" : {
-		"code:source:" : "MasashiUmezawa 12/21/2013 14:57" },
 	"instance" : {
-		"isCompileError" : "TorstenBergmann 1/27/2015 13:52",
+		"source" : "MasashiUmezawa 12/21/2013 14:52",
+		"source:" : "MasashiUmezawa 12/21/2013 14:52",
 		"isVmError" : "TorstenBergmann 1/27/2015 13:52",
 		"kind" : "MasashiUmezawa 12/21/2013 14:51",
-		"source" : "MasashiUmezawa 12/21/2013 14:52",
-		"source:" : "MasashiUmezawa 12/21/2013 14:52" } }
+		"isCompileError" : "TorstenBergmann 1/27/2015 13:52"
+	},
+	"class" : {
+		"code:source:" : "MasashiUmezawa 12/21/2013 14:57"
+	}
+}

@@ -1,14 +1,13 @@
 {
-	"category" : "PunQLite-Jx9-Exceptions",
-	"classinstvars" : [
-		 ],
-	"classvars" : [
-		 ],
 	"commentStamp" : "TorstenBergmann 1/27/2015 08:59",
-	"instvars" : [
-		"source" ],
-	"name" : "PqJx9Error",
-	"pools" : [
-		 ],
 	"super" : "PqError",
-	"type" : "normal" }
+	"category" : "PunQLite-Jx9-Exceptions",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"source"
+	],
+	"name" : "PqJx9Error",
+	"type" : "normal"
+}

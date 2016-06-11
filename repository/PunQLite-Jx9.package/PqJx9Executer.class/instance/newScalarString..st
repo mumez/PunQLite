@@ -1,6 +1,6 @@
 factory
-createString: aString
+newScalarString: aString
 	^ (self newScalar: nil)
-		resetStringCursor;
+		"resetStringCursor;"
 		asString: aString;
 		yourself

@@ -1,4 +1,4 @@
-actions
+factory
 newStructure: aName
 	| rawValueHandle |
 	rawValueHandle := self ffi newStructure: self handle.
