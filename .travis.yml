@@ -12,6 +12,7 @@ addons:
       - libfreetype6:i386
 before_script: 
   - git clone --depth=1 https://github.com/estebanlm/pharo-travis-ci.git
+  - cp binary/$TRAVIS_OS_NAME/* .
 script:
   - pharo-travis-ci/run-tests.sh
 env: 
