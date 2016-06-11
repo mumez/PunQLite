@@ -1,14 +1,13 @@
 {
-	"category" : "PunQLite-DB-Exceptions",
-	"classinstvars" : [
-		 ],
-	"classvars" : [
-		 ],
 	"commentStamp" : "TorstenBergmann 1/27/2015 08:58",
-	"instvars" : [
-		"key" ],
-	"name" : "PqUpdateError",
-	"pools" : [
-		 ],
 	"super" : "PqError",
-	"type" : "normal" }
+	"category" : "PunQLite-DB-Exceptions",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"key"
+	],
+	"name" : "PqUpdateError",
+	"type" : "normal"
+}

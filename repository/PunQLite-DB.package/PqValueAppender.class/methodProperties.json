@@ -1,9 +1,12 @@
 {
-	"class" : {
-		"key:on:" : "MasashiUmezawa 12/21/2013 13:46" },
 	"instance" : {
+		"nextPutAll:" : "MasashiUmezawa 12/21/2013 13:42",
 		"database" : "MasashiUmezawa 12/21/2013 13:42",
 		"database:" : "MasashiUmezawa 12/21/2013 13:42",
 		"key" : "MasashiUmezawa 12/21/2013 13:42",
-		"key:" : "MasashiUmezawa 12/21/2013 13:42",
-		"nextPutAll:" : "MasashiUmezawa 12/21/2013 13:42" } }
+		"key:" : "MasashiUmezawa 12/21/2013 13:42"
+	},
+	"class" : {
+		"key:on:" : "MasashiUmezawa 12/21/2013 13:46"
+	}
+}

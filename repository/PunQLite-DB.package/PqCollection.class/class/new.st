@@ -1,3 +1,3 @@
 instance creation
 new
-	self error: 'Use #named:'
+	self error: 'Use #database:name:'

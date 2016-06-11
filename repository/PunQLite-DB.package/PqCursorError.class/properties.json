@@ -1,14 +1,13 @@
 {
-	"category" : "PunQLite-DB-Exceptions",
-	"classinstvars" : [
-		 ],
-	"classvars" : [
-		 ],
 	"commentStamp" : "TorstenBergmann 1/27/2015 08:58",
-	"instvars" : [
-		"cursor" ],
-	"name" : "PqCursorError",
-	"pools" : [
-		 ],
 	"super" : "PqError",
-	"type" : "normal" }
+	"category" : "PunQLite-DB-Exceptions",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"cursor"
+	],
+	"name" : "PqCursorError",
+	"type" : "normal"
+}
