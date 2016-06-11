@@ -1,3 +1,9 @@
 configuration
 configVM: vmHandle addVar: valueObject named: varName
-	^ self ffiCall: #( int unqlite_vm_config(vm_ptr vmHandle, VM_CONFIG_CREATE_VAR	, String varName, value_ptr valueObject) )
+	"For some weird reason, the function unqlite_vm_config receives a va_list as argument, and 
+	 marshaling of char* is doing something weird. 
+	 I workaround the problem by passing a ByteArray"
+	^ self 
+		primConfigVM: vmHandle 
+		addVar: valueObject 
+		named: (varName asByteArray copyWith: 0)

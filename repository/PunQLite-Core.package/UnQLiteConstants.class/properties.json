@@ -1,7 +1,9 @@
 {
+	"commentStamp" : "TorstenBergmann 1/27/2015 13:54",
+	"super" : "SharedPool",
 	"category" : "PunQLite-Core-FFI",
-	"classinstvars" : [
-		 ],
+	"classinstvars" : [ ],
+	"pools" : [ ],
 	"classvars" : [
 		"ABORT",
 		"BUSY",
@@ -59,12 +61,9 @@
 		"VM_CONFIG_RECURSION_DEPTH",
 		"VM_CONFIG_SERVER_ATTR",
 		"VM_ERR",
-		"VM_OUTPUT_LENGTH" ],
-	"commentStamp" : "TorstenBergmann 1/27/2015 13:54",
-	"instvars" : [
-		 ],
+		"VM_OUTPUT_LENGTH"
+	],
+	"instvars" : [ ],
 	"name" : "UnQLiteConstants",
-	"pools" : [
-		 ],
-	"super" : "SharedPool",
-	"type" : "normal" }
+	"type" : "normal"
+}

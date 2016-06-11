@@ -1,14 +1,15 @@
 {
+	"commentStamp" : "TorstenBergmann 1/27/2015 14:31",
+	"super" : "Object",
 	"category" : "PunQLite-Core-Settings",
 	"classinstvars" : [
-		"default" ],
-	"classvars" : [
-		 ],
-	"commentStamp" : "TorstenBergmann 1/27/2015 14:31",
+		"default"
+	],
+	"pools" : [ ],
+	"classvars" : [ ],
 	"instvars" : [
-		"settingsDict" ],
+		"settingsDict"
+	],
 	"name" : "PqSettings",
-	"pools" : [
-		 ],
-	"super" : "Object",
-	"type" : "normal" }
+	"type" : "normal"
+}

@@ -1,17 +1,18 @@
 {
-	"category" : "PunQLite-Core-Base",
-	"classinstvars" : [
-		 ],
-	"classvars" : [
-		 ],
 	"commentStamp" : "TorstenBergmann 1/27/2015 09:07",
+	"super" : "Object",
+	"category" : "PunQLite-Core-Base",
+	"classinstvars" : [ ],
+	"pools" : [
+		"UnQLiteConstants"
+	],
+	"classvars" : [ ],
 	"instvars" : [
 		"handle",
 		"handleIsValid",
 		"fetchBufferSize",
-		"settings" ],
+		"settings"
+	],
 	"name" : "PqObject",
-	"pools" : [
-		"UnQLiteConstants" ],
-	"super" : "Object",
-	"type" : "normal" }
+	"type" : "normal"
+}

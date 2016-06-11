@@ -8,6 +8,7 @@ initializeTypeMap
 		cursor_ptr 		#'void *'
 		vm_ptr    		#'void *'
 		value_ptr 		#'void *'
+		context_ptr 		#'void *'
 		
 		char_ptr 			String
 		buf_out 			ByteArray
