@@ -2,8 +2,9 @@
 	"instance" : {
 		"testAdd" : "EstebanLorenzano 6/11/2016 19:32",
 		"testAtPut" : "EstebanLorenzano 6/11/2016 20:45",
-		"testAt" : "EstebanLorenzano 6/11/2016 20:24",
+		"testAt" : "EstebanLorenzano 6/12/2016 14:57",
 		"testRemoveAt" : "EstebanLorenzano 6/11/2016 20:22",
+		"testSize" : "EstebanLorenzano 6/12/2016 14:43",
 		"testSelectAll" : "EstebanLorenzano 6/11/2016 19:25",
 		"testDetect" : "EstebanLorenzano 6/11/2016 19:57",
 		"testSelect" : "EstebanLorenzano 6/11/2016 19:28"

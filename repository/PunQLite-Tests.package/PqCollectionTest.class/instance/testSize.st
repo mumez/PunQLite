@@ -1,5 +1,5 @@
 tests
-testAt
+testSize
 	| collection result |
 	
 	collection := PqDatabase openOnMemory collectionName: 'customers'.
@@ -10,9 +10,12 @@ testAt
 			'account' -> (index * 10000). 
 			'amount' -> (index * 10000.0) } asDictionary ].
 		
-	result := collection at: 4.	
-	self assert: (result at: '__id') equals: 4.
-	self assert: (result at: 'name') equals: 'John Doe 5'.
+	self assert: collection size equals: 10.
 	
-	result := collection at: 42. "Do not exists"
-	self assert: result isNil	
+	collection add: { 'name' -> 'John Doe'. 'account' -> 1. 'amount' -> nil } asDictionary.
+	
+	self assert: collection size equals: 11.
+	
+	collection removeAt: 0.
+	
+	self assert: collection size equals: 10.
