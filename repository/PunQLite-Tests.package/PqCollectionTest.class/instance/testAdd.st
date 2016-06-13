@@ -1,10 +1,11 @@
 tests
 testAdd
-	| collection json result |
+	| collection json result id |
 	
 	collection := PqDatabase openOnMemory collectionName: 'customers'.
 	json := { 'name' -> 'John Doe'. 'account' -> 1234567890. 'amount' -> 12345678.90 } asDictionary.
-	collection add: json.
+	id := collection add: json.
+	self assert: id equals: 0. "first id"
 		
 	result := collection selectAll.
 	self assert: result size equals: 1.

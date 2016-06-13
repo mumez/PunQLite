@@ -1,6 +1,7 @@
 accessing
 add: jsonDictionary
-	"Adds a JSON dictionary to collection"
+	"Adds a JSON dictionary to collection. 
+	 Answers the id of the record inserted"
 	| data executor |
 	
 	executor := self jx9Insert.
@@ -10,4 +11,4 @@ add: jsonDictionary
 	executor execute.
 	executor release: data.		
 	self validateResultFrom: executor.
-	^ jsonDictionary
+	^ (executor extract: 'resultId') value
