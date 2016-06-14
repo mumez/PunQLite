@@ -1,5 +1,5 @@
 tests
-testSize
+testSizeOf
 	| collection |
 	
 	collection := PqDatabase openOnMemory collectionName: 'customers'.
@@ -10,7 +10,7 @@ testSize
 			'account' -> (index * 10000). 
 			'amount' -> (index * 10000.0) } asDictionary ].
 		
-	self assert: collection size equals: 10.
+	self assert: (collection sizeOf: [ :each | (each at: 'amount') <= 50000.0 ]) equals: 5.
 	
 	collection add: { 'name' -> 'John Doe'. 'account' -> 1. 'amount' -> nil } asDictionary.
 	

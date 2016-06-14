@@ -11,11 +11,13 @@
 		"select:" : "EstebanLorenzano 6/12/2016 15:00",
 		"initializeDatabase:name:" : "EstebanLorenzano 4/23/2016 14:12",
 		"jx9Insert" : "EstebanLorenzano 6/11/2016 20:12",
-		"validateResultFrom:" : "EstebanLorenzano 6/11/2016 20:17",
+		"jx9SizeOf" : "EstebanLorenzano 6/14/2016 14:36",
 		"size" : "EstebanLorenzano 6/12/2016 14:59",
 		"add:" : "EstebanLorenzano 6/13/2016 09:12",
+		"validateResultFrom:" : "EstebanLorenzano 6/11/2016 20:17",
 		"ensureCollection" : "EstebanLorenzano 6/11/2016 20:16",
 		"removeAt:" : "EstebanLorenzano 6/12/2016 14:58",
+		"sizeOf:" : "EstebanLorenzano 6/14/2016 14:36",
 		"at:" : "EstebanLorenzano 6/12/2016 14:57",
 		"jx9At" : "EstebanLorenzano 6/11/2016 20:35",
 		"jx9AtPut" : "EstebanLorenzano 6/11/2016 20:43",
@@ -31,9 +33,10 @@
 		"jx9AtPutTemplate" : "EstebanLorenzano 6/11/2016 20:45",
 		"jx9InsertTemplate" : "EstebanLorenzano 6/13/2016 09:09",
 		"jx9SelectAllTemplate" : "EstebanLorenzano 6/11/2016 20:20",
-		"new" : "EstebanLorenzano 6/11/2016 18:29",
-		"jx9SizeTemplate" : "EstebanLorenzano 6/12/2016 12:40",
+		"jx9SizeOfTemplate" : "EstebanLorenzano 6/14/2016 14:36",
 		"database:name:" : "EstebanLorenzano 4/23/2016 14:13",
+		"jx9SizeTemplate" : "EstebanLorenzano 6/12/2016 12:40",
+		"new" : "EstebanLorenzano 6/11/2016 18:29",
 		"jx9RemoveTemplate" : "EstebanLorenzano 6/11/2016 20:19"
 	}
 }
