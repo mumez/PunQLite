@@ -1,4 +1,4 @@
-PunQLite [![Build Status](https://travis-ci.org/estebanlm/PunQLite.png)](https://travis-ci.org/estebanlm/PunQLite)
+PunQLite [![Build Status](https://travis-ci.org/pharo-nosql/PunQLite.png)](https://travis-ci.org/estebanlm/PunQLite)
 ========
 
 [UnQLite](http://unqlite.org "UnQLite") binding for [Pharo Smalltalk](http://www.pharo-project.org/ "Pharo").
