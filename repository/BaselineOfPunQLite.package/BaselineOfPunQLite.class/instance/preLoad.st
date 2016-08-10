@@ -3,7 +3,9 @@ preLoad
 	| url fileRef response |
 
 	self platformLibraryName asFileReference exists 
-		ifTrue: [ ^ self ].
+		ifTrue: [ 
+			self inform: ('{1} exists, skipping download.' format: { self platformLibraryName }).
+			^ self ].
 
 	url := self platformLibraryUrl asZnUrl.
 	fileRef := FileSystem disk workingDirectory / url pathSegments last.
