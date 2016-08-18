@@ -1,15 +1,16 @@
 {
-	"commentStamp" : "<historical>",
-	"super" : "Object",
 	"category" : "PunQLite-DB-Base",
-	"classinstvars" : [ ],
-	"pools" : [ ],
-	"classvars" : [ ],
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "<historical>",
 	"instvars" : [
 		"name",
 		"database",
-		"executors"
-	],
+		"executors" ],
 	"name" : "PqCollection",
-	"type" : "normal"
-}
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }

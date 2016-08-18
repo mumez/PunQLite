@@ -1,13 +1,14 @@
 {
-	"commentStamp" : "TorstenBergmann 1/27/2015 08:57",
-	"super" : "PqObject",
 	"category" : "PunQLite-DB-Utilities",
-	"classinstvars" : [ ],
-	"pools" : [ ],
-	"classvars" : [ ],
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "TorstenBergmann 1/27/2015 08:57",
 	"instvars" : [
-		"database"
-	],
+		"database" ],
 	"name" : "PqCursor",
-	"type" : "normal"
-}
+	"pools" : [
+		 ],
+	"super" : "PqObject",
+	"type" : "normal" }

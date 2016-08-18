@@ -1,11 +1,14 @@
 {
-	"commentStamp" : "<historical>",
-	"super" : "Error",
 	"category" : "PunQLite-DB-Base",
-	"classinstvars" : [ ],
-	"pools" : [ ],
-	"classvars" : [ ],
-	"instvars" : [ ],
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "<historical>",
+	"instvars" : [
+		 ],
 	"name" : "PqCollectionError",
-	"type" : "normal"
-}
+	"pools" : [
+		 ],
+	"super" : "Error",
+	"type" : "normal" }

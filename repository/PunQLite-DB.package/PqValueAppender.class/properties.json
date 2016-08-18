@@ -1,14 +1,15 @@
 {
-	"commentStamp" : "TorstenBergmann 1/27/2015 08:56",
-	"super" : "Object",
 	"category" : "PunQLite-DB-Utilities",
-	"classinstvars" : [ ],
-	"pools" : [ ],
-	"classvars" : [ ],
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "TorstenBergmann 1/27/2015 08:56",
 	"instvars" : [
 		"database",
-		"key"
-	],
+		"key" ],
 	"name" : "PqValueAppender",
-	"type" : "normal"
-}
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }
