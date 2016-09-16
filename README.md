@@ -25,7 +25,7 @@ gcc -m32 -c unqlite.c
 gcc -m32 -shared -o unqlite.so unqlite.o
 
 #win (MinGW)
-gcc -m32 -shared -o unqlite.dll unqlite.o -Wl,--add-stdcall-alias
+gcc -m32 -shared -static-libgcc -o unqlite.dll unqlite.o -Wl,--add-stdcall-alias
 
 #mac
 gcc -m32 -dynamiclib -o unqlite.dylib unqlite.o
