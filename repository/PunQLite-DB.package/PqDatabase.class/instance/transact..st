@@ -1,5 +1,7 @@
 transactions
 transact: aBlock
 	self beginTransaction.
-	aBlock value.
-	self commitTransaction.
+	aBlock ensure: [ 
+		(self commitTransaction) ifFalse: [ 
+			self rollbackTransaction. 
+			PqError signal: 'Could not commit.' ] ].
