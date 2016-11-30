@@ -1,7 +1,7 @@
 PunQLite [![Build Status](https://travis-ci.org/pharo-nosql/PunQLite.png)](https://travis-ci.org/pharo-nosql/PunQLite)
 ========
 
-[UnQLite](http://unqlite.org "UnQLite") binding for [Pharo Smalltalk](http://www.pharo-project.org/ "Pharo").
+[UnQLite](http://unqlite.org "UnQLite") binding for [Pharo Smalltalk](http://pharo.org/ "Pharo").
 UnQLite is a fast, lightweight, portable, embedded KVS with a simple scripting engine (Jx9). By using PunQLite, you can store/load lots of data as if just using a normal Dictionary.
 
 Directories:
@@ -10,8 +10,6 @@ Directories:
  + pre-built shared libraries (unqlite.dll, dylib, so, etc)
 - repository
  + [Cypress](https://github.com/CampSmalltalk/Cypress) style Smalltalk source tree
-
-For MCZ packages, visit <a href="http://smalltalkhub.com/#!/~MasashiUmezawa/PunQLite">SmalltalkHub PunQLite site</a>.
 
 ## Installation ##
 - Compile UnQLite
@@ -31,19 +29,18 @@ gcc -m32 -shared -static-libgcc -o unqlite.dll unqlite.o -Wl,--add-stdcall-alias
 gcc -m32 -dynamiclib -o unqlite.dylib unqlite.o
 ```
 
-However, I've also put [pre-built binaries](https://github.com/mumez/PunQLite/tree/master/binary) for common platforms, so please just download them if you have no time to compile.
+However, I've also put [pre-built binaries](https://github.com/pharo-nosql/PunQLite/releases) for common platforms, so please just download them if you have no time to compile.
 
 - Load PunQLite
 
 ```Smalltalk
-Gofer new
-      url: 'http://smalltalkhub.com/mc/MasashiUmezawa/PunQLite/main';
-      package: 'ConfigurationOfPunQLite';
-      load.
-(Smalltalk at: #ConfigurationOfPunQLite) load
+Metacello new 
+	repository: 'github://pharo-nosql/PunQLite/repository'
+	baseline: 'PunQLite';
+	load.
 ```
 
-The final target will be Pharo 3.0. But PunQLite nicely runs on Pharo 2.0, too.
+`PUnQLite` is also available from the **Pharo Catalog**.
 
 ## Performance ##
 ```Smalltalk
