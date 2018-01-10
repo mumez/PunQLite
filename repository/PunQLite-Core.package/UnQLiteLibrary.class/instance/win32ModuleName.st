@@ -1,3 +1,3 @@
 accessing platform
 win32ModuleName
-	^ 'unqlite.dll' asFileReference fullName
+	^ (FileLocator imageDirectory / 'unqlite.dll') fullName

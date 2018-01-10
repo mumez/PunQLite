@@ -1,3 +1,3 @@
 accessing platform
 macModuleName
-	^ 'unqlite.dylib' asFileReference fullName
+	^ (FileLocator imageDirectory / 'unqlite.dylib') fullName
