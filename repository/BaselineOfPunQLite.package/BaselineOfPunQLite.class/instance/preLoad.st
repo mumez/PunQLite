@@ -5,4 +5,4 @@ preLoad
 
 	ZnClient new
 		url: self platformLibraryUrl;
-		downloadTo: self platformLibraryName.
+		downloadTo: (FileLocator imageDirectory / self platformLibraryName) fullName.
