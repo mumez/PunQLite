@@ -1,3 +1,0 @@
-factory
-newIntHolder
-	^IntHolderType new

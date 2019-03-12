@@ -1,3 +1,0 @@
-private
-ffiLibraryName
-	^ UnQLiteLibrary

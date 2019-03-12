@@ -1,1 +1,0 @@
-A  callback to fetch data from UnQLite database

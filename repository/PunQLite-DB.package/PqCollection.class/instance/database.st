@@ -1,3 +1,0 @@
-private
-database
-	^ database
