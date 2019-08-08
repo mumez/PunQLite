@@ -14,7 +14,7 @@ Class {
 	#instVars : [
 		'database'
 	],
-	#category : 'PunQLite-DB-Utilities'
+	#category : #'PunQLite-DB-Utilities'
 }
 
 { #category : #'instance creation' }
@@ -309,7 +309,7 @@ PqCursor >> seek: key [
 PqCursor >> seek: key by: seekOption [
 	| ret |
 	ret := self ffi 
-		seekKey: key 
+		seekKey: (self toByteArray: key)
 		sized: key size 
 		on: self handle by: seekOption.
 	(self isOk: ret) ifTrue: [^true].

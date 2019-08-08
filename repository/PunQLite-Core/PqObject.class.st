@@ -13,7 +13,7 @@ Class {
 	#pools : [
 		'UnQLiteConstants'
 	],
-	#category : 'PunQLite-Core-Base'
+	#category : #'PunQLite-Core-Base'
 }
 
 { #category : #accessing }
@@ -82,4 +82,12 @@ PqObject >> settings [
 { #category : #accessing }
 PqObject >> settings: aPqSettings [
 	settings := aPqSettings
+]
+
+{ #category : #private }
+PqObject >> toByteArray: anObject [
+
+	^ anObject isString 
+		ifTrue: [ anObject utf8Encoded ]
+		ifFalse: [ anObject ]
 ]

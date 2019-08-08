@@ -27,9 +27,9 @@ PqDatabase >> appendAt: key value: value [
 	| ret |
 	ret := self ffi 
 		append: self handle 
-		key: key utf8Encoded
+		key: (self toByteArray: key)
 		sized: key size 
-		value: value utf8Encoded
+		value: (self toByteArray: value)
 		sized: value size.
 	^self isOk: ret
 ]
@@ -129,7 +129,7 @@ PqDatabase >> deleteAt: key sized: keySize [
 	
 	ret := self ffi 
 		delete: self handle 
-		key: key utf8Encoded
+		key: (self toByteArray: key)
 		sized: keySize.
 	^ self isOk: ret
 ]
@@ -163,7 +163,7 @@ PqDatabase >> fetchAt: key basicInto: aBlock [
 	callback := UnQLiteFetchCallback on: aBlock.
 	^ self ffi 
 		fetch: self handle 
-		key: key utf8Encoded
+		key: (self toByteArray: key)
 		sized: key size 
 		callback: callback
 ]
@@ -193,11 +193,13 @@ PqDatabase >> fetchAt: key sized: valueBufSize [
 	bytes := ByteArray new: valueBufSize.
 	ret := self ffi 
 		fetch: self handle 
-		key: key utf8Encoded
+		key: (self toByteArray: key)
 		sized: key size 
 		value: bytes 
 		sized: intHolder.
-	(self isOk: ret) ifFalse: [(PqFetchError code: ret key: key) signal].
+	(self isOk: ret) ifFalse: [
+		(PqFetchError code: ret key: key) signal ].
+	
 	^ bytes copyFrom: 1 to: intHolder value
 ]
 
@@ -217,7 +219,7 @@ PqDatabase >> fetchStringAt: key sized: valueBufSize [
 	ourStr := ByteArray new: valueBufSize.
 	ret := self ffi 
 		fetch: self handle 
-		key: key utf8Encoded
+		key: (self toByteArray: key)
 		sized: key size 
 		value: ourStr 
 		sized: intHolder.
@@ -278,7 +280,7 @@ PqDatabase >> importAt: key fromFile: filePath [
 	fileSize := intHolder value.
 	stored := self ffi 
 		store: self handle 
-		key: key 
+		key: (self toByteArray: key) 
 		sized: key size 
 		value: fileMap value 
 		sized: fileSize.
@@ -297,7 +299,7 @@ PqDatabase >> includesKey: key [
 	bytes := #[0].
 	ret := self ffi 
 		fetch: self handle 
-		key: key utf8Encoded
+		key: (self toByteArray: key)
 		sized: key size 
 		value: bytes 
 		sized: intHolder.
@@ -347,7 +349,7 @@ PqDatabase >> removeKey: key [
 
 	ret := self ffi 
 		delete: self handle 
-		key: key utf8Encoded
+		key: (self toByteArray: key)
 		sized: key size.
 	
 	(self isOk: ret) ifFalse: [
@@ -393,9 +395,9 @@ PqDatabase >> storeAt: key value: value [
 	
 	ret := self ffi 
 		store: self handle 
-		key: key utf8Encoded
+		key: (self toByteArray: key)
 		sized: key size 
-		value: value utf8Encoded
+		value: (self toByteArray: value)
 		sized: value size.
 	^ self isOk: ret
 ]
