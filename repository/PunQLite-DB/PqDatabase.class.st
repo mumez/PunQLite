@@ -4,7 +4,7 @@ A PunQLite database
 Class {
 	#name : #PqDatabase,
 	#superclass : #PqObject,
-	#category : 'PunQLite-DB-Base'
+	#category : #'PunQLite-DB-Base'
 }
 
 { #category : #opening }
@@ -27,16 +27,17 @@ PqDatabase >> appendAt: key value: value [
 	| ret |
 	ret := self ffi 
 		append: self handle 
-		key: key 
+		key: key utf8Encoded
 		sized: key size 
-		value: value 
+		value: value utf8Encoded
 		sized: value size.
 	^self isOk: ret
 ]
 
 { #category : #'actions-appender' }
 PqDatabase >> appenderAt: key [
-	^PqValueAppender key: key on: self
+
+	^ PqValueAppender key: key on: self
 ]
 
 { #category : #'actions-dictionary' }
@@ -68,8 +69,9 @@ PqDatabase >> at: key ifAbsentPut: aBlock [
 
 { #category : #'actions-dictionary' }
 PqDatabase >> at: key ifPresent: aBlock [
+
 	self fetchAt: key into: aBlock.
-	^key
+	^ key
 	
 ]
 
@@ -115,17 +117,21 @@ PqDatabase >> cursorDo: aBlock [
 
 { #category : #actions }
 PqDatabase >> deleteAt: key [
-	^ self deleteAt: key sized: key size
+
+	^ self 
+		deleteAt: key
+		sized: key size
 ]
 
 { #category : #actions }
 PqDatabase >> deleteAt: key sized: keySize [
 	| ret |
+	
 	ret := self ffi 
 		delete: self handle 
-		key: key 
+		key: key utf8Encoded
 		sized: keySize.
-	^self isOk: ret
+	^ self isOk: ret
 ]
 
 { #category : #configuration }
@@ -144,45 +150,50 @@ PqDatabase >> do: aBlock [
 
 { #category : #actions }
 PqDatabase >> fetchAt: key [ 
-	^self fetchAt: key sized: self fetchBufferSize
+
+	^ self 
+		fetchAt: key 
+		sized: self fetchBufferSize
 ]
 
 { #category : #actions }
 PqDatabase >> fetchAt: key basicInto: aBlock [
 	| callback |
+	
 	callback := UnQLiteFetchCallback on: aBlock.
-	^self ffi 
+	^ self ffi 
 		fetch: self handle 
-		key: key 
+		key: key utf8Encoded
 		sized: key size 
-		callback: callback. 
+		callback: callback
 ]
 
 { #category : #actions }
 PqDatabase >> fetchAt: key into: aBlock [
-
 	| wrappedBlock |
-	wrappedBlock := [:dataAddr :dataSize :userData | | ret |
+	
+	wrappedBlock := [ :dataAddr :dataSize :userData | | ret |
 		ret := OK.
-		[| data |
+		[ | data |
 			data := ByteArray new: dataSize.
 			LibC memCopy: dataAddr to: data size: dataSize.
-			aBlock cull: data cull: userData
-		] on: Error do: [:ex | ret := ABORT]. 
-		ret
-	].
+			aBlock cull: data cull: userData ] 
+		on: Error 
+		do: [ :ex | ret := ABORT ]. 
+		ret ].
 
-	^self fetchAt: key basicInto: wrappedBlock
+	^ self fetchAt: key basicInto: wrappedBlock
 ]
 
 { #category : #actions }
 PqDatabase >> fetchAt: key sized: valueBufSize [
 	|  intHolder bytes ret |
+	
 	intHolder := UnQLiteFFI newIntHolder: valueBufSize.
 	bytes := ByteArray new: valueBufSize.
 	ret := self ffi 
 		fetch: self handle 
-		key: key 
+		key: key utf8Encoded
 		sized: key size 
 		value: bytes 
 		sized: intHolder.
@@ -192,21 +203,28 @@ PqDatabase >> fetchAt: key sized: valueBufSize [
 
 { #category : #actions }
 PqDatabase >> fetchStringAt: key [ 
-	^self fetchStringAt: key sized: self fetchBufferSize
+
+	^ self 
+		fetchStringAt: key 
+		sized: self fetchBufferSize
 ]
 
 { #category : #actions }
 PqDatabase >> fetchStringAt: key sized: valueBufSize [
-	|  intHolder ourStr ret |
+	| intHolder ourStr ret |
+	
 	intHolder := UnQLiteFFI newIntHolder: valueBufSize.
 	ourStr := ByteArray new: valueBufSize.
 	ret := self ffi 
 		fetch: self handle 
-		key: key 
+		key: key utf8Encoded
 		sized: key size 
 		value: ourStr 
 		sized: intHolder.
-	(self isOk: ret) ifFalse: [(PqFetchError code: ret key: key) signal].
+
+	(self isOk: ret) ifFalse: [ 
+		(PqFetchError code: ret key: key) signal ].
+
 	^ ourStr readString
 ]
 
@@ -277,7 +295,12 @@ PqDatabase >> includesKey: key [
 	|  intHolder bytes ret |
 	intHolder := UnQLiteFFI newIntHolder: 1.
 	bytes := #[0].
-	ret := self ffi fetch: self handle key: key sized: key size value: bytes sized: intHolder.
+	ret := self ffi 
+		fetch: self handle 
+		key: key utf8Encoded
+		sized: key size 
+		value: bytes 
+		sized: intHolder.
 	^self isOk: ret
 ]
 
@@ -321,9 +344,16 @@ PqDatabase >> open: filePath mode: mode [
 { #category : #'actions-dictionary' }
 PqDatabase >> removeKey: key [
 	| ret |
-	ret := self ffi delete: self handle key: key sized: key size.
-	(self isOk: ret) ifFalse: [(PqUpdateError code: ret key: key) signal].
-	^key
+
+	ret := self ffi 
+		delete: self handle 
+		key: key utf8Encoded
+		sized: key size.
+	
+	(self isOk: ret) ifFalse: [
+		(PqUpdateError code: ret key: key) signal ].
+	
+	^ key
 	
 ]
 
@@ -360,13 +390,14 @@ PqDatabase >> size [
 { #category : #actions }
 PqDatabase >> storeAt: key value: value [
 	| ret |
+	
 	ret := self ffi 
 		store: self handle 
-		key: key 
+		key: key utf8Encoded
 		sized: key size 
-		value: value 
+		value: value utf8Encoded
 		sized: value size.
-	^self isOk: ret
+	^ self isOk: ret
 ]
 
 { #category : #transactions }

@@ -15,7 +15,7 @@ Class {
 	#classInstVars : [
 		'uniqueInstance'
 	],
-	#category : 'PunQLite-Core-FFI'
+	#category : #'PunQLite-Core-FFI'
 }
 
 { #category : #factory }
@@ -183,7 +183,14 @@ UnQLiteFFI >> extract: varName on: vmHandle [
 
 { #category : #actions }
 UnQLiteFFI >> fetch: dbHandle key: key sized: keySize callback: callback [
-	^ self ffiCall: #( int unqlite_kv_fetch_callback( db_ptr dbHandle, void* key, int keySize, UnQLiteFetchCallback callback, 0) ) options: #( optMayGC )
+	
+	^ self ffiCall: #( int unqlite_kv_fetch_callback( 
+		db_ptr dbHandle, 
+		void* key, 
+		int keySize, 
+		UnQLiteFetchCallback callback, 
+		NULL)) 
+		
 ]
 
 { #category : #actions }

@@ -1,12 +1,27 @@
 Class {
 	#name : #UnQLiteLibrary,
 	#superclass : #FFILibrary,
-	#category : 'PunQLite-Core-FFI'
+	#instVars : [
+		'runner'
+	],
+	#category : #'PunQLite-Core-FFI'
 }
+
+{ #category : #accessing }
+UnQLiteLibrary >> calloutAPIClass [ 
+
+	^ TFCalloutAPI
+]
 
 { #category : #'accessing platform' }
 UnQLiteLibrary >> macModuleName [
 	^ (FileLocator imageDirectory / 'unqlite.dylib') fullName
+]
+
+{ #category : #accessing }
+UnQLiteLibrary >> runner [
+	
+	^ runner ifNil: [ runner := TFWorker named: 'UnQLite' ]
 ]
 
 { #category : #'accessing platform' }
