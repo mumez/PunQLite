@@ -3,7 +3,7 @@ A  callback to fetch data from UnQLite database
 "
 Class {
 	#name : #UnQLiteFetchCallback,
-	#superclass : #FFICallback,
+	#superclass : #UnQLiteCallback,
 	#category : #'PunQLite-Core-FFI'
 }
 
@@ -19,10 +19,4 @@ UnQLiteFetchCallback class >> on: aBlock [
 	^ self 
 		signature: self fnSpec 
 		block: aBlock
-]
-
-{ #category : #accessing }
-UnQLiteFetchCallback >> ffiLibraryName [
-
-	^ UnQLiteLibrary
 ]

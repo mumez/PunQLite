@@ -1,7 +1,7 @@
 Class {
 	#name : #PqJx9Test,
 	#superclass : #TestCase,
-	#category : 'PunQLite-Tests-Jx9'
+	#category : #'PunQLite-Tests-Jx9'
 }
 
 { #category : #accessing }
@@ -318,10 +318,8 @@ PqJx9Test >> testInsertJSON [
 
 { #category : #'tests - collection' }
 PqJx9Test >> testInsertReentrant [
-	<script>
-		
-	"db := PqDatabase openOnMemory."
 	| db |
+
 	db := PqDatabase openOnMemory.
 
 	db jx9Do: [ :executor | | data result |

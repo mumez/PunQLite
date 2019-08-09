@@ -14,7 +14,7 @@ Class {
 		'name',
 		'executer'
 	],
-	#category : 'PunQLite-Jx9-Base'
+	#category : #'PunQLite-Jx9-Base'
 }
 
 { #category : #'instance creation' }
@@ -141,7 +141,7 @@ PqJx9Value >> do: aBlock [
 	"if value is JSON array/object, this will work"
 	self ffi 
 		array: self handle
-		walk: (FFICallback
+		walk: (UnQLiteCallback
 			signature: #(int (void *pKey, void *pValue, void *pUserData))  
 			block: [ :key :value :data | 
 				aBlock value: (PqJx9Value named: nil on: value). 
@@ -230,7 +230,7 @@ PqJx9Value >> keysAndValuesDo: aBlock [
 	"if value is JSON array/object, this will work"
 	self ffi 
 		array: self handle
-		walk: (FFICallback
+		walk: (UnQLiteCallback
 			signature: #(int (void *pKey, void *pValue, void *pUserData))  
 			block: [ :key :value :data | 
 				aBlock 

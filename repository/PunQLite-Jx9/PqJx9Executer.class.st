@@ -25,7 +25,7 @@ Class {
 		'executed',
 		'callbackCache'
 	],
-	#category : 'PunQLite-Jx9-Base'
+	#category : #'PunQLite-Jx9-Base'
 }
 
 { #category : #'instance creation' }
@@ -41,14 +41,21 @@ PqJx9Executer >> @ varName [
 { #category : #actions }
 PqJx9Executer >> compile: aJx9Source [
 	| ret |
-	ret := self ffi compile: aJx9Source sized: -1 into: self handle on: self dbHandle.
+	
+	ret := self ffi 
+		compile: aJx9Source 
+		sized: -1 
+		into: self handle 
+		on: self dbHandle.
+	
 	(self isOk: ret) 
 		ifTrue: [
 			handleIsValid := true.
 			compiled := true ] 
 		ifFalse: [
 			(PqJx9Error code: ret source: aJx9Source) signal ].
-	^compiled
+	
+	^ compiled
 ]
 
 { #category : #accessing }
@@ -126,7 +133,7 @@ PqJx9Executer >> newFunction: aString do: aBlock [
 	 functions)"
 	| callback |
 
-	callback := FFICallback 
+	callback := UnQLiteCallback 
 		signature: #(int (void *pCtx, int argc, void **argv)) 
 		block:  [ :ctx :argc :argv | | record |
 			record := (PqJx9Value named: nil on: (argv pointerAt: 1)) value.
