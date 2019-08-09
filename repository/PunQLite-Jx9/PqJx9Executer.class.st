@@ -44,7 +44,7 @@ PqJx9Executer >> compile: aJx9Source [
 	
 	ret := self ffi 
 		compile: aJx9Source 
-		sized: -1 
+		sized: aJx9Source size
 		into: self handle 
 		on: self dbHandle.
 	

@@ -312,8 +312,6 @@ PqJx9Test >> testInsertJSON [
 	retrieveJson := records first.
 	retrieveJson removeKey: '__id'.
 	self assert: retrieveJson equals: json
-	
-
 ]
 
 { #category : #'tests - collection' }

@@ -7,7 +7,16 @@ Class {
 	#classVars : [
 		'IntHolderType',
 		'StringHolderType',
-		'TypeMap'
+		'bufSize_holder',
+		'buf_holder',
+		'buf_out',
+		'char_ptr',
+		'context_ptr',
+		'cursor_ptr',
+		'db_ptr',
+		'int64_t',
+		'value_ptr',
+		'vm_ptr'
 	],
 	#pools : [
 		'UnQLiteConstants'
@@ -17,11 +26,6 @@ Class {
 	],
 	#category : #'PunQLite-Core-FFI'
 }
-
-{ #category : #factory }
-UnQLiteFFI class >> ffiBindingOf: aTypeName [
-	^ TypeMap at: aTypeName ifAbsent: [ super ffiBindingOf: aTypeName ]
-]
 
 { #category : #'class initialization' }
 UnQLiteFFI class >> initialize [
@@ -35,23 +39,22 @@ UnQLiteFFI class >> initialize [
 
 { #category : #'class initialization' }
 UnQLiteFFI class >> initializeTypeMap [
-	"self initializeTypeMap"
 	<script>
 	
-	TypeMap := Dictionary newFromPairs: #(
-		db_ptr 			#'void *'
-		cursor_ptr 		#'void *'
-		vm_ptr    		#'void *'
-		value_ptr 		#'void *'
-		context_ptr 		#'void *'
+	"self initializeTypeMap"
+	db_ptr 			:=	 #'void *'.
+	cursor_ptr 		:= #'void *'.
+	vm_ptr    		:= #'void *'.
+	value_ptr 		:= #'void *'.
+	context_ptr 		:= #'void *'.
 		
-		char_ptr 			String
-		buf_out 			ByteArray
+	char_ptr 			:= #String.
+	buf_out 			:= #ByteArray.
 
-		int64_t 			int64
-		bufSize_holder 	IntHolderType
-		buf_holder 		StringHolderType
-	)
+	int64_t 			:= #int64.
+	bufSize_holder 	:= #IntHolderType.
+	buf_holder 		:= #StringHolderType
+
 ]
 
 { #category : #'instance creation' }

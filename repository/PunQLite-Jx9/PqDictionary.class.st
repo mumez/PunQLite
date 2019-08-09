@@ -26,3 +26,9 @@ PqDictionary >> doesNotUnderstand: aMessage [
 
 	^ super doesNotUnderstand: aMessage
 ]
+
+{ #category : #private }
+PqDictionary >> species [
+
+	^ Dictionary
+]

@@ -21,7 +21,8 @@ UnQLiteLibrary >> macModuleName [
 { #category : #accessing }
 UnQLiteLibrary >> runner [
 	
-	^ "runner ifNil: [ runner := TFWorker named: 'UnQLite' ]" TFSameThreadRunner new
+	"^ runner ifNil: [ runner := TFWorker named: 'UnQLite' ]"
+	^ TFSameThreadRunner new
 ]
 
 { #category : #'accessing platform' }
