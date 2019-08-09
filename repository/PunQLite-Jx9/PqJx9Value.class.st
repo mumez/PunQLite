@@ -61,7 +61,8 @@ PqJx9Value >> asBool: aBoolean [
 { #category : #enumerating }
 PqJx9Value >> asDictionary [
 	| newDictionary |
-	newDictionary := Dictionary new.
+	
+	newDictionary := PqDictionary new.
 	self keysAndValuesDo: [ :key :value | 
 		newDictionary at: key asString put: value value ].
 	^ newDictionary
