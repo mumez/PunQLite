@@ -14,7 +14,7 @@ UnQLiteLibrary >> calloutAPIClass [
 ]
 
 { #category : #'accessing platform' }
-UnQLiteLibrary >> macModuleName [
+UnQLiteLibrary >> macLibraryName [
 	^ (FileLocator imageDirectory / 'unqlite.dylib') fullName
 ]
 
@@ -31,6 +31,6 @@ UnQLiteLibrary >> unixModuleName [
 ]
 
 { #category : #'accessing platform' }
-UnQLiteLibrary >> win32ModuleName [
+UnQLiteLibrary >> win32LibraryName [
 	^ (FileLocator imageDirectory / 'unqlite.dll') fullName
 ]
