@@ -22,7 +22,7 @@ UnQLiteLibrary >> macLibraryName [
 UnQLiteLibrary >> runner [
 	
 	"^ runner ifNil: [ runner := TFWorker named: 'UnQLite' ]"
-	^ TFSameThreadRunner new
+	^ TFSameThreadRunner uniqueInstance
 ]
 
 { #category : #'accessing platform' }
