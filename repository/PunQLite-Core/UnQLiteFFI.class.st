@@ -358,7 +358,7 @@ UnQLiteFFI >> previousEntryOn: cursorHandle [
 
 { #category : #private }
 UnQLiteFFI >> primConfigVM: vmHandle addVar: valueObject named: varName [
-	^ self ffiCall: #( int unqlite_vm_config(vm_ptr vmHandle, VM_CONFIG_CREATE_VAR, char *varName, value_ptr valueObject) )
+	^ self ffiCall: #( int unqlite_vm_config(vm_ptr vmHandle, int VM_CONFIG_CREATE_VAR, char *varName, value_ptr valueObject) )
 ]
 
 { #category : #'actions-cursor' }
