@@ -137,10 +137,11 @@ PqCursor >> currentValue: outValue sized: valueSize [
 { #category : #'accessig value' }
 PqCursor >> currentValueBasicInto: aBlock [
 	| callback |
+	
 	callback := UnQLiteFetchCallback on: aBlock.
 	^ self ffi 
 		valueByCallback: callback 
-		on: self handle 
+		on: self handle
 ]
 
 { #category : #'accessig value' }
@@ -156,16 +157,20 @@ PqCursor >> currentValueBasicInto: aBlock userData: userData [
 { #category : #'accessig value' }
 PqCursor >> currentValueInto: aBlock [
 	| wrappedBlock |
-	wrappedBlock := [:dataAddr :dataSize :userData | | ret |
+	
+	wrappedBlock := [ :dataAddr :dataSize :userData | | ret |
 		ret := OK.
-		[| data |
+		[ | data |
 			data := ByteArray new: dataSize.
 			LibC memCopy: dataAddr to: data size: dataSize.
 			aBlock cull: data cull: userData
-		] on: Error do: [:ex | ret := ABORT]. 
+		] 
+		on: Error 
+		do: [ :ex | ret := ABORT ]. 
 		ret
 	].
-	^self currentValueBasicInto: wrappedBlock
+
+	^ self currentValueBasicInto: wrappedBlock
 ]
 
 { #category : #'accessig value' }

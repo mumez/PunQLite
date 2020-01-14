@@ -518,7 +518,12 @@ UnQLiteFFI >> value: value sized: valueSize on: cursorHandle [
 
 { #category : #'actions-cursor' }
 UnQLiteFFI >> valueByCallback: callback on: cursorHandle [
-	^ self ffiCall: #( int unqlite_kv_cursor_data_callback( cursor_ptr cursorHandle, UnQLiteFetchCallback callback, 0) ) options: #( optMayGC )
+
+	^ self ffiCall: #(int unqlite_kv_cursor_data_callback( 
+		cursor_ptr cursorHandle, 
+		UnQLiteFetchCallback callback, 
+		NULL)) 
+
 ]
 
 { #category : #'actions-cursor' }

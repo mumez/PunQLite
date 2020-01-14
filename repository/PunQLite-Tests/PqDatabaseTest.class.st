@@ -280,8 +280,8 @@ PqDatabaseTest >> testCursorFetchByteArrayByCallback [
 	self assert: cursor isOpen.
 	
 	cursor first.
-	self assert: cursor currentKey equals: #[1].
-	cursor currentValueInto: [:data | val := data].
+	self assert: cursor currentKey equals: #[ 1 ].
+	cursor currentValueInto: [ :data | val := data ].
 	self assert: val equals: 'value-1' asByteArray.
 	
 	cursor next.
