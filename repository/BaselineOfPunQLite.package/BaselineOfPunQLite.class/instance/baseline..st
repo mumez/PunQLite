@@ -4,7 +4,6 @@ baseline: spec
 
 	spec for: #'pharo' do: [
 		spec blessing: #'baseline'.
-		spec preLoadDoIt: #preLoad.
 
 		spec 
 			package: 'PunQLite-Core';
