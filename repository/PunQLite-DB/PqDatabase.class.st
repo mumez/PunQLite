@@ -171,15 +171,14 @@ PqDatabase >> fetchAt: key basicInto: aBlock [
 { #category : #actions }
 PqDatabase >> fetchAt: key into: aBlock [
 	| wrappedBlock |
-	
+
 	wrappedBlock := [ :dataAddr :dataSize :userData | | ret |
 		ret := OK.
 		[ | data |
-			data := ByteArray new: dataSize.
-			LibC memCopy: dataAddr to: data size: dataSize.
-			aBlock cull: data cull: userData ] 
-		on: Error 
-		do: [ :ex | ret := ABORT ]. 
+			data := dataAddr copyFrom: 1 to: dataSize.
+			aBlock cull: data cull: userData ]
+		on: Error
+		do: [ :ex | ret := ABORT ].
 		ret ].
 
 	^ self fetchAt: key basicInto: wrappedBlock
@@ -187,20 +186,20 @@ PqDatabase >> fetchAt: key into: aBlock [
 
 { #category : #actions }
 PqDatabase >> fetchAt: key sized: valueBufSize [
-	|  intHolder bytes ret |
-	
+	|  intHolder ourBytes ret |
+
 	intHolder := UnQLiteFFI newIntHolder: valueBufSize.
-	bytes := ByteArray new: valueBufSize.
-	ret := self ffi 
-		fetch: self handle 
+	ourBytes := (ExternalAddress gcallocate: valueBufSize) autoRelease.
+	ret := self ffi
+		fetch: self handle
 		key: (self toByteArray: key)
-		sized: key size 
-		value: bytes 
+		sized: key size
+		value: ourBytes
 		sized: intHolder.
 	(self isOk: ret) ifFalse: [
 		(PqFetchError code: ret key: key) signal ].
-	
-	^ bytes copyFrom: 1 to: intHolder value
+
+	^ ourBytes copyFrom: 1 to: intHolder value
 ]
 
 { #category : #actions }
@@ -216,7 +215,7 @@ PqDatabase >> fetchStringAt: key sized: valueBufSize [
 	| intHolder ourStr ret |
 	
 	intHolder := UnQLiteFFI newIntHolder: valueBufSize.
-	ourStr := ByteArray new: valueBufSize.
+	ourStr := (ExternalAddress gcallocate: valueBufSize) autoRelease.
 	ret := self ffi 
 		fetch: self handle 
 		key: (self toByteArray: key)
@@ -227,7 +226,7 @@ PqDatabase >> fetchStringAt: key sized: valueBufSize [
 	(self isOk: ret) ifFalse: [ 
 		(PqFetchError code: ret key: key) signal ].
 
-	^ ourStr readString
+	^ ourStr utf8StringFromCString copyFrom: 1 to: intHolder value
 ]
 
 { #category : #'system-info' }
@@ -235,23 +234,23 @@ PqDatabase >> getErrorLog [
 	|  strOut intOut |
 	strOut := UnQLiteFFI newStringHolder.
 	intOut := UnQLiteFFI newIntHolder.
-	self ffi 
-		config: self handle 
-		command: CONFIG_ERR_LOG 
-		buffer: strOut 
+	self ffi
+		config: self handle
+		command: CONFIG_ERR_LOG
+		buffer: strOut
 		sized: intOut.
-	^strOut value readString
+	^strOut value utf8StringFromCString
 ]
 
 { #category : #'system-info' }
 PqDatabase >> getKeyValueStoreName [
 	|  strOut |
 	strOut := UnQLiteFFI newStringHolder.
-	self ffi 
-		config: self handle 
-		command: CONFIG_GET_KV_NAME 
+	self ffi
+		config: self handle
+		command: CONFIG_GET_KV_NAME
 		buffer: strOut.
-	^strOut value readString
+	^strOut value utf8StringFromCString
 ]
 
 { #category : #utilities }
@@ -264,7 +263,7 @@ PqDatabase >> getRandomStringSized: size [
 	| ourStr |
 	ourStr := (ExternalAddress fromString: (String new: size)) autoRelease.
 	self ffi getRandomString: self handle into: ourStr sized: size.
-	^ ourStr readString.
+	^ ourStr utf8StringFromCString.
 ]
 
 { #category : #importing }
