@@ -1,7 +1,7 @@
-PunQLite [![Build Status](https://travis-ci.org/pharo-nosql/PunQLite.png)](https://travis-ci.org/pharo-nosql/PunQLite)
+PunQLite 
 ========
 
-[UnQLite](http://unqlite.org "UnQLite") binding for [Pharo Smalltalk](http://pharo.org/ "Pharo").
+[UnQLite](https://unqlite.symisc.net/ "UnQLite") binding for [Pharo Smalltalk](http://pharo.org/ "Pharo").
 UnQLite is a fast, lightweight, portable, embedded KVS with a simple scripting engine (Jx9). By using PunQLite, you can store/load lots of data as if just using a normal Dictionary.
 
 Directories:
@@ -17,25 +17,27 @@ Directories:
 It would be very easy. UnQLite consists of only two files.
 
 ```Shell
-gcc -m32 -c unqlite.c
+gcc -c unqlite.c
 
 #linux
-gcc -m32 -shared -o unqlite.so unqlite.o
+gcc -shared -o unqlite.so unqlite.o
 
 #win (MinGW)
-gcc -m32 -shared -static-libgcc -o unqlite.dll unqlite.o -Wl,--add-stdcall-alias
+gcc -shared -static-libgcc -o unqlite.dll unqlite.o -Wl,--add-stdcall-alias
 
 #mac
-gcc -m32 -dynamiclib -o unqlite.dylib unqlite.o
+gcc -dynamiclib -o unqlite.dylib unqlite.o
 ```
 
-However, I've also put [pre-built binaries](https://github.com/pharo-nosql/PunQLite/releases) for common platforms, so please just download them if you have no time to compile.
+If you need to run on 32 bit systems, add `-m32` option. 
+
+<!-- However, I've also put [pre-built binaries](https://github.com/pharo-nosql/PunQLite/releases) for common platforms, so please just download them if you have no time to compile. -->
 
 - Load PunQLite
 
 ```Smalltalk
 Metacello new 
-	repository: 'github://pharo-nosql/PunQLite/repository'
+	repository: 'github://mumez/PunQLite/repository'
 	baseline: 'PunQLite';
 	load.
 ```
