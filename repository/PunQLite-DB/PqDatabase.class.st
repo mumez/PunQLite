@@ -226,7 +226,7 @@ PqDatabase >> fetchStringAt: key sized: valueBufSize [
 	(self isOk: ret) ifFalse: [ 
 		(PqFetchError code: ret key: key) signal ].
 
-	^ ourStr utf8StringFromCString copyFrom: 1 to: intHolder value
+	^ (ourStr copyFrom: 1 to: intHolder value) asString
 ]
 
 { #category : #'system-info' }
@@ -239,7 +239,7 @@ PqDatabase >> getErrorLog [
 		command: CONFIG_ERR_LOG
 		buffer: strOut
 		sized: intOut.
-	^strOut value utf8StringFromCString
+	^strOut value
 ]
 
 { #category : #'system-info' }
@@ -250,7 +250,7 @@ PqDatabase >> getKeyValueStoreName [
 		config: self handle
 		command: CONFIG_GET_KV_NAME
 		buffer: strOut.
-	^strOut value utf8StringFromCString
+	^strOut value
 ]
 
 { #category : #utilities }
@@ -261,9 +261,9 @@ PqDatabase >> getRandomNumber [
 { #category : #utilities }
 PqDatabase >> getRandomStringSized: size [
 	| ourStr |
-	ourStr := (ExternalAddress fromString: (String new: size)) autoRelease.
+	ourStr := (ExternalAddress gcallocate: size) autoRelease.
 	self ffi getRandomString: self handle into: ourStr sized: size.
-	^ ourStr utf8StringFromCString.
+	^ (ourStr copyFrom: 1 to: size) asString
 ]
 
 { #category : #importing }

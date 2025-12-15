@@ -71,10 +71,9 @@ PqCursor >> currentKeyInto: aBlock [
 	wrappedBlock := [:dataAddr :dataSize :userData | | ret |
 		ret := OK.
 		[| data |
-			data := ByteArray new: dataSize.
-			LibC memCopy: dataAddr to: data size: dataSize.
+			data := dataAddr copyFrom: 1 to: dataSize.
 			aBlock cull: data cull: userData
-		] on: Error do: [:ex | ret := ABORT]. 
+		] on: Error do: [:ex | ret := ABORT].
 		ret
 	].
 	^self currentKeyBasicInto: wrappedBlock
@@ -82,12 +81,12 @@ PqCursor >> currentKeyInto: aBlock [
 
 { #category : #'accessing key' }
 PqCursor >> currentKeySized: keyBufferSize [
-	| intHolder bytes ret |
+	| intHolder bytesAddr ret |
 	intHolder := UnQLiteFFI newIntHolder: keyBufferSize.
-	bytes := ByteArray new: keyBufferSize.
-	ret := self currentKey: bytes sized: intHolder.
+	bytesAddr := (ExternalAddress gcallocate: keyBufferSize) autoRelease.
+	ret := self currentKey: bytesAddr sized: intHolder.
 	(self isOk: ret) ifFalse: [(PqCursorError code: ret cursor: self) signal].
-	^bytes copyFrom: 1 to: intHolder value.
+	^bytesAddr copyFrom: 1 to: intHolder value.
 ]
 
 { #category : #'accessing key' }
@@ -97,12 +96,7 @@ PqCursor >> currentStringKey [
 
 { #category : #'accessing key' }
 PqCursor >> currentStringKeySized: keyBufferSize [
-	| ourStr intHolder ret |
-	intHolder := UnQLiteFFI newIntHolder: keyBufferSize.
-	ourStr := ByteArray new: keyBufferSize.
-	ret := self currentKey: ourStr sized: intHolder.
-	(self isOk: ret) ifFalse: [(PqCursorError code: ret cursor: self) signal].
-	^ourStr readString.
+	^(self currentKeySized: keyBufferSize) asString
 
 ]
 
@@ -113,12 +107,7 @@ PqCursor >> currentStringValue [
 
 { #category : #'accessig value' }
 PqCursor >> currentStringValueSized: valueBufferSize [
-	| intHolder ourStr ret |
-	intHolder := UnQLiteFFI newIntHolder: valueBufferSize.
-	ourStr := ByteArray new: valueBufferSize.
-	ret := self currentValue: ourStr sized: intHolder.
-	(self isOk: ret) ifFalse: [(PqCursorError code: ret cursor: self) signal].
-	^ourStr readString
+	^(self currentValueSized: valueBufferSize) asString
 ]
 
 { #category : #'accessig value' }
@@ -157,16 +146,15 @@ PqCursor >> currentValueBasicInto: aBlock userData: userData [
 { #category : #'accessig value' }
 PqCursor >> currentValueInto: aBlock [
 	| wrappedBlock |
-	
+
 	wrappedBlock := [ :dataAddr :dataSize :userData | | ret |
 		ret := OK.
 		[ | data |
-			data := ByteArray new: dataSize.
-			LibC memCopy: dataAddr to: data size: dataSize.
+			data := dataAddr copyFrom: 1 to: dataSize.
 			aBlock cull: data cull: userData
-		] 
-		on: Error 
-		do: [ :ex | ret := ABORT ]. 
+		]
+		on: Error
+		do: [ :ex | ret := ABORT ].
 		ret
 	].
 
@@ -175,12 +163,12 @@ PqCursor >> currentValueInto: aBlock [
 
 { #category : #'accessig value' }
 PqCursor >> currentValueSized: valueBufferSize [
-	| intHolder bytes ret |
+	| intHolder ourBytes ret |
 	intHolder := UnQLiteFFI newIntHolder: valueBufferSize.
-	bytes := ByteArray new: valueBufferSize.
-	ret := self currentValue: bytes sized: intHolder.
+	ourBytes := (ExternalAddress gcallocate: valueBufferSize) autoRelease.
+	ret := self currentValue: ourBytes sized: intHolder.
 	(self isOk: ret) ifFalse: [(PqCursorError code: ret cursor: self) signal].
-	^bytes copyFrom: 1 to: intHolder value
+	^ourBytes copyFrom: 1 to: intHolder value
 ]
 
 { #category : #accessing }

@@ -467,10 +467,9 @@ PqDatabaseTest >> testImportFromFile [
 
 	[binData := #[3 2 1 0 255 254 253 65 64].
 	fileName := 'test-', (self database getRandomStringSized: 5).
-	
-	FileStream 
-		forceNewFileNamed: fileName 
-		do: [:str | str nextPutAll: binData ].
+
+	(FileSystem workingDirectory / fileName)
+		binaryWriteStreamDo: [:stream | stream nextPutAll: binData ].
 
 	self deny: (self database includesKey: fileName).
 	
@@ -591,13 +590,12 @@ PqDatabaseTest >> testStoreFetchByCallback [
 	ok := self database storeAt: 'Smalltalk' value: 'COOL'.
 	self assert: ok.
 	
-	self database 
-		fetchAt: 'Smalltalk' 
+	self database
+		fetchAt: 'Smalltalk'
 		basicInto: [ :dataAddr :dataSize :userData |
 			| data |
 			self assert: dataSize equals: 'COOL' size.
-			data := ByteArray new: dataSize.
-			LibC memCopy: dataAddr to: data size: dataSize.
+			data := dataAddr copyFrom: 1 to: dataSize.
 			self assert: data asString equals: 'COOL'.
 			0 ].
 	
