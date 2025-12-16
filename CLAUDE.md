@@ -47,22 +47,33 @@ PunQLite-Help         # Help system integration
 
 ## Native Library Management
 
-The UnQLite shared library must be present in the image directory or system library path:
+The UnQLite shared library must be compiled and placed in the image directory:
 
 - **Linux**: `unqlite.so`
 - **macOS**: `unqlite.dylib`
 - **Windows**: `unqlite.dll`
 
-Pre-built binaries are stored in `binary/linux/`, `binary/osx/`, `binary/win/`. The `BaselineOfPunQLite>>preLoad` method automatically downloads the appropriate library if missing.
+UnQLite is very easy to compile - it consists of only **two files** (`unqlite.c` and `unqlite.h`).
 
-To compile UnQLite manually (it's just two files):
+**Compilation commands**:
 
 ```bash
+# Linux
 gcc -c unqlite.c
-gcc -shared -o unqlite.so unqlite.o  # Linux
-gcc -dynamiclib -o unqlite.dylib unqlite.o  # macOS
-gcc -shared -static-libgcc -o unqlite.dll unqlite.o -Wl,--add-stdcall-alias  # Windows
+gcc -shared -o unqlite.so unqlite.o
+
+# macOS
+gcc -c unqlite.c
+gcc -dynamiclib -o unqlite.dylib unqlite.o
+
+# Windows (MinGW)
+gcc -c unqlite.c
+gcc -shared -static-libgcc -o unqlite.dll unqlite.o -Wl,--add-stdcall-alias
 ```
+
+The `BaselineOfPunQLite>>preLoad` method checks for library presence and displays compilation instructions in the Transcript if missing. This ensures compatibility with CI/CD environments where error dialogs would be problematic.
+
+Download UnQLite source from: https://github.com/symisc/unqlite
 
 ## Working with Smalltalk MCP Tools
 
