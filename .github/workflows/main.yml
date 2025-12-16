@@ -35,7 +35,10 @@ jobs:
           gcc -c unqlite.c
           gcc -shared -o unqlite.so unqlite.o
           cd ..
+          # Copy library to multiple locations for maximum compatibility
           cp unqlite-src/unqlite.so .
+          sudo cp unqlite-src/unqlite.so /usr/local/lib/
+          sudo ldconfig
           ls -lh unqlite.so
 
       - name: Setup smalltalkCI
@@ -44,7 +47,13 @@ jobs:
           smalltalk-image: ${{ matrix.smalltalk }}
 
       - name: Run tests
-        run: smalltalkci -s ${{ matrix.smalltalk }}
+        run: |
+          # Verify library exists and set library path
+          ls -lh unqlite.so
+          pwd
+          export LD_LIBRARY_PATH=$PWD:$LD_LIBRARY_PATH
+          echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
+          smalltalkci -s ${{ matrix.smalltalk }}
         timeout-minutes: 10
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
