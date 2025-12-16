@@ -6,10 +6,8 @@ UnQLite is a fast, lightweight, portable, embedded KVS with a simple scripting e
 
 Directories:
 
-- binary
- + pre-built shared libraries (unqlite.dll, dylib, so, etc)
 - repository
- + [Cypress](https://github.com/CampSmalltalk/Cypress) style Smalltalk source tree
+  - [Tonel](https://github.com/pharo-vcs/tonel) style Smalltalk source tree
 
 ## Installation
 
@@ -51,8 +49,6 @@ Metacello new
 	baseline: 'PunQLite';
 	load.
 ```
-
-`PunQLite` is also available from the **Pharo Catalog**.
 
 ## Performance ##
 ```Smalltalk
