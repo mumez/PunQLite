@@ -2,8 +2,8 @@
 A shared pool with UnQLite defined constants
 "
 Class {
-	#name : #UnQLiteConstants,
-	#superclass : #SharedPool,
+	#name : 'UnQLiteConstants',
+	#superclass : 'SharedPool',
 	#classVars : [
 		'ABORT',
 		'BUSY',
@@ -63,16 +63,18 @@ Class {
 		'VM_ERR',
 		'VM_OUTPUT_LENGTH'
 	],
-	#category : 'PunQLite-Core-FFI'
+	#category : 'PunQLite-Core-FFI',
+	#package : 'PunQLite-Core',
+	#tag : 'FFI'
 }
 
-{ #category : #'private - initialization' }
+{ #category : 'private - initialization' }
 UnQLiteConstants class >> initBaseConstants [
 
 	OK := 0
 ]
 
-{ #category : #'private - initialization' }
+{ #category : 'private - initialization' }
 UnQLiteConstants class >> initConfigConstants [
 
 	CONFIG_JX9_ERR_LOG := 1.
@@ -87,7 +89,7 @@ UnQLiteConstants class >> initConfigConstants [
 	
 ]
 
-{ #category : #'private - initialization' }
+{ #category : 'private - initialization' }
 UnQLiteConstants class >> initCursorConstants [
 		
 	CURSOR_MATCH_EXACT := 1.
@@ -96,7 +98,7 @@ UnQLiteConstants class >> initCursorConstants [
 	
 ]
 
-{ #category : #'private - initialization' }
+{ #category : 'private - initialization' }
 UnQLiteConstants class >> initErrorConstants [
 		LOCKERR := -76.
 		READ_ONLY := -75.
@@ -132,7 +134,7 @@ UnQLiteConstants class >> initErrorConstants [
 		
 ]
 
-{ #category : #'private - initialization' }
+{ #category : 'private - initialization' }
 UnQLiteConstants class >> initJx9Constants [
 
 		VM_CONFIG_OUTPUT := 1.
@@ -150,7 +152,7 @@ UnQLiteConstants class >> initJx9Constants [
 		VM_CONFIG_EXTRACT_OUTPUT := 13
 ]
 
-{ #category : #'private - initialization' }
+{ #category : 'private - initialization' }
 UnQLiteConstants class >> initOpenConstants [
 
 	OPEN_READONLY := 1.
@@ -164,7 +166,7 @@ UnQLiteConstants class >> initOpenConstants [
 	OPEN_TEMP_DB := 10
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UnQLiteConstants class >> initialize [
 
 	self 

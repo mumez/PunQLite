@@ -1,10 +1,12 @@
 Class {
-	#name : #PqJx9Test,
-	#superclass : #TestCase,
-	#category : #'PunQLite-Tests-Jx9'
+	#name : 'PqJx9Test',
+	#superclass : 'TestCase',
+	#category : 'PunQLite-Tests-Jx9',
+	#package : 'PunQLite-Tests',
+	#tag : 'Jx9'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PqJx9Test class >> testRecords [
 	^ { 
 		{'name' -> 'John Doe'. 			'age' -> 44. 	'email' -> 'johndoe@mail.net'} asDictionary. 
@@ -13,7 +15,7 @@ PqJx9Test class >> testRecords [
 	}
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 PqJx9Test >> addTestRecordsTo: db [
 	db jx9Do: [ :executor | | data |
 		executor compile: '
@@ -40,7 +42,7 @@ PqJx9Test >> addTestRecordsTo: db [
 			executor reset ] ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 PqJx9Test >> getAll: collectionName from: db [
 	| records |
 	db jx9Do: [ :executor | | result | 
@@ -51,7 +53,7 @@ PqJx9Test >> getAll: collectionName from: db [
 	^ records
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 PqJx9Test >> getById: aNumber from: db [
 	| records |
 	
@@ -68,7 +70,7 @@ PqJx9Test >> getById: aNumber from: db [
 		
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PqJx9Test >> testExecuteAndGetBool [
 	"self debug: #testExecuteAndGetBool"
 	| db src |
@@ -102,7 +104,7 @@ PqJx9Test >> testExecuteAndGetBool [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PqJx9Test >> testExecuteAndGetInt64 [
 	"self debug: #testExecuteAndGetInt64"
 	| db src |
@@ -133,7 +135,7 @@ PqJx9Test >> testExecuteAndGetInt64 [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PqJx9Test >> testExecuteAndGetString [
 	"self debug: #testExecuteAndGetString"
 	| db src |
@@ -164,7 +166,7 @@ PqJx9Test >> testExecuteAndGetString [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PqJx9Test >> testExecuteThreePlusFour [
 	"self debug: #testExecuteThreePlusFour"
 	| db src |
@@ -188,7 +190,7 @@ PqJx9Test >> testExecuteThreePlusFour [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PqJx9Test >> testInjectJsonKeyValueExecuteGet [
 	"self debug: #testInjectStringExecuteGet"
 	| db src data result |
@@ -233,7 +235,7 @@ PqJx9Test >> testInjectJsonKeyValueExecuteGet [
 
 ]
 
-{ #category : #'tests - collection' }
+{ #category : 'tests - collection' }
 PqJx9Test >> testInsert [
 	"db := PqDatabase openOnMemory."
 	| db |
@@ -267,7 +269,7 @@ PqJx9Test >> testInsert [
 		self assert: (executor release: data) ]
 ]
 
-{ #category : #'tests - collection' }
+{ #category : 'tests - collection' }
 PqJx9Test >> testInsertJSON [
 	| db json records retrieveJson |
 	
@@ -314,7 +316,7 @@ PqJx9Test >> testInsertJSON [
 	self assert: retrieveJson equals: json
 ]
 
-{ #category : #'tests - collection' }
+{ #category : 'tests - collection' }
 PqJx9Test >> testInsertReentrant [
 	| db |
 
@@ -357,7 +359,7 @@ PqJx9Test >> testInsertReentrant [
 		self assert: result asBool ].
 ]
 
-{ #category : #'tests - collection' }
+{ #category : 'tests - collection' }
 PqJx9Test >> testRemove [
 	| db records |
 		
@@ -382,7 +384,7 @@ PqJx9Test >> testRemove [
 			self assert: record equals: each ]
 ]
 
-{ #category : #'tests - collection' }
+{ #category : 'tests - collection' }
 PqJx9Test >> testSelect [
 	<script>
 	| db records |
@@ -407,7 +409,7 @@ PqJx9Test >> testSelect [
 		equals: self class testRecords second
 ]
 
-{ #category : #'tests - collection' }
+{ #category : 'tests - collection' }
 PqJx9Test >> testSelectAll [
 	<script>
 	| db records |
@@ -429,7 +431,7 @@ PqJx9Test >> testSelectAll [
 		self assert: record equals: each ]
 ]
 
-{ #category : #'tests - collection' }
+{ #category : 'tests - collection' }
 PqJx9Test >> testUpdate [
 	| db json retrieveJson |
 	

@@ -1,1 +1,1 @@
-Package { #name : #'PunQLite-Core' }
+Package { #name : 'PunQLite-Core' }

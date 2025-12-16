@@ -13,8 +13,8 @@ kind
 
 "
 Class {
-	#name : #PqError,
-	#superclass : #Error,
+	#name : 'PqError',
+	#superclass : 'Error',
 	#instVars : [
 		'kind',
 		'code'
@@ -22,35 +22,37 @@ Class {
 	#pools : [
 		'UnQLiteConstants'
 	],
-	#category : 'PunQLite-Core-Exceptions'
+	#category : 'PunQLite-Core-Exceptions',
+	#package : 'PunQLite-Core',
+	#tag : 'Exceptions'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 PqError class >> code: errorCode [
 	^self new code: errorCode; yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 PqError class >> kind: aSymbol [
 	^self new kind: aSymbol; yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PqError >> code [
 	^ code
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PqError >> code: anErrorCode [
 	code := anErrorCode
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PqError >> kind [
 	^ kind
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PqError >> kind: anObject [
 	kind := anObject
 ]

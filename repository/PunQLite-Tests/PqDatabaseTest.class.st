@@ -1,29 +1,31 @@
 Class {
-	#name : #PqDatabaseTest,
-	#superclass : #TestCase,
+	#name : 'PqDatabaseTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'database'
 	],
-	#category : #'PunQLite-Tests-Database'
+	#category : 'PunQLite-Tests-Database',
+	#package : 'PunQLite-Tests',
+	#tag : 'Database'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PqDatabaseTest >> database [
 	^ database ifNil: [ database := PqDatabase openOnMemory ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 PqDatabaseTest >> setUp [
 	
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 PqDatabaseTest >> tearDown [
 	database ifNil: [ ^ self ].
 	database close
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testAppendByteArray [
 	"self debug: #testAppendByteArray"
 	| ok fetched |
@@ -38,7 +40,7 @@ PqDatabaseTest >> testAppendByteArray [
 	self assert: fetched equals: 'COOLCOOL' asByteArray
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testAppendString [
 	"self debug: #testAppendString"
 	| ok fetched |
@@ -53,7 +55,7 @@ PqDatabaseTest >> testAppendString [
 	self assert: fetched equals: 'COOLCOOL'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testAppender [
 	"self debug: #testAppender"
 	| appender ok fetched |
@@ -72,7 +74,7 @@ PqDatabaseTest >> testAppender [
 	self assert: fetched equals: 'COOLHOTCOOL'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testAtIfAbsent [
 	"self debug: #testAtIfAbsent"
 	| fetched |
@@ -91,7 +93,7 @@ PqDatabaseTest >> testAtIfAbsent [
 	self assert: fetched equals: 'Not Found'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testAtIfAbsentPut [
 	"self debug: #testAtIfAbsentPut"
 	| fetched |
@@ -110,7 +112,7 @@ PqDatabaseTest >> testAtIfAbsentPut [
 	self assert: fetched asString equals: 'COOL'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testAtIfPresent [
 	"self debug: #testAtIfPresent"
 	| fetched |
@@ -131,7 +133,7 @@ PqDatabaseTest >> testAtIfPresent [
 	self assert: fetched isNil
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testBasicStoreFetchByteArray [
 	"self debug: #testBasicStoreFetchByteArray"
 	| ok fetched |
@@ -143,7 +145,7 @@ PqDatabaseTest >> testBasicStoreFetchByteArray [
 	self assert: fetched equals: 'COOL' asByteArray
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testBasicStoreFetchString [
 	"self debug: #testBasicStoreFetchString"
 	| ok fetched |
@@ -155,7 +157,7 @@ PqDatabaseTest >> testBasicStoreFetchString [
 	self assert: fetched equals: 'COOL'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testCursorCurrentDo [
 	"self debug: #testCursorCurrentDo"
 	| ok cursor entries |
@@ -179,7 +181,7 @@ PqDatabaseTest >> testCursorCurrentDo [
 	self assert: (entries collect: #value) asArray equals: #('value-5' 'value-6' 'value-7' 'value-8' 'value-9' 'value-10')
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testCursorCurrentReverseDo [
 	"self debug: #testCursorCurrentReverseDo"
 	| ok cursor entries |
@@ -204,7 +206,7 @@ PqDatabaseTest >> testCursorCurrentReverseDo [
 	self assert: (entries collect: #value) asArray equals: #('value-5' 'value-4' 'value-3' 'value-2' 'value-1')
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testCursorDo [
 	"self debug: #testCursorDo"
 	| ok cursor entries |
@@ -227,7 +229,7 @@ PqDatabaseTest >> testCursorDo [
 	self assert: (entries collect: #value) asArray equals: #('value-1' 'value-2' 'value-3' 'value-4' 'value-5' 'value-6' 'value-7' 'value-8' 'value-9' 'value-10')
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testCursorFetchByteArray [
 	"self debug: #testCursorFetchByteArray"
 	| ok cursor |
@@ -265,7 +267,7 @@ PqDatabaseTest >> testCursorFetchByteArray [
 	self deny: cursor isOpen
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testCursorFetchByteArrayByCallback [
 	"self debug: #testCursorFetchByteArrayByCallback"
 	| ok cursor val |
@@ -298,7 +300,7 @@ PqDatabaseTest >> testCursorFetchByteArrayByCallback [
 	self deny: cursor isOpen
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testCursorFetchString [
 	"self debug: #testCursorFetchString"
 	| ok cursor |
@@ -336,7 +338,7 @@ PqDatabaseTest >> testCursorFetchString [
 	self assert: cursor isOpen not.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testCursorRelease [
 	"self debug: #testCursorRelease"
 	| ok cursor |
@@ -353,7 +355,7 @@ PqDatabaseTest >> testCursorRelease [
 	self deny: cursor isOpen
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testCursorReverseDo [
 	"self debug: #testCursorReverseDo"
 	| ok cursor entries |
@@ -379,7 +381,7 @@ PqDatabaseTest >> testCursorReverseDo [
 	self deny: cursor isOpen
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testCursorSeek [
 	"self debug: #testCursorSeek"
 	| ok cursor |
@@ -408,7 +410,7 @@ PqDatabaseTest >> testCursorSeek [
 	self deny: cursor isOpen
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testCursorSeekUntilBeginDo [
 	"self debug: #testCursorSeekUntilBeginDo"
 	| ok cursor entries |
@@ -434,7 +436,7 @@ PqDatabaseTest >> testCursorSeekUntilBeginDo [
 	self deny: cursor isOpen
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testCursorSeekUntilEndDo [
 	"self debug: #testCursorSeekUntilEndDo"
 	| ok cursor entries |
@@ -460,7 +462,7 @@ PqDatabaseTest >> testCursorSeekUntilEndDo [
 	self deny: cursor isOpen
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testImportFromFile [
 	"self debug: #testImportFromFile"
 	| fileName  binData imported fetched |
@@ -489,7 +491,7 @@ PqDatabaseTest >> testImportFromFile [
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testIncludesKey [
 	"self debug: #testIncludesKey"
 	| ok fetched |
@@ -507,7 +509,7 @@ PqDatabaseTest >> testIncludesKey [
 	self assert: fetched equals: 'COOL'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testKeys [
 	"self debug: #testKeys"
 	| ok |
@@ -523,7 +525,7 @@ PqDatabaseTest >> testKeys [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testOpenClose [
 	"self debug: #testOpenClose"
 	| db |
@@ -534,7 +536,7 @@ PqDatabaseTest >> testOpenClose [
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testRemoveKeyIfAbsent [
 	"self debug: #testRemoveKeyIfAbsent"
 	| fetched altValue |
@@ -552,7 +554,7 @@ PqDatabaseTest >> testRemoveKeyIfAbsent [
 	self deny: (self database includesKey: 'Smalltalk')
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testStoreDelete [
 	"self debug: #testStoreDelete"
 	| ok fetched deleted |
@@ -582,7 +584,7 @@ PqDatabaseTest >> testStoreDelete [
 		raise: PqFetchError
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testStoreFetchByCallback [
 	"self debug: #testStoreFetchByCallback"
 	| ok fetched |
@@ -605,7 +607,7 @@ PqDatabaseTest >> testStoreFetchByCallback [
 	self assert: fetched equals: 'COOL'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testTransactions [
 	"self debug: #testTransactions"
 	| dbName db ok fetched |
@@ -640,7 +642,7 @@ PqDatabaseTest >> testTransactions [
 	(FileSystem workingDirectory / dbName) delete.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testTransactionsDisableAutoCommit [
 	"self debug: #testTransactionsDisableAutoCommit"
 	| dbName db ok fetched |
@@ -680,7 +682,7 @@ PqDatabaseTest >> testTransactionsDisableAutoCommit [
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 PqDatabaseTest >> testValues [
 	"self debug: #testValues"
 	| ok values |

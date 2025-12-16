@@ -9,81 +9,83 @@ settingsDict
 
 "
 Class {
-	#name : #PqSettings,
-	#superclass : #Object,
+	#name : 'PqSettings',
+	#superclass : 'Object',
 	#instVars : [
 		'settingsDict'
 	],
 	#classInstVars : [
 		'default'
 	],
-	#category : 'PunQLite-Core-Settings'
+	#category : 'PunQLite-Core-Settings',
+	#package : 'PunQLite-Core',
+	#tag : 'Settings'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 PqSettings class >> default [
 	^default ifNil: [default := self new].
 	
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 PqSettings class >> initialize [
 	"self initialize"
 	self reset
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 PqSettings class >> reset [
 	<script>
 	default := nil
 ]
 
-{ #category : #'actions-dictionary' }
+{ #category : 'actions-dictionary' }
 PqSettings >> at: key [
 	^self settingsDict at: key
 ]
 
-{ #category : #'actions-dictionary' }
+{ #category : 'actions-dictionary' }
 PqSettings >> at: key ifAbsent: aBlock [
 	^self settingsDict at: key ifAbsent: aBlock
 ]
 
-{ #category : #'actions-dictionary' }
+{ #category : 'actions-dictionary' }
 PqSettings >> at: key ifAbsentPut: aBlock [
 	^self settingsDict at: key ifAbsentPut: aBlock
 ]
 
-{ #category : #'actions-dictionary' }
+{ #category : 'actions-dictionary' }
 PqSettings >> at: key put: value [
 	^self settingsDict at: key put: value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PqSettings >> defaultFetchBufferSize [
 	^self at: #defaultFetchBufferSize ifAbsentPut: [1024]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PqSettings >> defaultFetchBufferSize: anInteger [
 	^self at: #defaultFetchBufferSize ifAbsentPut: anInteger
 ]
 
-{ #category : #'actions-dictionary' }
+{ #category : 'actions-dictionary' }
 PqSettings >> includesKey: key [
 	^self settingsDict includesKey: key
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 PqSettings >> initialize [
 	settingsDict := nil
 ]
 
-{ #category : #'actions-dictionary' }
+{ #category : 'actions-dictionary' }
 PqSettings >> keys [
 	^self settingsDict keys
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 PqSettings >> printOn: aStream [
 	aStream nextPutAll: 'a PqSettings('.
 	self settingsDict printOn: aStream.
@@ -91,7 +93,7 @@ PqSettings >> printOn: aStream [
 
 ]
 
-{ #category : #'accessing-private' }
+{ #category : 'accessing-private' }
 PqSettings >> settingsDict [
 	^ settingsDict ifNil: [settingsDict := IdentityDictionary new]
 ]

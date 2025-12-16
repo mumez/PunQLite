@@ -1,1 +1,1 @@
-Package { #name : #'PunQLite-Tests' }
+Package { #name : 'PunQLite-Tests' }

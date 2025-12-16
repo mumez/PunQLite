@@ -1,10 +1,12 @@
 Class {
-	#name : #PqCollectionTest,
-	#superclass : #TestCase,
-	#category : 'PunQLite-Tests-Database'
+	#name : 'PqCollectionTest',
+	#superclass : 'TestCase',
+	#category : 'PunQLite-Tests-Database',
+	#package : 'PunQLite-Tests',
+	#tag : 'Database'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 PqCollectionTest >> testAdd [
 	| collection json result id |
 	
@@ -19,7 +21,7 @@ PqCollectionTest >> testAdd [
 	self assert: result first equals: json. 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PqCollectionTest >> testAt [
 	| collection result |
 	
@@ -40,7 +42,7 @@ PqCollectionTest >> testAt [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PqCollectionTest >> testAtPut [
 	| collection result |
 	
@@ -65,7 +67,7 @@ PqCollectionTest >> testAtPut [
 	self assert: (result at: 'amount') equals: 123456789.0
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PqCollectionTest >> testDetect [
 	| collection result |
 	
@@ -81,7 +83,7 @@ PqCollectionTest >> testDetect [
 	self assert: (result at: 'name') equals: 'John Doe 5'.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PqCollectionTest >> testRemoveAt [
 	| collection result |
 	
@@ -101,7 +103,7 @@ PqCollectionTest >> testRemoveAt [
 	self assert: (result noneSatisfy: [ :each | (each at: 'name') = 'John Doe 5' ] ).
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PqCollectionTest >> testSelect [
 	| collection result |
 	
@@ -121,7 +123,7 @@ PqCollectionTest >> testSelect [
 		self assert: (each at: 'amount') equals: index * 10000.0 ].
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PqCollectionTest >> testSelectAll [
 	| collection result |
 	
@@ -142,7 +144,7 @@ PqCollectionTest >> testSelectAll [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PqCollectionTest >> testSize [
 	| collection |
 	
@@ -166,7 +168,7 @@ PqCollectionTest >> testSize [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 PqCollectionTest >> testSizeOf [
 	| collection |
 	
