@@ -32,9 +32,9 @@ BaselineOfPunQLite >> baseline: spec [
 BaselineOfPunQLite >> platformLibraryName [
 	" Answer a name for the compiled version of the library "
 
-	Smalltalk os isUnix  		ifTrue: [ ^ 'unqlite.so' ].
-	Smalltalk os isWin32 		ifTrue: [ ^ 'unqlite.dll' ].
-	Smalltalk os isMacOSX 	ifTrue: [ ^ 'unqlite.dylib' ].
+	Smalltalk os isUnix ifTrue: [ ^ 'unqlite.so' ].
+	Smalltalk os isWin32 ifTrue: [ ^ 'unqlite.dll' ].
+	Smalltalk os isMacOSX ifTrue: [ ^ 'unqlite.dylib' ].
 	
 	self error: 'Unsupported OS platform'
 ]
@@ -84,8 +84,16 @@ BaselineOfPunQLite >> preLoad [
 	self platformLibraryName asFileReference exists
 		ifTrue: [ ^ self ].
 
-	Transcript cr; crShow: (self binaryNotFoundWarningTemplate format: {
+	Transcript
+		cr;
+		crShow: self binaryNotFoundWarning
+]
+
+{ #category : #private }
+BaselineOfPunQLite >> binaryNotFoundWarning [
+
+	^ self binaryNotFoundWarningTemplate format: {
 		self platformLibraryName.
 		FileLocator imageDirectory fullName.
-		self compilationInstructions })
+		self compilationInstructions }
 ]
