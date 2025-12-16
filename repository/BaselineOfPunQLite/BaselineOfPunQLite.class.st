@@ -21,7 +21,7 @@ BaselineOfPunQLite >> baseline: spec [
 			package: 'PunQLite-Tests' 	with: [ spec requires: #('PunQLite-Jx9') ].
 		
 		spec 
-			group: 'default' with: #('Core' 'Help' 'Tests' 'Tools');
+			group: 'default' with: #('Core' 'Tests');
 			group: 'Core' with: #('PunQLite-Core' 'PunQLite-DB' 'PunQLite-Jx9' );
 			group: 'Help' with: #('PunQLite-Help');
 			group: 'Tools' with: #('PunQLite-Tools');
