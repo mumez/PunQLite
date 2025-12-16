@@ -11,38 +11,48 @@ Directories:
 - repository
  + [Cypress](https://github.com/CampSmalltalk/Cypress) style Smalltalk source tree
 
-## Installation ##
-- Compile UnQLite
+## Installation
 
-It would be very easy. UnQLite consists of only two files.
+### Step 1: Compile UnQLite Library
 
-```Shell
+UnQLite is very easy to compile - it consists of only **two files** (`unqlite.c` and `unqlite.h`).
+
+1. Download the UnQLite source code from [UnQLite repository](https://github.com/symisc/unqlite)
+
+2. Compile the library for your platform:
+
+**Linux:**
+```bash
 gcc -c unqlite.c
-
-#linux
 gcc -shared -o unqlite.so unqlite.o
+```
 
-#win (MinGW)
-gcc -shared -static-libgcc -o unqlite.dll unqlite.o -Wl,--add-stdcall-alias
-
-#mac
+**macOS:**
+```bash
+gcc -c unqlite.c
 gcc -dynamiclib -o unqlite.dylib unqlite.o
 ```
 
-If you need to run on 32 bit systems, add `-m32` option. 
+**Windows (MinGW):**
+```bash
+gcc -c unqlite.c
+gcc -shared -static-libgcc -o unqlite.dll unqlite.o -Wl,--add-stdcall-alias
+```
 
-<!-- However, I've also put [pre-built binaries](https://github.com/pharo-nosql/PunQLite/releases) for common platforms, so please just download them if you have no time to compile. -->
+**Note:** For 32-bit systems, add the `-m32` option to both gcc commands.
 
-- Load PunQLite
+3. Place the compiled library (`unqlite.so`, `unqlite.dylib`, or `unqlite.dll`) in your Pharo image directory.
+
+### Step 2: Load PunQLite
 
 ```Smalltalk
-Metacello new 
+Metacello new
 	repository: 'github://mumez/PunQLite/repository'
 	baseline: 'PunQLite';
 	load.
 ```
 
-`PUnQLite` is also available from the **Pharo Catalog**.
+`PunQLite` is also available from the **Pharo Catalog**.
 
 ## Performance ##
 ```Smalltalk
