@@ -9,6 +9,7 @@ jobs:
       fail-fast: false
       matrix:
         smalltalk:
+          - Pharo64-12
           - Pharo64-13
         experimental: [false]
     continue-on-error: ${{ matrix.experimental }}
