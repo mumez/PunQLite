@@ -34,11 +34,6 @@ jobs:
           cd unqlite-src
           gcc -c unqlite.c
           gcc -shared -o unqlite.so unqlite.o
-          cd ..
-          # Copy library to multiple locations for maximum compatibility
-          cp unqlite-src/unqlite.so .
-          sudo cp unqlite-src/unqlite.so /usr/local/lib/
-          sudo ldconfig
           ls -lh unqlite.so
 
       - name: Setup smalltalkCI
@@ -59,7 +54,7 @@ jobs:
 
           echo "SMALLTALK_CI_BUILD_BASE=$SMALLTALK_CI_BUILD_BASE"
           mkdir -p "$SMALLTALK_CI_BUILD_BASE"
-          cp unqlite.so "$SMALLTALK_CI_BUILD_BASE/"
+          cp unqlite-src/unqlite.so "$SMALLTALK_CI_BUILD_BASE/"
           ls -lh "$SMALLTALK_CI_BUILD_BASE/unqlite.so"
 
       - name: Run tests
