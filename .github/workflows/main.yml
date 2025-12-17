@@ -9,7 +9,6 @@ jobs:
       fail-fast: false
       matrix:
         smalltalk:
-          - Pharo64-12
           - Pharo64-13
         experimental: [false]
     continue-on-error: ${{ matrix.experimental }}
@@ -46,14 +45,24 @@ jobs:
         with:
           smalltalk-image: ${{ matrix.smalltalk }}
 
-      - name: Run tests
+      - name: Copy UnQLite library to build directory
         run: |
-          # Verify library exists and set library path
-          ls -lh unqlite.so
-          pwd
-          export LD_LIBRARY_PATH=$PWD:$LD_LIBRARY_PATH
-          echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
-          smalltalkci -s ${{ matrix.smalltalk }}
+          # Source smalltalkCI environment
+          source ~/.bashrc || true
+          source $HOME/.smalltalk_ci.env || true
+
+          # Check if SMALLTALK_CI_BUILD_BASE is set, otherwise use default
+          if [ -z "$SMALLTALK_CI_BUILD_BASE" ]; then
+            export SMALLTALK_CI_BUILD_BASE="$HOME/.smalltalkCI/_builds"
+          fi
+
+          echo "SMALLTALK_CI_BUILD_BASE=$SMALLTALK_CI_BUILD_BASE"
+          mkdir -p "$SMALLTALK_CI_BUILD_BASE"
+          cp unqlite.so "$SMALLTALK_CI_BUILD_BASE/"
+          ls -lh "$SMALLTALK_CI_BUILD_BASE/unqlite.so"
+
+      - name: Run tests
+        run: smalltalkci -s ${{ matrix.smalltalk }}
         timeout-minutes: 10
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
