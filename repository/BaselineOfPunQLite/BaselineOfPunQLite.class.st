@@ -31,10 +31,11 @@ BaselineOfPunQLite >> baseline: spec [
 { #category : #accessing }
 BaselineOfPunQLite >> platformLibraryName [
 	" Answer a name for the compiled version of the library "
-
-	Smalltalk os isUnix ifTrue: [ ^ 'unqlite.so' ].
-	Smalltalk os isWin32 ifTrue: [ ^ 'unqlite.dll' ].
-	Smalltalk os isMacOSX ifTrue: [ ^ 'unqlite.dylib' ].
+	| os |
+	os := Smalltalk os.
+	os isUnix ifTrue: [ ^ 'unqlite.so' ].
+	os isWindows ifTrue: [ ^ 'unqlite.dll' ].
+	os isMacOSX ifTrue: [ ^ 'unqlite.dylib' ].
 	
 	self error: 'Unsupported OS platform'
 ]

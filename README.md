@@ -34,7 +34,7 @@ gcc -dynamiclib -o unqlite.dylib unqlite.o
 **Windows (MinGW):**
 ```bash
 gcc -c unqlite.c
-gcc -shared -static-libgcc -o unqlite.dll unqlite.o -Wl,--add-stdcall-alias
+gcc -shared -static-libgcc -o unqlite.dll unqlite.o
 ```
 
 **Note:** For 32-bit systems, add the `-m32` option to both gcc commands.
