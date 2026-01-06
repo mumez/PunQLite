@@ -11,9 +11,23 @@ Directories:
 
 ## Installation
 
-### Step 1: Compile UnQLite Library
+### Step 1: Prepare UnQLite Library
 
-UnQLite is very easy to compile - it consists of only **two files** (`unqlite.c` and `unqlite.h`).
+You need to prepare the UnQLite shared library. UnQLite is very easy to compile - it consists of only **two files** (`unqlite.c` and `unqlite.h`). You have two options:
+
+**Option A: Download Pre-built Binaries (Recommended)**
+
+Download the pre-built library for your platform:
+
+- [Linux AMD64](https://github.com/mumez/PunQLite/releases/download/v3.0.0/unqlite.so)
+- [MacOS](https://github.com/mumez/PunQLite/releases/download/v3.0.0/unqlite.dylib)
+- [Windows x64](https://github.com/mumez/PunQLite/releases/download/v3.0.0/unqlite.dll)
+
+Place the downloaded library in your Pharo image directory.
+
+**Option B: Build from Source**
+
+If you prefer, you can build the UnQLite library by yourself:
 
 1. Download the UnQLite source code from [UnQLite repository](https://github.com/symisc/unqlite)
 
@@ -45,26 +59,10 @@ gcc -shared -static-libgcc -o unqlite.dll unqlite.o
 
 ```Smalltalk
 Metacello new
-	repository: 'github://mumez/PunQLite/repository'
+	repository: 'github://mumez/PunQLite/repository';
 	baseline: 'PunQLite';
 	load.
 ```
-
-## Performance ##
-```Smalltalk
-"Simple store/load round-trip"
-Time millisecondsToRun:[
-db := PqDatabase open: 'bench.db'.
-val := '0'.
-1 to: 100000 do: [:idx | | key | 
-	key := idx asString.
-	db at: key put: val.
-	val := (db at: key) asString.
-].
-db close.
-]. "===> 877 msecs"
-```
-I felt it is quite fast. 100000 round-trips in 877 msecs. Please try the code by yourself.
 
 ## Usages ##
 ```Smalltalk
@@ -133,3 +131,19 @@ executer evaluate: src.
 executer release.
 db close.
 ```
+
+## Performance ##
+```Smalltalk
+"Simple store/load round-trip"
+Time millisecondsToRun:[
+db := PqDatabase open: 'bench.db'.
+val := '0'.
+1 to: 100000 do: [:idx | | key | 
+	key := idx asString.
+	db at: key put: val.
+	val := (db at: key) asString.
+].
+db close.
+]. "===> 877 msecs"
+```
+I felt it is quite fast. 100000 round-trips in 877 msecs. Please try the code by yourself.
