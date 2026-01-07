@@ -20,7 +20,7 @@ You need to prepare the UnQLite shared library. UnQLite is very easy to compile 
 Download the pre-built library for your platform:
 
 - [Linux AMD64](https://github.com/mumez/PunQLite/releases/download/v3.0.0/unqlite.so)
-- [MacOS](https://github.com/mumez/PunQLite/releases/download/v3.0.0/unqlite.dylib)
+- [MacOS ARM64](https://github.com/mumez/PunQLite/releases/download/v3.0.0/unqlite.dylib)
 - [Windows x64](https://github.com/mumez/PunQLite/releases/download/v3.0.0/unqlite.dll)
 
 Place the downloaded library in your Pharo image directory.
