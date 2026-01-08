@@ -365,7 +365,7 @@ UnQLiteFFI >> primConfigVM: vmHandle addVar: valueObject named: varName [
 		vm_ptr vmHandle, 
 		int VM_CONFIG_CREATE_VAR, 
 		char *varName, 
-		value_ptr valueObject))
+		value_ptr valueObject)) fixedArgumentCount: 2
 ]
 
 { #category : 'actions-cursor' }
