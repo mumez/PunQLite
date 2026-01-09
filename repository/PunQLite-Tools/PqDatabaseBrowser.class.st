@@ -34,11 +34,11 @@ PqDatabaseBrowser class >> menuCommandOn: aBuilder [
 
 	<worldMenu>
 
-	(aBuilder item: #'Database Browser')
-		parent: #'PunQLite';
-		order: 1;
-		action:[ self open ];
-		icon: self taskbarIcon.
+	(aBuilder item: #'PunQLite Database Browser')
+		help: 'Browse PunQLite database entries';
+		parent: #'Tools' translated;
+		icon: self taskbarIcon;
+		action: [ self open ]
 ]
 
 { #category : #'instance creation' }
@@ -162,6 +162,7 @@ PqDatabaseBrowser >> keysListContextMenu [
 { #category : #'private - actions' }
 PqDatabaseBrowser >> onAddEntry [
 	| key value |
+
 	self database ifNil: [ ^ self ].
 
 	key := UIManager default request: 'New key' initialAnswer: ''.
@@ -170,7 +171,7 @@ PqDatabaseBrowser >> onAddEntry [
 	value := UIManager default request: 'New value' initialAnswer: ''.
 	value ifNil: [ ^ self ].
 
-	self database notNil ifTrue: [
+	self database ifNotNil: [
 		self database transact: [
 			self database at: key put: value ].
 		self updateKeysList ]
@@ -179,6 +180,7 @@ PqDatabaseBrowser >> onAddEntry [
 { #category : #'private - actions' }
 PqDatabaseBrowser >> onEditEntry [
 	| key value |
+
 	self database ifNil: [ ^ self ].
 
 	key := keysList selectedItem.
@@ -186,10 +188,10 @@ PqDatabaseBrowser >> onEditEntry [
 
 	value := UIManager default
 		request: 'New value for ', key
-		initialAnswer: (database at: key).
+		initialAnswer: (self database at: key).
 	value ifNil: [ ^ self ].
 
-	self database notNil ifTrue: [
+	self database ifNotNil: [
 		self database transact: [
 			self database at: key put: value ].
 		self updateValueText ]
@@ -197,13 +199,14 @@ PqDatabaseBrowser >> onEditEntry [
 
 { #category : #'private - events' }
 PqDatabaseBrowser >> onKeySelectionChanged [
+
 	self updateValueText
 ]
 
 { #category : #'private - actions' }
 PqDatabaseBrowser >> onRemoveSelectedEntry [
 
-	self database notNil ifTrue: [
+	self database ifNotNil: [
 		self database transact: [
 			self database removeKey: keysList selectedItem.
 			keysList unselectAll ].
@@ -213,29 +216,32 @@ PqDatabaseBrowser >> onRemoveSelectedEntry [
 { #category : #'private - events' }
 PqDatabaseBrowser >> onWindowClosed [
 
-	database ifNotNil: [
-		database close.
+	self database ifNotNil: [
+		self database close.
 		database := nil.
 		databaseFilename := nil ]
 ]
 
 { #category : #'private - utilities' }
-PqDatabaseBrowser >> openDatabase: filename [
+PqDatabaseBrowser >> openDatabase: aFilename [
 
-	database := PqDatabase open: filename.
-	databaseFilename := filename.
+	database := PqDatabase open: aFilename.
+	databaseFilename := aFilename.
 	self updateKeysList.
 	self updateTitle
 ]
 
 { #category : #'private - actions' }
 PqDatabaseBrowser >> openFile [
-	| filename |
-	filename := UITheme builder
-		fileOpen: 'Choose a .db file'
-		extensions: #('db').
-	filename isNil ifTrue:[ ^ self ].
-	self openDatabase: filename name
+	| fileReference |
+
+	fileReference := UIManager default
+		chooseExistingFileReference: 'Choose a .db file'
+		extensions: #('db')
+		path: FileLocator home.
+
+	fileReference ifNotNil: [
+		self openDatabase: fileReference fullName ]
 ]
 
 { #category : #accessing }
@@ -255,7 +261,7 @@ PqDatabaseBrowser >> toolbar [
 { #category : #'private - updating' }
 PqDatabaseBrowser >> updateKeysList [
 
-	keysList items: database keys sorted
+	keysList items: self database keys sorted
 ]
 
 { #category : #'private - updating' }
@@ -267,6 +273,7 @@ PqDatabaseBrowser >> updateTitle [
 { #category : #'private - updating' }
 PqDatabaseBrowser >> updateValueText [
 	| key |
+
 	key := keysList selectedItem.
 	key
 		ifNil: [ valueText text: '' ]
