@@ -37,7 +37,6 @@ PqDatabaseBrowser class >> menuCommandOn: aBuilder [
 	(aBuilder item: #'PunQLite Database Browser')
 		help: 'Browse PunQLite database entries';
 		parent: #'Tools' translated;
-		order: 999;
 		icon: self taskbarIcon;
 		action: [ self open ]
 ]
