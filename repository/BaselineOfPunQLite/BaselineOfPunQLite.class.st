@@ -12,18 +12,16 @@ BaselineOfPunQLite >> baseline: spec [
 		spec blessing: #baseline.
 		spec preLoadDoIt: #preLoad.
 
-		spec 
+		spec
 			package: 'PunQLite-Core';
 			package: 'PunQLite-DB' 		with: [ spec requires: #('PunQLite-Core' ) ];
 			package: 'PunQLite-Jx9' 		with: [ spec requires: #('PunQLite-DB') ];
-			package: 'PunQLite-Help';
 			package: 'PunQLite-Tools' 	with: [ spec requires: #('PunQLite-DB') ];
 			package: 'PunQLite-Tests' 	with: [ spec requires: #('PunQLite-Jx9') ].
-		
-		spec 
+
+		spec
 			group: 'default' with: #('Core' 'Tests');
 			group: 'Core' with: #('PunQLite-Core' 'PunQLite-DB' 'PunQLite-Jx9' );
-			group: 'Help' with: #('PunQLite-Help');
 			group: 'Tools' with: #('PunQLite-Tools');
 			group: 'Tests' with: #('PunQLite-Tests') ]
 ]
@@ -36,7 +34,7 @@ BaselineOfPunQLite >> platformLibraryName [
 	os isUnix ifTrue: [ ^ 'unqlite.so' ].
 	os isWindows ifTrue: [ ^ 'unqlite.dll' ].
 	os isMacOSX ifTrue: [ ^ 'unqlite.dylib' ].
-	
+
 	self error: 'Unsupported OS platform'
 ]
 

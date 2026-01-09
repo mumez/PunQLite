@@ -30,7 +30,6 @@ PunQLite-Jx9          # Jx9 scripting engine integration
 
 PunQLite-Tests        # Test suite (depends on all above)
 PunQLite-Tools        # GUI browser (depends on PunQLite-DB)
-PunQLite-Help         # Help system integration
 ```
 
 ### Key Design Patterns
