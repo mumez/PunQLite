@@ -1,5 +1,54 @@
 "
-FFI interface to the UnQLite shared library
+I represent the singleton FFI bridge to the UnQLite C library, providing low-level access to all UnQLite database operations.
+
+Responsibility:
+- Map UnQLite C API functions to Pharo using UnifiedFFI
+- Manage FFI type mappings for pointers (db_ptr, cursor_ptr, vm_ptr, value_ptr, context_ptr)
+- Provide factory methods for holder types (int holders, string holders) used in FFI calls
+- Handle marshalling between Smalltalk objects and C types (byte arrays, integers, strings)
+- Define all database operations (open, close, store, fetch, delete, append)
+- Define all cursor operations (init, seek, next, prev, release)
+- Define all Jx9 VM operations (compile, execute, inject, extract)
+- Define all Jx9 value operations (conversion, type checking, manipulation)
+- Define transaction operations (begin, commit, rollback)
+- Define configuration and utility operations
+
+Collaborators:
+- UnQLiteLibrary: Provides platform-specific path to the shared library
+- PqDatabase: Calls database operations (open, close, store, fetch, config, transactions)
+- PqCursor: Calls cursor operations (init, seek, first, next, release)
+- PqJx9Executer: Calls Jx9 VM operations (compile, execute, newScalar, newStructure)
+- PqJx9Value: Calls value operations (type checking, conversion, manipulation)
+- UnQLiteConstants: Pool providing C constant values (OK, DONE, mode flags, cursor positions)
+- UnQLiteFetchCallback: FFI callback for data retrieval via callbacks
+- UnQLiteCallback: FFI callback for custom Jx9 functions
+
+Public API and Key Messages:
+- #uniqueInstance - Get singleton FFI instance (enforced via #new override)
+- #open:named:mode: - Open database connection
+- #close: - Close database handle
+- #store:key:sized:value:sized: - Store key-value pair
+- #fetch:key:sized:value:sized: - Fetch value by key
+- #delete:key:sized: - Delete key-value pair
+- #append:key:sized:value:sized: - Append to existing value
+- #initCursor:db: - Initialize cursor on database
+- #compile:sized:into:on: - Compile Jx9 script into VM
+- #executeOn: - Execute compiled Jx9 script
+- #newIntHolder:, #newStringHolder - Create FFI value holders
+
+Internal Representation:
+- Class variables store FFI type mappings (db_ptr, cursor_ptr, vm_ptr, value_ptr, context_ptr)
+- IntHolderType and StringHolderType for bidirectional C value holders
+- Type mappings initialized in #initializeTypeMap
+
+Implementation Points:
+- Singleton pattern enforced (cannot instantiate via #new)
+- All FFI calls use #ffiCall: with typed signatures
+- Pointer types mapped to void* for opaque C handles
+- Platform differences in int64 handling addressed via int64_t type
+- Callbacks require #optMayGC option to prevent GC issues during C execution
+- Variable argument functions (like vm_config) require #fixedArgumentCount:
+- ByteArray wrapping for char* workarounds in some variadic functions (#configVM:addVar:named:)
 "
 Class {
 	#name : 'UnQLiteFFI',

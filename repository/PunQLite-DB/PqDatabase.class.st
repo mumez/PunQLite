@@ -1,5 +1,61 @@
 "
-A PunQLite database
+I represent a PunQLite database connection providing a Dictionary-like interface to UnQLite's key-value store.
+
+Responsibility:
+- Provide high-level Dictionary API for key-value storage (at:, at:put:, keys, values, do:)
+- Manage database lifecycle (open, close, transaction handling)
+- Support both file-based and in-memory databases
+- Create and manage cursors for efficient iteration
+- Provide access to Jx9 scripting engine and JSON document collections
+- Handle data marshalling between Smalltalk objects and byte arrays
+
+Collaborators:
+- UnQLiteFFI: Makes low-level FFI calls for all database operations
+- PqCursor: Created via #newCursor for efficient database iteration
+- PqCollection: Created via #collectionName: for JSON document storage
+- PqJx9Executer: Created via #jx9 for Jx9 script execution
+- PqValueAppender: Created via #appenderAt: for efficient value appending
+- UnQLiteConstants: Provides mode constants and return codes
+
+Public API and Key Messages:
+- #openOnMemory - Create in-memory database (for testing or temporary storage)
+- #open:mode: - Open file-based database with specified mode flags
+- #at:put: - Store a value at a key (like Dictionary)
+- #at: - Fetch a value by key (raises PqFetchError if not found)
+- #at:ifAbsent: - Fetch with default value on missing key
+- #removeKey: - Delete a key-value pair
+- #keys, #values, #do: - Collection protocol for iteration
+- #newCursor - Create a cursor for efficient scanning
+- #transact: - Execute a block within a manual transaction
+- #close - Close database and release native resources
+
+Example:
+  ""Basic key-value operations""
+  db := PqDatabase openOnMemory.
+  db at: 'user:1' put: 'Alice'.
+  db at: 'user:2' put: 'Bob'.
+  db at: 'user:1'.  ""=> 'Alice'""
+  db keys.  ""=> #('user:1' 'user:2')""
+  db close.
+
+  ""Using cursor for efficient iteration""
+  db := PqDatabase openOnMemory.
+  db at: 'a' put: '1'; at: 'b' put: '2'.
+  db cursorDo: [:cursor |
+    cursor do: [:c | Transcript show: c currentStringKey, ' => ', c currentStringValue; cr]].
+
+Internal Representation:
+- Inherits handle from PqObject - points to unqlite* database handle
+- handleIsValid - tracks whether database is open
+
+Implementation Points:
+- Keys and values are stored as byte arrays (UTF-8 for strings)
+- Default mode is OPEN_CREATE (create if not exists, read-write)
+- In-memory databases use ':mem:' as the file path
+- Transaction modes: auto-commit (default) or manual via #disableAutoCommit
+- Always call #close to release native resources (use #ensure: in production)
+- Cursors become invalid after database modifications
+- Fetch operations may need larger buffer sizes for large values (see #fetchBufferSize:)
 "
 Class {
 	#name : #PqDatabase,

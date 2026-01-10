@@ -1,11 +1,41 @@
 "
-A value in the PunQLite Jx9 engine.
+I represent a value in the Jx9 scripting engine, providing bidirectional conversion between Smalltalk and Jx9 types.
 
-Instance Variables
-	name:		<String>
+Responsibility:
+- Wrap native unqlite_value* handles with a Smalltalk object interface
+- Provide type checking methods (isInt, isString, isJsonObject, etc.)
+- Convert Jx9 values to appropriate Smalltalk types (value method)
+- Convert Smalltalk objects to Jx9 values (asInt:, asString:, etc.)
+- Support Jx9 structures (arrays and JSON objects) with enumeration protocol
+- Manage named variables for injection into Jx9 VM
 
-name
-	- name of the value
+Collaborators:
+- PqJx9Executer: Creates me via newScalar: or newStructure:, manages my lifecycle
+- UnQLiteFFI: Makes type checking and conversion FFI calls
+- UnQLiteCallback: Used for walking through array/object structures
+- PqDictionary: Target type for JSON object conversion via #asDictionary
+
+Public API and Key Messages:
+- #named:on: - Create a value wrapper for a native handle
+- #value - Convert Jx9 value to appropriate Smalltalk type automatically
+- #asInt, #asInt64, #asString, #asBool, #asDouble - Type-specific conversions
+- #asArray, #asDictionary - Convert Jx9 structures to Smalltalk collections
+- #isInt, #isString, #isBoolean, #isNull, #isFloat - Type checking predicates
+- #isJsonObject, #isJsonArray, #isScalar - Structure type checks
+- #at:put: - Add key-value pair to Jx9 structure (JSON object)
+- #add: - Append element to Jx9 structure (array)
+- #do:, #keysAndValuesDo: - Enumerate structure contents
+- #name:, #name - Get/set variable name for VM injection
+
+Implementation Points:
+- Values are managed by their creating PqJx9Executer
+- Always release values via executor's #release: method
+- Type conversion via #value uses dynamic dispatch based on Jx9 type
+- Structures support both array (indexed) and object (keyed) semantics
+- Enumeration callbacks must return OK or ABORT status codes
+- String encoding is UTF-8 via FFI marshalling
+- Resource values are opaque byte arrays
+- JSON compatibility: objects become PqDictionary, arrays become Array
 "
 Class {
 	#name : #PqJx9Value,

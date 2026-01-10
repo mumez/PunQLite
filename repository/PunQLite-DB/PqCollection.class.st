@@ -1,9 +1,59 @@
 "
-I'm a collection in a PunQLite database. 
-I handle ==documents==, defined as JSON entries. 
+I represent a named JSON document collection within a PunQLite database.
 
-While I try to keep a common API with a Collection, I'm not exactly one, in particular my elements need to be JSON dictionaries, not any arbitrary object.
+Responsibility:
+- Provide Collection-like API for storing and querying JSON documents
+- Wrap UnQLite's document store functions (db_store, db_fetch_by_id, db_update_record)
+- Manage automatic collection creation and validation
+- Support filtering documents via Jx9 callback functions
+- Handle document ID generation and retrieval
+- Ensure documents are valid JSON dictionaries
 
+Collaborators:
+- PqDatabase: The database I belong to, provides access to Jx9 executors
+- PqJx9Executer: Executes Jx9 scripts for CRUD operations and queries
+- PqJx9Value: Marshals JSON data between Smalltalk and Jx9
+- UnQLite document store functions: db_store, db_fetch_by_id, db_update_record, db_drop_record
+
+Public API and Key Messages:
+- #database:name: - Create a named collection in a database
+- #add: - Insert a JSON dictionary, returns auto-generated ID
+- #at: - Retrieve document by ID, returns nil if not found
+- #at:put: - Update document at specific ID with new JSON content
+- #removeAt: - Delete document by ID
+- #selectAll - Retrieve all documents as an array
+- #select: - Filter documents using a Smalltalk block (converted to Jx9 function)
+- #detect: - Find first document matching a block
+- #size - Count total documents in collection
+- #sizeOf: - Count documents matching a filter block
+
+Example:
+  ""Working with JSON documents""
+  db := PqDatabase openOnMemory.
+  users := db collectionName: 'users'.
+
+  ""Insert documents""
+  id1 := users add: {'name' -> 'Alice'. 'age' -> 30} asDictionary.
+  id2 := users add: {'name' -> 'Bob'. 'age' -> 25} asDictionary.
+
+  ""Query documents""
+  users at: id1.  ""=> {'name' -> 'Alice'. 'age' -> 30}""
+  users select: [:doc | (doc at: 'age') > 28].  ""=> array with Alice's document""
+  users size.  ""=> 2""
+
+Internal Representation:
+- name - Collection name (string) used in Jx9 db_* function calls
+- database - The PqDatabase this collection belongs to
+- executors - Cached PqJx9Executer instances for different operations (Dictionary)
+
+Implementation Points:
+- Collections are automatically created if they don't exist via db_exists/db_create
+- Documents must be JSON-serializable dictionaries (use asDictionary)
+- Each document gets a unique ID assigned by UnQLite
+- Filter blocks are converted to Jx9 functions dynamically
+- Executors are cached for performance except select/size queries (which vary by filter)
+- Error handling validates results via $result and $errorMessage Jx9 variables
+- Not a true Smalltalk Collection - documents must be JSON-compatible
 "
 Class {
 	#name : #PqCollection,
