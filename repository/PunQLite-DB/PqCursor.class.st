@@ -1,12 +1,60 @@
 "
-A cursor over a PunQLite database
+I represent a cursor for efficient iteration over key-value pairs in a PunQLite database.
 
-Instance Variables
-	database:		<PqDatabase>
+Responsibility:
+- Provide sequential and random access to database entries without loading all data
+- Support forward and backward iteration through the database
+- Enable seeking to specific keys with exact match, greater-than, or less-than semantics
+- Allow reading and deletion of entries at the current cursor position
+- Implement standard Smalltalk enumeration protocol (do:, reverseDo:)
 
-database
-	- the PunQLite database to use
+Collaborators:
+- PqDatabase: The database I iterate over, provides handle and settings
+- UnQLiteFFI: Makes low-level cursor FFI calls (init, seek, next, prev, release)
+- UnQLiteFetchCallback: Used for callback-based data retrieval
+- UnQLiteConstants: Provides cursor positioning constants (CURSOR_MATCH_*)
 
+Public API and Key Messages:
+- #on: - Create cursor on a database
+- #seek: - Position cursor at exact key match
+- #seekGreaterThan:, #seekLessThan: - Position cursor relative to key
+- #first, #last - Move to first or last entry
+- #next, #previous - Move forward or backward one entry
+- #do: - Iterate forward from first entry
+- #reverseDo: - Iterate backward from last entry
+- #seek:untilEndDo: - Seek to key and iterate forward from there
+- #currentKey, #currentValue - Read data at current position
+- #currentStringKey, #currentStringValue - Read as strings
+- #deleteCurrent - Delete entry at current position
+- #close - Release cursor resources
+
+Example:
+  ""Forward iteration""
+  db := PqDatabase openOnMemory.
+  db at: 'apple' put: '1'; at: 'banana' put: '2'; at: 'cherry' put: '3'.
+  db cursorDo: [:cursor |
+    cursor do: [:c |
+      Transcript show: c currentStringKey, ' => ', c currentStringValue; cr]].
+
+  ""Seeking and range iteration""
+  db cursorDo: [:cursor |
+    cursor seek: 'banana' untilEndDo: [:c |
+      ""Iterates over 'banana' and 'cherry'""
+      Transcript show: c currentStringKey; cr]].
+
+Internal Representation:
+- database - The PqDatabase being iterated
+- handle - Native unqlite_kv_cursor* pointer (inherited from PqObject)
+- handleIsValid - Tracks whether cursor is open
+
+Implementation Points:
+- Cursors must be closed after use via #close or #ensure: to prevent leaks
+- Cursor state becomes invalid after database modifications (inserts, deletes)
+- Always create fresh cursors after modifying the database
+- Seeking with CURSOR_MATCH_EXACT returns false if key not found
+- CURSOR_MATCH_GE and CURSOR_MATCH_LE provide range query support
+- Callback-based retrieval is available via #currentKeyInto: and #currentValueInto:
+- Buffer size for key/value retrieval defaults to database's fetchBufferSize
 "
 Class {
 	#name : #PqCursor,

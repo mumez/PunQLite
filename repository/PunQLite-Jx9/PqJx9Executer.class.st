@@ -1,20 +1,43 @@
 "
-An executor for executing code using the PunQLite Jx9 engine.
+I represent an executor for compiling and running Jx9 scripts within a PunQLite database.
 
-Instance Variables
-	compiled:		<Object>
-	database:		<PqDatabase>
-	executed:		<Object>
+Responsibility:
+- Compile Jx9 source code into executable VM bytecode
+- Execute compiled scripts and manage execution lifecycle
+- Inject Smalltalk values into Jx9 VM as variables
+- Extract Jx9 variables back to Smalltalk after execution
+- Create Jx9 scalars and structures (arrays/objects) for data marshalling
+- Register custom Smalltalk functions callable from Jx9 scripts
+- Cache callback references to prevent premature garbage collection
 
-compiled
-	- xxxxx
+Collaborators:
+- PqDatabase: The database I belong to, provides database handle
+- UnQLiteFFI: Makes low-level VM calls (compile, execute, inject, extract, release)
+- PqJx9Value: Wraps Jx9 values for bidirectional Smalltalk-Jx9 conversion
+- PqJx9Context: Represents execution context for custom function callbacks
+- UnQLiteCallback: FFI callback wrapper for custom Jx9 functions
 
-database
-	- the PunQLite database
+Public API and Key Messages:
+- #compile: - Compile Jx9 source code into VM
+- #execute - Execute the compiled script
+- #reset - Reset VM state to re-execute with new variables
+- #inject: - Inject a PqJx9Value as a variable before execution
+- #extract: - Extract a variable value after execution (returns PqJx9Value)
+- #newScalar:, #newStructure: - Create Jx9 values for injection
+- #newScalarInteger:, #newScalarString:, #newScalarBoolean: - Typed scalar factories
+- #newStructure:json: - Create Jx9 structure from Smalltalk dictionary
+- #newFunction:do: - Register custom Smalltalk block as Jx9 function
+- #release: - Release a Jx9 value handle
+- #release - Release the entire VM
 
-executed
-	- xxxxx
-
+Implementation Points:
+- Scripts must be compiled before execution, executed before extraction
+- Once executed, must call #reset before re-executing with different variables
+- Variables are injected before execution, extracted after execution
+- Callbacks are cached to prevent GC during script execution lifetime
+- Always call #release to free VM resources (use #ensure: blocks)
+- Custom functions receive PqJx9Context for result marshalling
+- Structure lifecycle: create -> populate -> inject -> execute -> release
 "
 Class {
 	#name : #PqJx9Executer,
