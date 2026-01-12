@@ -29,7 +29,7 @@ PunQLite-Jx9          # Jx9 scripting engine integration
   └─ Extensions       # Adds Jx9 conversion methods to core classes
 
 PunQLite-Tests        # Test suite (depends on all above)
-PunQLite-Tools        # GUI browser (depends on PunQLite-DB)
+PunQLite-Tools        # Spec2 GUI browser (depends on PunQLite-DB)
 ```
 
 ### Key Design Patterns
@@ -46,11 +46,20 @@ PunQLite-Tools        # GUI browser (depends on PunQLite-DB)
 
 ## Native Library Management
 
-The UnQLite shared library must be compiled and placed in the image directory:
+The UnQLite shared library must be placed in the Pharo image directory:
 
 - **Linux**: `unqlite.so`
 - **macOS**: `unqlite.dylib`
 - **Windows**: `unqlite.dll`
+
+### Option A: Download Pre-built Binaries (Recommended)
+
+Pre-built binaries are available from the releases page:
+- [Linux AMD64](https://github.com/mumez/PunQLite/releases/download/v3.0.0/unqlite.so)
+- [MacOS ARM64](https://github.com/mumez/PunQLite/releases/download/v3.0.0/unqlite.dylib)
+- [Windows x64](https://github.com/mumez/PunQLite/releases/download/v3.0.0/unqlite.dll)
+
+### Option B: Build from Source
 
 UnQLite is very easy to compile - it consists of only **two files** (`unqlite.c` and `unqlite.h`).
 
@@ -67,12 +76,14 @@ gcc -dynamiclib -o unqlite.dylib unqlite.o
 
 # Windows (MinGW)
 gcc -c unqlite.c
-gcc -shared -static-libgcc -o unqlite.dll unqlite.o -Wl,--add-stdcall-alias
+gcc -shared -static-libgcc -o unqlite.dll unqlite.o
 ```
 
-The `BaselineOfPunQLite>>preLoad` method checks for library presence and displays compilation instructions in the Transcript if missing. This ensures compatibility with CI/CD environments where error dialogs would be problematic.
+**Note**: For 32-bit systems, add the `-m32` option to both gcc commands.
 
 Download UnQLite source from: https://github.com/symisc/unqlite
+
+The `BaselineOfPunQLite>>preLoad` method checks for library presence and displays compilation instructions in the Transcript if missing. This ensures compatibility with CI/CD environments where error dialogs would be problematic.
 
 ## Working with Smalltalk MCP Tools
 
@@ -150,4 +161,35 @@ Cursor operations and manual transactions provide better performance for bulk op
 
 - **Main branch**: `master` (for PRs)
 - **Development branch**: `develop` (current active branch)
-- Source code is in Cypress/Tonel format under `repository/`
+- **Source format**: Tonel format under `repository/` (migrated from Cypress/Monticello)
+
+## CI/CD
+
+The project uses **GitHub Actions** with SmalltalkCI for continuous integration:
+- Workflow configuration: `.github/workflows/main.yml`
+- Tests run on multiple Pharo versions
+- Automatically compiles UnQLite library for testing
+- Validates all packages on push and pull requests
+
+## Recent Major Improvements
+
+### GUI Migration
+- **PqDatabaseBrowser** migrated from Spec1 to Spec2
+- Fixed style violations and API compatibility issues
+- Modern UI with improved menu handling
+
+### Package Cleanup
+- Removed obsolete **PunQLite-Help** package (Spec1-based help browser)
+- Removed obsolete **ConfigurationOfPunQLite** package (replaced by BaselineOf)
+- Migrated to Tonel format for better git integration
+
+### FFI Improvements
+- Fixed variadic function handling in Jx9 VM configuration
+- Improved 32-bit vs 64-bit integer handling
+- Better platform detection and library loading
+- Enhanced memory management with ExternalAddress
+
+### Documentation
+- Added comprehensive class comments for key classes
+- Improved README with library installation instructions
+- Added this CLAUDE.md for AI-assisted development
