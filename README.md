@@ -4,6 +4,12 @@ PunQLite
 [UnQLite](https://unqlite.symisc.net/ "UnQLite") binding for [Pharo Smalltalk](http://pharo.org/ "Pharo").
 UnQLite is a fast, lightweight, portable, embedded KVS with a simple scripting engine (Jx9). By using PunQLite, you can store/load lots of data as if just using a normal Dictionary.
 
+[![Release](https://img.shields.io/github/v/tag/mumez/PunQLite?label=release)](https://github.com/mumez/PunQLite/releases)
+[![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE.txt)
+
+[![Social](https://img.shields.io/github/stars/mumez/PunQLite?style=social)]()
+[![Forks](https://img.shields.io/github/forks/mumez/PunQLite?style=sociall)]()
+
 Directories:
 
 - repository
