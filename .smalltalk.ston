@@ -1,0 +1,11 @@
+SmalltalkCISpec {
+  #loading : [
+    SCIMetacelloLoadSpec {
+      #baseline : 'PunQLite',
+      #directory : 'repository',
+      #load : [ 'Tests' ],
+      #onConflict : #useLoaded,
+      #platforms : [ #pharo ]
+    }
+  ]
+}

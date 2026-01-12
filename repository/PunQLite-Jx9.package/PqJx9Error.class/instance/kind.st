@@ -1,3 +1,0 @@
-accessing
-kind
-	^#jx9

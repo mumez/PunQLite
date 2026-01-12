@@ -1,0 +1,64 @@
+name: smalltalkCI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        smalltalk:
+          - Pharo64-12
+          - Pharo64-13
+        experimental: [false]
+    continue-on-error: ${{ matrix.experimental }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc make
+
+      - name: Download UnQLite source
+        run: |
+          curl -L -o unqlite.zip https://github.com/symisc/unqlite/archive/refs/heads/master.zip
+          unzip unqlite.zip
+          mv unqlite-master unqlite-src
+
+      - name: Compile UnQLite library
+        run: |
+          cd unqlite-src
+          gcc -c unqlite.c
+          gcc -shared -o unqlite.so unqlite.o
+          ls -lh unqlite.so
+
+      - name: Setup smalltalkCI
+        uses: hpi-swa/setup-smalltalkCI@v1
+        with:
+          smalltalk-image: ${{ matrix.smalltalk }}
+
+      - name: Copy UnQLite library to build directory
+        run: |
+          # Source smalltalkCI environment
+          source ~/.bashrc || true
+          source $HOME/.smalltalk_ci.env || true
+
+          # Check if SMALLTALK_CI_BUILD_BASE is set, otherwise use default
+          if [ -z "$SMALLTALK_CI_BUILD_BASE" ]; then
+            export SMALLTALK_CI_BUILD_BASE="$HOME/.smalltalkCI/_builds"
+          fi
+
+          echo "SMALLTALK_CI_BUILD_BASE=$SMALLTALK_CI_BUILD_BASE"
+          mkdir -p "$SMALLTALK_CI_BUILD_BASE"
+          cp unqlite-src/unqlite.so "$SMALLTALK_CI_BUILD_BASE/"
+          ls -lh "$SMALLTALK_CI_BUILD_BASE/unqlite.so"
+
+      - name: Run tests
+        run: smalltalkci -s ${{ matrix.smalltalk }}
+        timeout-minutes: 10
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

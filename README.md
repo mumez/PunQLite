@@ -1,11 +1,10 @@
-PunQLite [![Build Status](https://travis-ci.org/estebanlm/PunQLite.png)](https://travis-ci.org/estebanlm/PunQLite)
+PunQLite 
 ========
 
-[UnQLite](http://unqlite.org "UnQLite") binding for [Pharo Smalltalk](http://www.pharo-project.org/ "Pharo").
+[UnQLite](https://unqlite.symisc.net/ "UnQLite") binding for [Pharo Smalltalk](http://pharo.org/ "Pharo").
 UnQLite is a fast, lightweight, portable, embedded KVS with a simple scripting engine (Jx9). By using PunQLite, you can store/load lots of data as if just using a normal Dictionary.
 
 [![Release](https://img.shields.io/github/v/tag/mumez/PunQLite?label=release)](https://github.com/mumez/PunQLite/releases)
-![Tests](https://img.shields.io/badge/tests-29-green)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE.txt)
 
 [![Social](https://img.shields.io/github/stars/mumez/PunQLite?style=social)]()
@@ -14,52 +13,62 @@ UnQLite is a fast, lightweight, portable, embedded KVS with a simple scripting e
 Directories:
 
 - repository
- + [Cypress](https://github.com/CampSmalltalk/Cypress) style Smalltalk source tree
+  - [Tonel](https://github.com/pharo-vcs/tonel) style Smalltalk source tree
 
-For MCZ packages, visit <a href="http://smalltalkhub.com/#!/~MasashiUmezawa/PunQLite">SmalltalkHub PunQLite site</a>.
+## Installation
 
-## Installation ##
-- Compile UnQLite
+### Step 1: Prepare UnQLite Library
 
-It would be very easy. UnQLite consists of only two files.
+You need to prepare the UnQLite shared library. UnQLite is very easy to compile - it consists of only **two files** (`unqlite.c` and `unqlite.h`). You have two options:
 
-```Shell
-gcc -m32 -c unqlite.c
+**Option A: Download Pre-built Binaries (Recommended)**
 
-#linux
-gcc -m32 -shared -o unqlite.so unqlite.o
+Download the pre-built library for your platform:
 
-#win (MinGW)
-gcc -m32 -shared -static-libgcc -o unqlite.dll unqlite.o -Wl,--add-stdcall-alias
+- [Linux AMD64](https://github.com/mumez/PunQLite/releases/download/v3.0.0/unqlite.so)
+- [MacOS ARM64](https://github.com/mumez/PunQLite/releases/download/v3.0.0/unqlite.dylib)
+- [Windows x64](https://github.com/mumez/PunQLite/releases/download/v3.0.0/unqlite.dll)
 
-#mac
-gcc -m32 -dynamiclib -o unqlite.dylib unqlite.o
+Place the downloaded library in your Pharo image directory.
+
+**Option B: Build from Source**
+
+If you prefer, you can build the UnQLite library by yourself:
+
+1. Download the UnQLite source code from [UnQLite repository](https://github.com/symisc/unqlite)
+
+2. Compile the library for your platform:
+
+**Linux:**
+```bash
+gcc -c unqlite.c
+gcc -shared -o unqlite.so unqlite.o
 ```
 
-- Load PunQLite
+**macOS:**
+```bash
+gcc -c unqlite.c
+gcc -dynamiclib -o unqlite.dylib unqlite.o
+```
+
+**Windows (MinGW):**
+```bash
+gcc -c unqlite.c
+gcc -shared -static-libgcc -o unqlite.dll unqlite.o
+```
+
+**Note:** For 32-bit systems, add the `-m32` option to both gcc commands.
+
+3. Place the compiled library (`unqlite.so`, `unqlite.dylib`, or `unqlite.dll`) in your Pharo image directory.
+
+### Step 2: Load PunQLite
 
 ```Smalltalk
-Metacello new 
+Metacello new
 	repository: 'github://mumez/PunQLite/repository';
 	baseline: 'PunQLite';
 	load.
 ```
-
-## Performance ##
-```Smalltalk
-"Simple store/load round-trip"
-Time millisecondsToRun:[
-db := PqDatabase open: 'bench.db'.
-val := '0'.
-1 to: 100000 do: [:idx | | key | 
-	key := idx asString.
-	db at: key put: val.
-	val := (db at: key) asString.
-].
-db close.
-]. "===> 877 msecs"
-```
-I felt it is quite fast. 100000 round-trips in 877 msecs. Please try the code by yourself.
 
 ## Usages ##
 ```Smalltalk
@@ -105,7 +114,7 @@ db close.
 ```Smalltalk
 "Import from files"
 db := PqDatabase open: 'mczCache.db'.
-(FileSystem workingDirectory / 'package-cache') files do: [:each | 
+(FileSystem workingDirectory / 'pharo-local' / 'package-cache') files do: [:each | 
 	(db importAt: each basename fromFile: each pathString)
 		 ifTrue: [db commitTransaction].
 ].
@@ -128,3 +137,19 @@ executer evaluate: src.
 executer release.
 db close.
 ```
+
+## Performance ##
+```Smalltalk
+"Simple store/load round-trip"
+Time millisecondsToRun:[
+db := PqDatabase open: 'bench.db'.
+val := '0'.
+1 to: 100000 do: [:idx | | key | 
+	key := idx asString.
+	db at: key put: val.
+	val := (db at: key) asString.
+].
+db close.
+]. "===> 877 msecs"
+```
+I felt it is quite fast. 100000 round-trips in 877 msecs. Please try the code by yourself.

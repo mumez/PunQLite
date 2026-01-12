@@ -1,3 +1,0 @@
-factory
-newStringHolder
-	^StringHolderType new
