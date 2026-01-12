@@ -108,7 +108,7 @@ db close.
 ```Smalltalk
 "Import from files"
 db := PqDatabase open: 'mczCache.db'.
-(FileSystem workingDirectory / 'package-cache') files do: [:each | 
+(FileSystem workingDirectory / 'pharo-local' / 'package-cache') files do: [:each | 
 	(db importAt: each basename fromFile: each pathString)
 		 ifTrue: [db commitTransaction].
 ].
