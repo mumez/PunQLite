@@ -80,13 +80,20 @@ PqDatabase class >> openOnMemory [
 
 { #category : #actions }
 PqDatabase >> appendAt: key value: value [
-	| ret |
-	ret := self ffi 
-		append: self handle 
-		key: (self toByteArray: key)
-		sized: key size 
-		value: (self toByteArray: value)
-		sized: value size.
+	"Append a value to an existing key. Automatically converts strings to UTF-8.
+
+	Important: Uses the correct byte size after UTF-8 encoding, not character count.
+	"
+	| ret keyBytes valueBytes |
+
+	keyBytes := self toByteArray: key.
+	valueBytes := self toByteArray: value.
+	ret := self ffi
+		append: self handle
+		key: keyBytes
+		sized: keyBytes size
+		value: valueBytes
+		sized: valueBytes size.
 	^self isOk: ret
 ]
 
@@ -99,16 +106,14 @@ PqDatabase >> appenderAt: key [
 { #category : #'actions-dictionary' }
 PqDatabase >> at: key [
 	^ self fetchAt: key.
-	
-	
 ]
 
 { #category : #'actions-dictionary' }
 PqDatabase >> at: key ifAbsent: aBlock [
 	^ [ self fetchAt: key ]
 		on: PqFetchError
-		do: [ :ex | 
-			ex isNotFound 
+		do: [ :ex |
+			ex isNotFound
 				ifTrue: [ aBlock value ]
 				ifFalse: [ ex pass ] ]
 ]
@@ -117,18 +122,16 @@ PqDatabase >> at: key ifAbsent: aBlock [
 PqDatabase >> at: key ifAbsentPut: aBlock [
 	^ [ self fetchAt: key ]
 		on: PqFetchError
-		do: [ :ex | 
-			ex isNotFound 
+		do: [ :ex |
+			ex isNotFound
 				ifTrue: [ self at: key put: aBlock value ]
 				ifFalse: [ ex pass ] ]
 ]
 
 { #category : #'actions-dictionary' }
 PqDatabase >> at: key ifPresent: aBlock [
-
 	self fetchAt: key into: aBlock.
 	^ key
-	
 ]
 
 { #category : #'actions-dictionary' }
@@ -147,7 +150,7 @@ PqDatabase >> beginTransaction [
 { #category : #closing }
 PqDatabase >> close [
 	self isOpen ifFalse: [ ^self ].
-	(self isOk: (self ffi close: self handle)) 
+	(self isOk: (self ffi close: self handle))
 		ifTrue: [handleIsValid := false]
 ]
 
@@ -173,19 +176,30 @@ PqDatabase >> cursorDo: aBlock [
 
 { #category : #actions }
 PqDatabase >> deleteAt: key [
+	"Delete a key-value pair by key.
 
-	^ self 
+	Important: Computes correct byte size after UTF-8 encoding.
+	"
+	| keyBytes |
+
+	keyBytes := self toByteArray: key.
+	^ self
 		deleteAt: key
-		sized: key size
+		sized: keyBytes size
 ]
 
 { #category : #actions }
 PqDatabase >> deleteAt: key sized: keySize [
-	| ret |
-	
-	ret := self ffi 
-		delete: self handle 
-		key: (self toByteArray: key)
+	"Delete a key-value pair by key with explicit key size.
+
+	Important: keySize should be the byte size, not character count.
+	"
+	| ret keyBytes |
+
+	keyBytes := self toByteArray: key.
+	ret := self ffi
+		delete: self handle
+		key: keyBytes
 		sized: keySize.
 	^ self isOk: ret
 ]
@@ -193,8 +207,8 @@ PqDatabase >> deleteAt: key sized: keySize [
 { #category : #configuration }
 PqDatabase >> disableAutoCommit [
 	| ret |
-	ret := self ffi 
-		config: self handle 
+	ret := self ffi
+		config: self handle
 		command: CONFIG_DISABLE_AUTO_COMMIT.
 	^self isOk: ret
 ]
@@ -205,22 +219,27 @@ PqDatabase >> do: aBlock [
 ]
 
 { #category : #actions }
-PqDatabase >> fetchAt: key [ 
+PqDatabase >> fetchAt: key [
 
-	^ self 
-		fetchAt: key 
+	^ self
+		fetchAt: key
 		sized: self fetchBufferSize
 ]
 
 { #category : #actions }
 PqDatabase >> fetchAt: key basicInto: aBlock [
-	| callback |
-	
+	"Fetch a value by key using a callback for custom processing.
+
+	Important: Uses the correct byte size after UTF-8 encoding for the key.
+	"
+	| callback keyBytes |
+
+	keyBytes := self toByteArray: key.
 	callback := UnQLiteFetchCallback on: aBlock.
-	^ self ffi 
-		fetch: self handle 
-		key: (self toByteArray: key)
-		sized: key size 
+	^ self ffi
+		fetch: self handle
+		key: keyBytes
+		sized: keyBytes size
 		callback: callback
 ]
 
@@ -242,14 +261,19 @@ PqDatabase >> fetchAt: key into: aBlock [
 
 { #category : #actions }
 PqDatabase >> fetchAt: key sized: valueBufSize [
-	|  intHolder ourBytes ret |
+	"Fetch a value by key as a byte array.
 
+	Important: Uses the correct byte size after UTF-8 encoding for the key.
+	"
+	|  intHolder ourBytes ret keyBytes |
+
+	keyBytes := self toByteArray: key.
 	intHolder := UnQLiteFFI newIntHolder: valueBufSize.
 	ourBytes := (ExternalAddress gcallocate: valueBufSize) autoRelease.
 	ret := self ffi
 		fetch: self handle
-		key: (self toByteArray: key)
-		sized: key size
+		key: keyBytes
+		sized: keyBytes size
 		value: ourBytes
 		sized: intHolder.
 	(self isOk: ret) ifFalse: [
@@ -259,30 +283,35 @@ PqDatabase >> fetchAt: key sized: valueBufSize [
 ]
 
 { #category : #actions }
-PqDatabase >> fetchStringAt: key [ 
+PqDatabase >> fetchStringAt: key [
 
-	^ self 
-		fetchStringAt: key 
+	^ self
+		fetchStringAt: key
 		sized: self fetchBufferSize
 ]
 
 { #category : #actions }
 PqDatabase >> fetchStringAt: key sized: valueBufSize [
-	| intHolder ourStr ret |
-	
+	"Fetch a string value by key with automatic UTF-8 decoding.
+
+	Important: Uses the correct byte size after UTF-8 encoding for the key.
+	"
+	| intHolder ourStr ret keyBytes |
+
+	keyBytes := self toByteArray: key.
 	intHolder := UnQLiteFFI newIntHolder: valueBufSize.
 	ourStr := (ExternalAddress gcallocate: valueBufSize) autoRelease.
-	ret := self ffi 
-		fetch: self handle 
-		key: (self toByteArray: key)
-		sized: key size 
-		value: ourStr 
+	ret := self ffi
+		fetch: self handle
+		key: keyBytes
+		sized: keyBytes size
+		value: ourStr
 		sized: intHolder.
 
-	(self isOk: ret) ifFalse: [ 
+	(self isOk: ret) ifFalse: [
 		(PqFetchError code: ret key: key) signal ].
 
-	^ (ourStr copyFrom: 1 to: intHolder value) asString
+	^ (ourStr copyFrom: 1 to: intHolder value) utf8Decoded
 ]
 
 { #category : #'system-info' }
@@ -327,36 +356,42 @@ PqDatabase >> importAt: key fromFile: filePath [
 	| fileMap intHolder loaded fileSize  stored |
 	fileMap := UnQLiteFFI newStringHolder.
 	intHolder := UnQLiteFFI newIntHolder.
-	loaded := self ffi 
-		loadMmapedFile: fileMap 
-		path: filePath 
+	loaded := self ffi
+		loadMmapedFile: fileMap
+		path: filePath
 		sized: intHolder.
 	(self isOk: loaded) ifFalse: [^false].
 	fileSize := intHolder value.
-	stored := self ffi 
-		store: self handle 
-		key: (self toByteArray: key) 
-		sized: key size 
-		value: fileMap value 
+	stored := self ffi
+		store: self handle
+		key: (self toByteArray: key)
+		sized: key size
+		value: fileMap value
 		sized: fileSize.
 	(self isOk: stored) ifFalse: [^false].
 	self ffi
-		releaseMmapedFile: fileMap value 
+		releaseMmapedFile: fileMap value
 		sized: fileSize.
 	^true
-	
+
 ]
 
 { #category : #'actions-dictionary' }
 PqDatabase >> includesKey: key [
-	|  intHolder bytes ret |
+	"Check if a key exists in the database.
+
+	Important: Uses the correct byte size after UTF-8 encoding for the key.
+	"
+	|  intHolder bytes ret keyBytes |
+
+	keyBytes := self toByteArray: key.
 	intHolder := UnQLiteFFI newIntHolder: 1.
 	bytes := #[0].
-	ret := self ffi 
-		fetch: self handle 
-		key: (self toByteArray: key)
-		sized: key size 
-		value: bytes 
+	ret := self ffi
+		fetch: self handle
+		key: keyBytes
+		sized: keyBytes size
+		value: bytes
 		sized: intHolder.
 	^self isOk: ret
 ]
@@ -371,7 +406,7 @@ PqDatabase >> keys [
 	| keys |
 	keys := OrderedCollection new.
 	self do: [:cursor |
-		keys add: (cursor currentStringKey)	
+		keys add: (cursor currentStringKey)
 	].
 	^keys asArray
 ]
@@ -392,34 +427,39 @@ PqDatabase >> newCursorAt: seekKey [
 { #category : #opening }
 PqDatabase >> open: filePath mode: mode [
 	self isOpen ifTrue: [ ^self ].
-	handleIsValid := self isOk: (self ffi 
-		open: self prepareHandle 
-		named: filePath 
+	handleIsValid := self isOk: (self ffi
+		open: self prepareHandle
+		named: filePath
 		mode: mode)
 ]
 
 { #category : #'actions-dictionary' }
 PqDatabase >> removeKey: key [
-	| ret |
+	"Remove a key-value pair from the database.
 
-	ret := self ffi 
-		delete: self handle 
-		key: (self toByteArray: key)
-		sized: key size.
-	
+	Important: Uses the correct byte size after UTF-8 encoding for the key.
+	"
+	| ret keyBytes |
+
+	keyBytes := self toByteArray: key.
+	ret := self ffi
+		delete: self handle
+		key: keyBytes
+		sized: keyBytes size.
+
 	(self isOk: ret) ifFalse: [
 		(PqUpdateError code: ret key: key) signal ].
-	
+
 	^ key
-	
+
 ]
 
 { #category : #'actions-dictionary' }
 PqDatabase >> removeKey: key ifAbsent: aBlock [
 	^ [ self removeKey: key]
 		on: PqUpdateError
-		do: [ :ex | 
-			ex isNotFound 
+		do: [ :ex |
+			ex isNotFound
 				ifTrue: [aBlock value ]
 				ifFalse: [ ex pass ] ]
 ]
@@ -446,23 +486,30 @@ PqDatabase >> size [
 
 { #category : #actions }
 PqDatabase >> storeAt: key value: value [
-	| ret |
-	
-	ret := self ffi 
-		store: self handle 
-		key: (self toByteArray: key)
-		sized: key size 
-		value: (self toByteArray: value)
-		sized: value size.
+	"Store a value at the given key. Automatically converts strings to UTF-8.
+
+	Important: Uses the correct byte size after UTF-8 encoding, not character count.
+	This fixes multi-byte character handling (e.g., Japanese, Chinese, emoji).
+	"
+	| ret keyBytes valueBytes |
+
+	keyBytes := self toByteArray: key.
+	valueBytes := self toByteArray: value.
+	ret := self ffi
+		store: self handle
+		key: keyBytes
+		sized: keyBytes size
+		value: valueBytes
+		sized: valueBytes size.
 	^ self isOk: ret
 ]
 
 { #category : #transactions }
 PqDatabase >> transact: aBlock [
 	self beginTransaction.
-	aBlock ensure: [ 
-		(self commitTransaction) ifFalse: [ 
-			self rollbackTransaction. 
+	aBlock ensure: [
+		(self commitTransaction) ifFalse: [
+			self rollbackTransaction.
 			PqError signal: 'Could not commit.' ] ].
 ]
 
@@ -471,7 +518,7 @@ PqDatabase >> values [
 	| values |
 	values := OrderedCollection new.
 	self do: [:cursor |
-		values add: (cursor currentValue)	
+		values add: (cursor currentValue)
 	].
 	^values asArray
 ]
