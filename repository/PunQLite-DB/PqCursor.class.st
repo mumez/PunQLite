@@ -88,9 +88,9 @@ PqCursor >> currentKey [
 
 { #category : #'accessing key' }
 PqCursor >> currentKey: outKey sized: keySizeHolder [
-	^self ffi 
-		key: outKey 
-		sized: keySizeHolder 
+	^self ffi
+		key: outKey
+		sized: keySizeHolder
 		on: self handle
 ]
 
@@ -98,19 +98,19 @@ PqCursor >> currentKey: outKey sized: keySizeHolder [
 PqCursor >> currentKeyBasicInto: aBlock [
 	| callback |
 	callback := UnQLiteFetchCallback on: aBlock.
-	^ self ffi 
-		keyByCallback: callback 
-		on: self handle 
+	^ self ffi
+		keyByCallback: callback
+		on: self handle
 ]
 
 { #category : #'accessing key' }
 PqCursor >> currentKeyByBasicInto: aBlock userData: userData [
 	| callback |
 	callback := UnQLiteFetchCallback on: aBlock.
-	^ self ffi 
-		keyByCallback: callback 
-		userData: userData 
-		on: self handle 
+	^ self ffi
+		keyByCallback: callback
+		userData: userData
+		on: self handle
 ]
 
 { #category : #'accessing key' }
@@ -144,7 +144,10 @@ PqCursor >> currentStringKey [
 
 { #category : #'accessing key' }
 PqCursor >> currentStringKeySized: keyBufferSize [
-	^(self currentKeySized: keyBufferSize) asString
+	"Get the current key as a UTF-8 decoded string.
+
+	Important: Uses utf8Decoded for proper multi-byte character handling."
+	^(self currentKeySized: keyBufferSize) utf8Decoded
 
 ]
 
@@ -155,7 +158,10 @@ PqCursor >> currentStringValue [
 
 { #category : #'accessig value' }
 PqCursor >> currentStringValueSized: valueBufferSize [
-	^(self currentValueSized: valueBufferSize) asString
+	"Get the current value as a UTF-8 decoded string.
+
+	Important: Uses utf8Decoded for proper multi-byte character handling."
+	^(self currentValueSized: valueBufferSize) utf8Decoded
 ]
 
 { #category : #'accessig value' }
@@ -165,19 +171,19 @@ PqCursor >> currentValue [
 
 { #category : #'accessig value' }
 PqCursor >> currentValue: outValue sized: valueSize [
-	^self ffi 
-		value: outValue 
-		sized: valueSize 
+	^self ffi
+		value: outValue
+		sized: valueSize
 		on: self handle
 ]
 
 { #category : #'accessig value' }
 PqCursor >> currentValueBasicInto: aBlock [
 	| callback |
-	
+
 	callback := UnQLiteFetchCallback on: aBlock.
-	^ self ffi 
-		valueByCallback: callback 
+	^ self ffi
+		valueByCallback: callback
 		on: self handle
 ]
 
@@ -185,10 +191,10 @@ PqCursor >> currentValueBasicInto: aBlock [
 PqCursor >> currentValueBasicInto: aBlock userData: userData [
 	| callback |
 	callback := UnQLiteFetchCallback on: aBlock.
-	^ self ffi 
-		valueByCallback: callback 
-		userData: userData 
-		on: self handle 
+	^ self ffi
+		valueByCallback: callback
+		userData: userData
+		on: self handle
 ]
 
 { #category : #'accessig value' }
@@ -260,7 +266,7 @@ PqCursor >> first [
 	| ret |
 	ret := self ffi firstEntryOn: self handle.
 	(self isOk: ret) ifFalse: [
-		(self isDone: ret) ifFalse: [ (PqCursorError code: ret cursor: self) signal ]]	
+		(self isDone: ret) ifFalse: [ (PqCursorError code: ret cursor: self) signal ]]
 ]
 
 { #category : #enumeration }
@@ -319,7 +325,7 @@ PqCursor >> previous [
 
 { #category : #'initialize-release' }
 PqCursor >> release [
-	(self isOk: (self ffi releaseCursor: self handle db: self dbHandle )) 
+	(self isOk: (self ffi releaseCursor: self handle db: self dbHandle ))
 		ifTrue: [handleIsValid := false].
 	super release.
 
@@ -349,13 +355,13 @@ PqCursor >> seek: key [
 { #category : #seeking }
 PqCursor >> seek: key by: seekOption [
 	| ret |
-	ret := self ffi 
+	ret := self ffi
 		seekKey: (self toByteArray: key)
-		sized: key size 
+		sized: key size
 		on: self handle by: seekOption.
 	(self isOk: ret) ifTrue: [^true].
 	(ret = NOTFOUND or: [ret = EOF]) ifTrue: [^false].
-	
+
 	(PqCursorError code: ret cursor: self) signal
 ]
 
