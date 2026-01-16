@@ -132,9 +132,52 @@ src := '
 executer := db jx9.
 executer evaluate: src.
 (executer extract: 'var') asInt inspect.
-(executer extract: 'str') asString inspect. 
+(executer extract: 'str') asString inspect.
 (executer extract: 'tm') asInt inspect.
 executer release.
+db close.
+```
+
+```Smalltalk
+"Using codec for object serialization"
+db := PqDatabase openOnMemory.
+db codec: PqJsonCodec new.  "Use JSON codec"
+
+"Store complex objects transparently"
+db storeAt: 'users' valueEncoded: #('Alice' 'Bob' 'Charlie').
+db storeAt: 'config' valueEncoded: (Dictionary new
+    at: 'timeout' put: 30;
+    at: 'retries' put: 3;
+    yourself).
+
+"Fetch and decode automatically"
+db fetchAt: 'users' intoDecoded: [:users |
+    users do: [:name | Transcript show: name; cr]].
+
+"Iterate with cursor and decode"
+db cursorDo: [:cursor |
+    cursor do: [:c |
+        Transcript show: c currentStringKey; show: ' => '.
+        c currentValueIntoDecoded: [:value |
+            Transcript show: value printString; cr]]].
+
+db close.
+```
+
+```Smalltalk
+"Using Fuel codec for full object serialization"
+db := PqDatabase openOnMemory.
+db codec: PqFuelCodec new.  "Use Fuel codec - preserves class types"
+
+"Store any Smalltalk object"
+db storeAt: 'collection' valueEncoded: (OrderedCollection with: 1 with: 2 with: 3).
+db storeAt: 'set' valueEncoded: (Set with: 'a' with: 'b').
+
+"Objects retain their class on retrieval"
+db fetchAt: 'collection' intoDecoded: [:coll |
+    coll class inspect.  "=> OrderedCollection"
+].
+
 db close.
 ```
 
