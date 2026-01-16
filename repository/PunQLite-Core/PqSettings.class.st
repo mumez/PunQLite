@@ -61,6 +61,20 @@ PqSettings >> at: key put: value [
 ]
 
 { #category : 'accessing' }
+PqSettings >> defaultCodecClassName [
+	"Return the default codec class name for encoding/decoding database values"
+
+	^ self at: #defaultCodecClassName ifAbsentPut: [ #PqUtf8Codec ]
+]
+
+{ #category : 'accessing' }
+PqSettings >> defaultCodecClassName: aSymbol [
+	"Set the default codec class name for encoding/decoding database values"
+
+	^ self at: #defaultCodecClassName put: aSymbol
+]
+
+{ #category : 'accessing' }
 PqSettings >> defaultFetchBufferSize [
 	^self at: #defaultFetchBufferSize ifAbsentPut: [1024]
 ]

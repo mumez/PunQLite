@@ -216,6 +216,39 @@ PqCursor >> currentValueInto: aBlock [
 ]
 
 { #category : #'accessig value' }
+PqCursor >> currentValueInto: aBlock by: aCodec [
+	"Fetch the current value, decode it using the specified codec, and pass to aBlock.
+
+	This method uses callback-based retrieval to avoid buffer size limitations.
+	"
+	| wrappedBlock |
+
+	wrappedBlock := [ :dataAddr :dataSize :userData | | ret |
+		ret := OK.
+		[ | data decodedData |
+			data := dataAddr copyFrom: 1 to: dataSize.
+			decodedData := aCodec decode: data.
+			aBlock cull: decodedData cull: userData
+		]
+		on: Error
+		do: [ :ex | ret := ABORT ].
+		ret
+	].
+
+	^ self currentValueBasicInto: wrappedBlock
+]
+
+{ #category : #'accessig value' }
+PqCursor >> currentValueIntoDecoded: aBlock [
+	"Fetch the current value, decode it using the database's default codec, and pass to aBlock.
+
+	This method uses the codec configured on the associated database.
+	"
+
+	^ self currentValueInto: aBlock by: self database codec
+]
+
+{ #category : #'accessig value' }
 PqCursor >> currentValueSized: valueBufferSize [
 	| intHolder ourBytes ret |
 	intHolder := UnQLiteFFI newIntHolder: valueBufferSize.

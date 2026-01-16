@@ -815,3 +815,144 @@ PqDatabaseTest >> testMultiByteStringCursor [
 	cursor close.
 	self deny: cursor isOpen
 ]
+
+{ #category : 'testing-codec' }
+PqDatabaseTest >> testCodecAccessor [
+	"self debug: #testCodecAccessor"
+
+	self assert: self database codec class equals: PqUtf8Codec.
+
+	self database codec: PqJsonCodec new.
+	self assert: self database codec class equals: PqJsonCodec
+]
+
+{ #category : 'testing-codec' }
+PqDatabaseTest >> testCursorValueIntoByCodec [
+	"self debug: #testCursorValueIntoByCodec"
+	| ok cursor decoded |
+
+	ok := self database storeAt: 'users' value: #('Alice' 'Bob') by: PqJsonCodec new.
+	self assert: ok.
+
+	cursor := self database newCursor.
+	cursor first.
+
+	cursor currentValueInto: [ :value | decoded := value ] by: PqJsonCodec new.
+	self assert: decoded equals: #('Alice' 'Bob').
+
+	cursor close
+]
+
+{ #category : 'testing-codec' }
+PqDatabaseTest >> testCursorValueIntoDecoded [
+	"self debug: #testCursorValueIntoDecoded"
+	| ok cursor decoded |
+
+	self database codec: PqJsonCodec new.
+	ok := self database storeAt: 'config' valueEncoded: (Dictionary new at: 'timeout' put: 30; yourself).
+	self assert: ok.
+
+	cursor := self database newCursor.
+	cursor first.
+
+	cursor currentValueIntoDecoded: [ :value | decoded := value ].
+	self assert: (decoded at: 'timeout') equals: 30.
+
+	cursor close
+]
+
+{ #category : 'testing-codec' }
+PqDatabaseTest >> testFetchIntoByCodec [
+	"self debug: #testFetchIntoByCodec"
+	| ok decoded |
+
+	ok := self database storeAt: 'data' value: #(1 2 3) by: PqJsonCodec new.
+	self assert: ok.
+
+	self database fetchAt: 'data' into: [ :value | decoded := value ] by: PqJsonCodec new.
+	self assert: decoded equals: #(1 2 3)
+]
+
+{ #category : 'testing-codec' }
+PqDatabaseTest >> testFetchIntoDecoded [
+	"self debug: #testFetchIntoDecoded"
+	| ok decoded |
+
+	self database codec: PqJsonCodec new.
+	ok := self database storeAt: 'list' valueEncoded: #('a' 'b' 'c').
+	self assert: ok.
+
+	self database fetchAt: 'list' intoDecoded: [ :value | decoded := value ].
+	self assert: decoded equals: #('a' 'b' 'c')
+]
+
+{ #category : 'testing-codec' }
+PqDatabaseTest >> testJsonCodecIntegration [
+	"self debug: #testJsonCodecIntegration"
+	| ok decoded |
+
+	self database codec: PqJsonCodec new.
+
+	ok := self database storeAt: 'users' valueEncoded: #('Alice' 'Bob' 'Charlie').
+	self assert: ok.
+
+	ok := self database storeAt: 'config' valueEncoded: (Dictionary new at: 'timeout' put: 30; at: 'retries' put: 3; yourself).
+	self assert: ok.
+
+	self database fetchAt: 'users' intoDecoded: [ :value | decoded := value ].
+	self assert: decoded equals: #('Alice' 'Bob' 'Charlie').
+
+	self database fetchAt: 'config' intoDecoded: [ :value | decoded := value ].
+	self assert: (decoded at: 'timeout') equals: 30.
+	self assert: (decoded at: 'retries') equals: 3
+]
+
+{ #category : 'testing-codec' }
+PqDatabaseTest >> testStoreValueByCodec [
+	"self debug: #testStoreValueByCodec"
+	| ok fetched |
+
+	ok := self database storeAt: 'data' value: #(1 2 3) by: PqJsonCodec new.
+	self assert: ok.
+
+	fetched := self database fetchStringAt: 'data'.
+	self assert: fetched equals: '[1,2,3]'
+]
+
+{ #category : 'testing-codec' }
+PqDatabaseTest >> testStoreValueEncoded [
+	"self debug: #testStoreValueEncoded"
+	| ok fetched |
+
+	self database codec: PqJsonCodec new.
+	ok := self database storeAt: 'list' valueEncoded: #('a' 'b' 'c').
+	self assert: ok.
+
+	fetched := self database fetchStringAt: 'list'.
+	self assert: fetched equals: '["a","b","c"]'
+]
+
+{ #category : 'testing-codec' }
+PqDatabaseTest >> testCustomSettingsCodecClassName [
+	"Test that defaultCodecClassName in custom settings controls the database codec"
+	"self debug: #testCustomSettingsCodecClassName"
+	| db customSettings ok decoded |
+
+	customSettings := PqSettings new.
+	customSettings defaultCodecClassName: #PqJsonCodec.
+
+	db := PqDatabase openOnMemory.
+	[
+		db settings: customSettings.
+
+		"Verify codec is created from settings"
+		self assert: db codec class equals: PqJsonCodec.
+
+		"Test actual encoding/decoding"
+		ok := db storeAt: 'data' valueEncoded: #('x' 'y' 'z').
+		self assert: ok.
+
+		db fetchAt: 'data' intoDecoded: [ :value | decoded := value ].
+		self assert: decoded equals: #('x' 'y' 'z')
+	] ensure: [ db close ]
+]
