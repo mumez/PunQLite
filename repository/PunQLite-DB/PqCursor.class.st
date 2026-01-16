@@ -7,11 +7,13 @@ Responsibility:
 - Enable seeking to specific keys with exact match, greater-than, or less-than semantics
 - Allow reading and deletion of entries at the current cursor position
 - Implement standard Smalltalk enumeration protocol (do:, reverseDo:)
+- Support codec-based value decoding during iteration
 
 Collaborators:
-- PqDatabase: The database I iterate over, provides handle and settings
+- PqDatabase: The database I iterate over, provides handle, settings, and codec
 - UnQLiteFFI: Makes low-level cursor FFI calls (init, seek, next, prev, release)
 - UnQLiteFetchCallback: Used for callback-based data retrieval
+- PqCodec: Decodes values when using codec-aware retrieval methods
 - UnQLiteConstants: Provides cursor positioning constants (CURSOR_MATCH_*)
 
 Public API and Key Messages:
@@ -25,6 +27,8 @@ Public API and Key Messages:
 - #seek:untilEndDo: - Seek to key and iterate forward from there
 - #currentKey, #currentValue - Read data at current position
 - #currentStringKey, #currentStringValue - Read as strings
+- #currentValueIntoDecoded: - Read and decode value using database's codec
+- #currentValueInto:by: - Read and decode value using specified codec
 - #deleteCurrent - Delete entry at current position
 - #close - Release cursor resources
 
@@ -42,6 +46,14 @@ Example:
       ""Iterates over 'banana' and 'cherry'""
       Transcript show: c currentStringKey; cr]].
 
+  ""Codec-based iteration""
+  db := PqDatabase openOnMemory.
+  db codec: PqJsonCodec new.
+  db storeAt: 'data' valueEncoded: #('a' 'b' 'c').
+  db cursorDo: [:cursor |
+    cursor do: [:c |
+      c currentValueIntoDecoded: [:value | Transcript show: value printString; cr]]].
+
 Internal Representation:
 - database - The PqDatabase being iterated
 - handle - Native unqlite_kv_cursor* pointer (inherited from PqObject)
@@ -55,6 +67,7 @@ Implementation Points:
 - CURSOR_MATCH_GE and CURSOR_MATCH_LE provide range query support
 - Callback-based retrieval is available via #currentKeyInto: and #currentValueInto:
 - Buffer size for key/value retrieval defaults to database's fetchBufferSize
+- Codec for decoding is obtained from the associated database instance
 "
 Class {
 	#name : #PqCursor,
@@ -213,6 +226,39 @@ PqCursor >> currentValueInto: aBlock [
 	].
 
 	^ self currentValueBasicInto: wrappedBlock
+]
+
+{ #category : #'accessig value' }
+PqCursor >> currentValueInto: aBlock by: aCodec [
+	"Fetch the current value, decode it using the specified codec, and pass to aBlock.
+
+	This method uses callback-based retrieval to avoid buffer size limitations.
+	"
+	| wrappedBlock |
+
+	wrappedBlock := [ :dataAddr :dataSize :userData | | ret |
+		ret := OK.
+		[ | data decodedData |
+			data := dataAddr copyFrom: 1 to: dataSize.
+			decodedData := aCodec decode: data.
+			aBlock cull: decodedData cull: userData
+		]
+		on: Error
+		do: [ :ex | ret := ABORT ].
+		ret
+	].
+
+	^ self currentValueBasicInto: wrappedBlock
+]
+
+{ #category : #'accessig value' }
+PqCursor >> currentValueIntoDecoded: aBlock [
+	"Fetch the current value, decode it using the database's default codec, and pass to aBlock.
+
+	This method uses the codec configured on the associated database.
+	"
+
+	^ self currentValueInto: aBlock by: self database codec
 ]
 
 { #category : #'accessig value' }

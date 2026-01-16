@@ -14,14 +14,15 @@ BaselineOfPunQLite >> baseline: spec [
 
 		spec
 			package: 'PunQLite-Core';
-			package: 'PunQLite-DB' 		with: [ spec requires: #('PunQLite-Core' ) ];
+			package: 'PunQLite-DB-Codec';
+			package: 'PunQLite-DB' 		with: [ spec requires: #('PunQLite-Core' 'PunQLite-DB-Codec') ];
 			package: 'PunQLite-Jx9' 		with: [ spec requires: #('PunQLite-DB') ];
 			package: 'PunQLite-Tools' 	with: [ spec requires: #('PunQLite-DB') ];
-			package: 'PunQLite-Tests' 	with: [ spec requires: #('PunQLite-Jx9') ].
+			package: 'PunQLite-Tests' 	with: [ spec requires: #('PunQLite-Jx9' 'PunQLite-DB-Codec') ].
 
 		spec
 			group: 'default' with: #('Core' 'Tests');
-			group: 'Core' with: #('PunQLite-Core' 'PunQLite-DB' 'PunQLite-Jx9' );
+			group: 'Core' with: #('PunQLite-Core' 'PunQLite-DB-Codec' 'PunQLite-DB' 'PunQLite-Jx9' );
 			group: 'Tools' with: #('PunQLite-Tools');
 			group: 'Tests' with: #('PunQLite-Tests') ]
 ]

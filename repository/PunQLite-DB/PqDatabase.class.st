@@ -8,6 +8,7 @@ Responsibility:
 - Create and manage cursors for efficient iteration
 - Provide access to Jx9 scripting engine and JSON document collections
 - Handle data marshalling between Smalltalk objects and byte arrays
+- Support pluggable codecs for transparent object serialization
 
 Collaborators:
 - UnQLiteFFI: Makes low-level FFI calls for all database operations
@@ -15,6 +16,7 @@ Collaborators:
 - PqCollection: Created via #collectionName: for JSON document storage
 - PqJx9Executer: Created via #jx9 for Jx9 script execution
 - PqValueAppender: Created via #appenderAt: for efficient value appending
+- PqCodec: Encodes/decodes values (PqUtf8Codec, PqJsonCodec, PqFuelCodec)
 - UnQLiteConstants: Provides mode constants and return codes
 
 Public API and Key Messages:
@@ -28,6 +30,11 @@ Public API and Key Messages:
 - #newCursor - Create a cursor for efficient scanning
 - #transact: - Execute a block within a manual transaction
 - #close - Close database and release native resources
+- #codec, #codec: - Get/set the codec for value encoding/decoding
+- #storeAt:valueEncoded: - Store a value using the default codec
+- #fetchAt:intoDecoded: - Fetch and decode a value using the default codec
+- #storeAt:value:by: - Store a value using a specified codec
+- #fetchAt:into:by: - Fetch and decode a value using a specified codec
 
 Example:
   ""Basic key-value operations""
@@ -44,9 +51,17 @@ Example:
   db cursorDo: [:cursor |
     cursor do: [:c | Transcript show: c currentStringKey, ' => ', c currentStringValue; cr]].
 
+  ""Using codec for object serialization""
+  db := PqDatabase openOnMemory.
+  db codec: PqJsonCodec new.
+  db storeAt: 'users' valueEncoded: #('Alice' 'Bob' 'Charlie').
+  db fetchAt: 'users' intoDecoded: [:users | users do: [:u | Transcript show: u; cr]].
+  db close.
+
 Internal Representation:
 - Inherits handle from PqObject - points to unqlite* database handle
 - handleIsValid - tracks whether database is open
+- codec - PqCodec instance for value encoding/decoding (lazy initialized)
 
 Implementation Points:
 - Keys and values are stored as byte arrays (UTF-8 for strings)
@@ -56,10 +71,14 @@ Implementation Points:
 - Always call #close to release native resources (use #ensure: in production)
 - Cursors become invalid after database modifications
 - Fetch operations may need larger buffer sizes for large values (see #fetchBufferSize:)
+- Default codec is PqUtf8Codec, configurable via PqSettings>>defaultCodecClassName
 "
 Class {
 	#name : #PqDatabase,
 	#superclass : #PqObject,
+	#instVars : [
+		'codec'
+	],
 	#category : #'PunQLite-DB-Base'
 }
 
@@ -152,6 +171,21 @@ PqDatabase >> close [
 	self isOpen ifFalse: [ ^self ].
 	(self isOk: (self ffi close: self handle))
 		ifTrue: [handleIsValid := false]
+]
+
+{ #category : #accessing }
+PqDatabase >> codec [
+	"Lazy initialization of codec from settings"
+
+	^ codec ifNil: [
+		codec := (self settings defaultCodecClassName asClassIfAbsent: [ PqUtf8Codec ]) new ]
+]
+
+{ #category : #accessing }
+PqDatabase >> codec: aCodec [
+	"Set a custom codec for this database instance"
+
+	codec := aCodec
 ]
 
 { #category : #accessing }
@@ -259,6 +293,38 @@ PqDatabase >> fetchAt: key into: aBlock [
 	^ self fetchAt: key basicInto: wrappedBlock
 ]
 
+{ #category : #'actions-codec' }
+PqDatabase >> fetchAt: key into: aBlock by: aCodec [
+	"Fetch a value by key and decode it using the specified codec.
+
+	The decoded value is passed to aBlock for processing.
+	Important: Uses the correct byte size after UTF-8 encoding for the key.
+	"
+	| wrappedBlock |
+
+	wrappedBlock := [ :dataAddr :dataSize :userData | | ret |
+		ret := OK.
+		[ | data decodedData |
+			data := dataAddr copyFrom: 1 to: dataSize.
+			decodedData := aCodec decode: data.
+			aBlock cull: decodedData cull: userData ]
+		on: Error
+		do: [ :ex | ret := ABORT ].
+		ret ].
+
+	^ self fetchAt: key basicInto: wrappedBlock
+]
+
+{ #category : #'actions-codec' }
+PqDatabase >> fetchAt: key intoDecoded: aBlock [
+	"Fetch and decode a value using the database's default codec.
+
+	This method uses the codec configured for this database instance.
+	"
+
+	^ self fetchAt: key into: aBlock by: self codec
+]
+
 { #category : #actions }
 PqDatabase >> fetchAt: key sized: valueBufSize [
 	"Fetch a value by key as a byte array.
@@ -292,26 +358,9 @@ PqDatabase >> fetchStringAt: key [
 
 { #category : #actions }
 PqDatabase >> fetchStringAt: key sized: valueBufSize [
-	"Fetch a string value by key with automatic UTF-8 decoding.
+	"Fetch a string value by key with automatic UTF-8 decoding"
 
-	Important: Uses the correct byte size after UTF-8 encoding for the key.
-	"
-	| intHolder ourStr ret keyBytes |
-
-	keyBytes := self toByteArray: key.
-	intHolder := UnQLiteFFI newIntHolder: valueBufSize.
-	ourStr := (ExternalAddress gcallocate: valueBufSize) autoRelease.
-	ret := self ffi
-		fetch: self handle
-		key: keyBytes
-		sized: keyBytes size
-		value: ourStr
-		sized: intHolder.
-
-	(self isOk: ret) ifFalse: [
-		(PqFetchError code: ret key: key) signal ].
-
-	^ (ourStr copyFrom: 1 to: intHolder value) utf8Decoded
+	^ (self fetchAt: key sized: valueBufSize) utf8Decoded
 ]
 
 { #category : #'system-info' }
@@ -502,6 +551,36 @@ PqDatabase >> storeAt: key value: value [
 		value: valueBytes
 		sized: valueBytes size.
 	^ self isOk: ret
+]
+
+{ #category : #'actions-codec' }
+PqDatabase >> storeAt: key value: anObject by: aCodec [
+	"Store a value at the given key using the specified codec.
+
+	The value (anObject) is encoded with aCodec before storing.
+	Important: Uses the correct byte size after UTF-8 encoding, not character count.
+	"
+	| ret keyBytes valueBytes |
+
+	keyBytes := self toByteArray: key.
+	valueBytes := aCodec encode: anObject.
+	ret := self ffi
+		store: self handle
+		key: keyBytes
+		sized: keyBytes size
+		value: valueBytes
+		sized: valueBytes size.
+	^ self isOk: ret
+]
+
+{ #category : #'actions-codec' }
+PqDatabase >> storeAt: key valueEncoded: anObject [
+	"Store an encoded value using the database's default codec.
+
+	This method uses the codec configured for this database instance.
+	"
+
+	^ self storeAt: key value: anObject by: self codec
 ]
 
 { #category : #transactions }
