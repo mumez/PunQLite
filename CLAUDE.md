@@ -16,7 +16,13 @@ PunQLite-Core         # FFI bindings, low-level library interface
   ├─ UnQLiteLibrary   # Library loading and platform detection
   └─ UnQLiteConstants # C constants mapping
 
-PunQLite-DB           # High-level database API
+PunQLite-DB-Codec     # Pluggable codec system for value serialization
+  ├─ PqCodec          # Abstract codec base class
+  ├─ PqUtf8Codec      # UTF-8 string encoding (default)
+  ├─ PqJsonCodec      # JSON serialization via STONJSON
+  └─ PqFuelCodec      # Fuel binary serialization (preserves class types)
+
+PunQLite-DB           # High-level database API (depends on Core, DB-Codec)
   ├─ PqDatabase       # Main database interface (Dictionary-like API)
   ├─ PqCursor         # Cursor-based iteration
   ├─ PqCollection     # Collection interface
@@ -43,6 +49,13 @@ PunQLite-Tools        # Spec2 GUI browser (depends on PunQLite-DB)
 **Cursor-Based Iteration**: For efficient database scanning, use `PqCursor` which provides `seek:untilEndDo:` and standard iteration protocols.
 
 **Jx9 Integration**: Bidirectional conversion between Smalltalk objects and Jx9 values via extension methods (e.g., `String>>asJx9Value:`, `Integer>>asJx9Value:`). The `PqJx9Executer` manages script compilation and execution lifecycle.
+
+**Codec System**: Pluggable encoding/decoding for transparent object serialization. `PqCodec` defines the `encode:`/`decode:` protocol with three implementations:
+- `PqUtf8Codec` (default): UTF-8 string encoding
+- `PqJsonCodec`: JSON serialization for arrays/dictionaries
+- `PqFuelCodec`: Fuel binary serialization preserving class types
+
+Configure via `PqDatabase>>codec:` or globally via `PqSettings>>defaultCodecClassName:`.
 
 ## Native Library Management
 
@@ -132,9 +145,12 @@ Metacello new
 ## Testing
 
 Test packages are in `repository/PunQLite-Tests/`:
-- `PqDatabaseTest` - Core database operations
+- `PqDatabaseTest` - Core database operations and codec integration
 - `PqJx9Test` - Jx9 scripting integration
 - `PqCollectionTest` - Collection protocol
+- `PqCodecTest` - UTF-8 codec tests
+- `PqJsonCodecTest` - JSON codec tests
+- `PqFuelCodecTest` - Fuel codec tests
 
 All tests use in-memory databases (`PqDatabase openOnMemory`) to avoid file system dependencies.
 
@@ -172,6 +188,13 @@ The project uses **GitHub Actions** with SmalltalkCI for continuous integration:
 - Validates all packages on push and pull requests
 
 ## Recent Major Improvements
+
+### Codec System
+- **PunQLite-DB-Codec** package for pluggable value serialization
+- `PqUtf8Codec` (default), `PqJsonCodec`, `PqFuelCodec` implementations
+- `PqDatabase` codec support: `storeAt:valueEncoded:`, `fetchAt:intoDecoded:`
+- `PqCursor` codec support: `currentValueIntoDecoded:`
+- Global codec configuration via `PqSettings>>defaultCodecClassName:`
 
 ### GUI Migration
 - **PqDatabaseBrowser** migrated from Spec1 to Spec2
