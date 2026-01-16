@@ -8,6 +8,7 @@ Responsibility:
 - Create and manage cursors for efficient iteration
 - Provide access to Jx9 scripting engine and JSON document collections
 - Handle data marshalling between Smalltalk objects and byte arrays
+- Support pluggable codecs for transparent object serialization
 
 Collaborators:
 - UnQLiteFFI: Makes low-level FFI calls for all database operations
@@ -15,6 +16,7 @@ Collaborators:
 - PqCollection: Created via #collectionName: for JSON document storage
 - PqJx9Executer: Created via #jx9 for Jx9 script execution
 - PqValueAppender: Created via #appenderAt: for efficient value appending
+- PqCodec: Encodes/decodes values (PqUtf8Codec, PqJsonCodec, PqFuelCodec)
 - UnQLiteConstants: Provides mode constants and return codes
 
 Public API and Key Messages:
@@ -28,6 +30,11 @@ Public API and Key Messages:
 - #newCursor - Create a cursor for efficient scanning
 - #transact: - Execute a block within a manual transaction
 - #close - Close database and release native resources
+- #codec, #codec: - Get/set the codec for value encoding/decoding
+- #storeAt:valueEncoded: - Store a value using the default codec
+- #fetchAt:intoDecoded: - Fetch and decode a value using the default codec
+- #storeAt:value:by: - Store a value using a specified codec
+- #fetchAt:into:by: - Fetch and decode a value using a specified codec
 
 Example:
   ""Basic key-value operations""
@@ -44,9 +51,17 @@ Example:
   db cursorDo: [:cursor |
     cursor do: [:c | Transcript show: c currentStringKey, ' => ', c currentStringValue; cr]].
 
+  ""Using codec for object serialization""
+  db := PqDatabase openOnMemory.
+  db codec: PqJsonCodec new.
+  db storeAt: 'users' valueEncoded: #('Alice' 'Bob' 'Charlie').
+  db fetchAt: 'users' intoDecoded: [:users | users do: [:u | Transcript show: u; cr]].
+  db close.
+
 Internal Representation:
 - Inherits handle from PqObject - points to unqlite* database handle
 - handleIsValid - tracks whether database is open
+- codec - PqCodec instance for value encoding/decoding (lazy initialized)
 
 Implementation Points:
 - Keys and values are stored as byte arrays (UTF-8 for strings)
@@ -56,6 +71,7 @@ Implementation Points:
 - Always call #close to release native resources (use #ensure: in production)
 - Cursors become invalid after database modifications
 - Fetch operations may need larger buffer sizes for large values (see #fetchBufferSize:)
+- Default codec is PqUtf8Codec, configurable via PqSettings>>defaultCodecClassName
 "
 Class {
 	#name : #PqDatabase,
